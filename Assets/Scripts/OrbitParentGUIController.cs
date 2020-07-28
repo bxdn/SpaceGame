@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StarGUIController : MonoBehaviour
+public class OrbitParentGUIController : MonoBehaviour
 {
     private float clickTime = 0;
     public Transform bigTransform;
     public Text text;
-    public SolarSystem system;
+    public IOrbitChild System { get; set; }
     private bool mouseOn = false;
 
     // Update is called once per frame
@@ -50,7 +50,7 @@ public class StarGUIController : MonoBehaviour
         float newClickTime = Time.time;
         if(newClickTime - clickTime < 0.3f)
         {
-            WorldGeneration.RenderGalaxy(system);
+            System.Parent.RenderSystem();
         }
         clickTime = newClickTime;
     }

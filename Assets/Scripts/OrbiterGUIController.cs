@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlanetGUIController : MonoBehaviour
+public class OrbiterGUIController : MonoBehaviour
 {
     private float startTime;
     private static readonly float dur = .25f;
     private float zoomDelta = 5;
-    private float bigMin = PlanetGUI.bigMin;
-    private float smallMin = PlanetGUI.smallMin;
+    private float clickTime = 0;
+    private float bigMin = OrbiterGUI.bigMin;
+    private float smallMin = OrbiterGUI.smallMin;
 
     public Transform bigTransform;
     public Transform smallTransform;
     public Text text;
+    public IOrbitChild Orbiter { get; set; }
     private float solarDistance = -1;
     private bool expanding = false;
     private bool retracting = false;
@@ -25,16 +27,12 @@ public class PlanetGUIController : MonoBehaviour
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
         if (scrollDelta != 0)
         {
-            Vector3 scale = bigTransform.localScale;
-            bigTransform.localScale = scrollDelta > 0 ? scale / 1.2f : scale * 1.2f;
-            scale = smallTransform.localScale;
-            smallTransform.localScale = scrollDelta > 0 ? scale / 1.2f : scale * 1.2f;
-            Transform textTransform = text.gameObject.transform;
-            scale = textTransform.localScale;
-            textTransform.localScale = scrollDelta > 0 ? scale / 1.2f : scale * 1.2f;
-            bigMin = scrollDelta > 0 ? bigMin / 1.2f : bigMin * 1.2f;
-            smallMin = scrollDelta > 0 ? smallMin / 1.2f : smallMin * 1.2f;
-            zoomDelta = scrollDelta > 0 ? zoomDelta / 1.2f : zoomDelta * 1.2f;
+            Utils.Scale(bigTransform, scrollDelta);
+            Utils.Scale(smallTransform, scrollDelta);
+            Utils.Scale(text.gameObject.transform, scrollDelta);
+            bigMin = Utils.Scale(bigMin, scrollDelta);
+            smallMin = Utils.Scale(smallMin, scrollDelta);
+            zoomDelta = Utils.Scale(zoomDelta, scrollDelta);
         }
         if (expanding)
         {
@@ -73,6 +71,19 @@ public class PlanetGUIController : MonoBehaviour
             startTime = Time.time - (dur - (Time.time - startTime));
             expanding = false;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        float newClickTime = Time.time;
+        if (newClickTime - clickTime < 0.3f)
+        {
+            if(Orbiter is IOrbitParent parent)
+            {
+                parent.RenderSystem();
+            }
+        }
+        clickTime = newClickTime;
     }
 
     private void Expand()

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PathGUI : GUIDestroyable
 {
     private readonly GameObject lineObj;
-    public PathGUI(Vector2 point1, Vector2 point2)
+    public PathGUI(Vector2 point1, Vector2 point2) : base()
 	{
         lineObj = new GameObject("Line");
         LineRenderer line = lineObj.AddComponent<LineRenderer>();
@@ -17,7 +17,7 @@ public class PathGUI : GUIDestroyable
         lineObj.transform.SetParent(Constants.GRID.transform);
     }
 
-    public void Destroy()
+    public override void Destroy()
     {
         UnityEngine.Object.Destroy(lineObj);
     }

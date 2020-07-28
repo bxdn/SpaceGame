@@ -4,7 +4,7 @@ using UnityEngine;
 public class SystemGUI : GUIDestroyable
 {
     private readonly GameObject star;
-	public SystemGUI(SolarSystem system)
+	public SystemGUI(SolarSystem system): base()
 	{
         star = new GameObject("System");
         Transform starTransform = star.transform;
@@ -20,7 +20,7 @@ public class SystemGUI : GUIDestroyable
         controller.system = system;
     }
 
-    public void Destroy()
+    public override void Destroy()
     {
         UnityEngine.Object.Destroy(star);
     }

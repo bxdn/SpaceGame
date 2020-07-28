@@ -1,17 +1,18 @@
 ﻿using System;
 
-public class Moon : Body
+public class Moon : Orbiter
 {
     private static readonly int MIN_SIZE = 10;
     private static readonly int ORBITER_DELTA = 10;
-    private static readonly Body[] subBodies = new Body[0];
-    private readonly int size;
+    private static readonly Orbiter[] subBodies = new Orbiter[0];
+    public sealed override int Size { get; }
+    public sealed override String Name { get; }
 
-    public Moon(int orbiteeSize) : base()
+    public Moon(Planet parent, int orbiteeSize, int id) : base(parent)
     {
-        size = ColonizerR.r.Next(MIN_SIZE, orbiteeSize - ORBITER_DELTA);
+        Name = "M" + parent.Name.Substring(1) + "-" + id;
+        Size = ColonizerR.r.Next(MIN_SIZE, orbiteeSize - ORBITER_DELTA);
     }
-    public override Body[] SubBodies => subBodies;
 
-    public override int Size => size;
+    public override Orbiter[] SubBodies => subBodies;
 }

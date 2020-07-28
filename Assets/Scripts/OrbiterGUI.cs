@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlanetGUI : GUIDestroyable
+public class OrbiterGUI : GUIDestroyable
 {
     private static readonly GameObject GRID = GameObject.Find("Grid");
     private static readonly Sprite circle = Resources.Load<Sprite>("Circle");
@@ -17,20 +17,22 @@ public class PlanetGUI : GUIDestroyable
     public static readonly float bigMin = 7;
     public static readonly float smallMin = 6;
 
-    public static readonly ISet<PlanetGUI> planets = new HashSet<PlanetGUI>();
-
-    public PlanetGUI(Vector2 loc, String name)
+    public OrbiterGUI(Orbiter body) : base()
 	{
-        planets.Add(this);
+        float initX = body.distance * Mathf.Cos(body.initialAngle);
+        float initY = body.distance * Mathf.Sin(body.initialAngle);
+        Vector2 loc = new Vector2(initX, initY);
+
         big = new GameObject("BigCircle");
         AddBig(loc);
         small = new GameObject("SmallCircle");
         AddSmall(loc);
-        Text text = AddUI(loc, name);
-        PlanetGUIController controller = big.AddComponent<PlanetGUIController>();
+        Text text = AddUI(loc, body.Name);
+        OrbiterGUIController controller = big.AddComponent<OrbiterGUIController>();
         controller.bigTransform = big.transform;
         controller.smallTransform = small.transform;
         controller.text = text;
+        controller.Orbiter = body;
     }
 
     private void AddBig(Vector2 loc)
@@ -77,7 +79,7 @@ public class PlanetGUI : GUIDestroyable
         return textComponent;
     }
 
-    public void Destroy()
+    public override void Destroy()
     {
         UnityEngine.Object.Destroy(big);
         UnityEngine.Object.Destroy(small);

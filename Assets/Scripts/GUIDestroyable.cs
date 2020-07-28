@@ -1,6 +1,11 @@
 ﻿using System;
 
-public interface GUIDestroyable
+public abstract class GUIDestroyable : IGUIDestroyable
 {
-    void Destroy();
+	public GUIDestroyable()
+	{
+		WorldGeneration.guis.Add(this);
+	}
+
+	public abstract void Destroy();
 }

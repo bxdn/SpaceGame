@@ -29,7 +29,7 @@ public class SystemGUIController : MonoBehaviour
         float newClickTime = Time.time;
         if (newClickTime - clickTime < 0.3f)
         {
-            WorldGeneration.RenderSystem(system);
+            system.RenderSystem();
         }
         clickTime = newClickTime;
     }

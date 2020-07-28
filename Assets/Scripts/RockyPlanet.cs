@@ -5,10 +5,7 @@ public class RockyPlanet : Planet
     private static readonly int MIN_SIZE = 25;
     private static readonly int MAX_SIZE = 75;
     private static readonly int MAX_ORBITALS = 4;
-    public RockyPlanet() : base()
-    {
-
-    }
+    public RockyPlanet(SolarSystem sol, char id) : base(sol, id) { }
     protected sealed override int MaxSize => MAX_SIZE;
 
     protected sealed override int MinSize => MIN_SIZE;

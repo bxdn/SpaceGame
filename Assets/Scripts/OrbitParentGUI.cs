@@ -2,21 +2,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StarGUI : GUIDestroyable
+public class OrbitParentGUI : GUIDestroyable
 {
     private readonly GameObject big;
     private GameObject text;
-    public StarGUI(SolarSystem sol)
+    public OrbitParentGUI(IMiddleChild orbitee) : base()
 	{
         big = new GameObject("Star");
         AddBig();
-        String numStr = sol.id.ToString(Constants.FMT);
-        String name = "S-" + numStr;
+        String name = orbitee.Name;
         Text text = AddUI(name);
-        StarGUIController controller = big.AddComponent<StarGUIController>();
+        OrbitParentGUIController controller = big.AddComponent<OrbitParentGUIController>();
         controller.bigTransform = big.transform;
         controller.text = text;
-        controller.system = sol;
+        controller.System = orbitee;
     }
 
     private void AddBig()
@@ -52,7 +51,7 @@ public class StarGUI : GUIDestroyable
         return textComponent;
     }
 
-    public void Destroy()
+    public override void Destroy()
     {
         UnityEngine.Object.Destroy(big);
         UnityEngine.Object.Destroy(text);

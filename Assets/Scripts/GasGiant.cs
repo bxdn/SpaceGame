@@ -11,4 +11,6 @@ public class GasGiant : Planet
     protected override int MinSize => MIN_SIZE;
 
     protected override int MaxOrbitals => MAX_ORBITALS;
+
+    public GasGiant(SolarSystem sol, char id) : base(sol, id) { }
 }

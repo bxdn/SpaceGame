@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Galaxy
+public class Galaxy : IOrbitParent
 {
     private static readonly int NUM_STARS = 1000;
     private static readonly int REACHABLE_DISTANCE_SQUARED = 300;
@@ -13,6 +14,11 @@ public class Galaxy
         new Dictionary<SolarSystem, ISet<SolarSystem>>();
     public readonly SolarSystem startingSystem;
     public readonly RockyPlanet startingPlanet;
+
+    public IOrbitChild[] Children => nodes.ToArray();
+
+    public string Name => null;
+
     public Galaxy()
     {
         CreateSystems();
@@ -92,5 +98,25 @@ public class Galaxy
             }
         }
         return null;
+    }
+
+    public void RenderSystem()
+    {
+        WorldGeneration.ClearGUI();
+        SelectorController.Reset();
+        ISet<SolarSystem> finishedNodes = new HashSet<SolarSystem>();
+        foreach (SolarSystem node in nodes)
+        {
+            new SystemGUI(node);
+            foreach (SolarSystem adjNode in reachableStars[node])
+            {
+                if (!finishedNodes.Contains(adjNode))
+                {
+                    new PathGUI(node.location, adjNode.location);
+                }
+            }
+            finishedNodes.Add(node);
+        }
+        CameraController.Reset();
     }
 }

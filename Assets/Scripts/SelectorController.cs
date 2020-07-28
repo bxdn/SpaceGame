@@ -102,9 +102,10 @@ public class SelectorController : MonoBehaviour
     {
         Select1BaseScale = Select1BaseScaleDEFAULT;
         Select2BaseScale = Select2BaseScaleDEFAULT;
-        Vector3 location = new Vector3(-1000, -1000, 0);
+        Vector3 location = new Vector3(-10000, -10000, 0);
         Constants.SELECTION1.transform.localPosition = location;
         Constants.SELECTION2.transform.localPosition = location;
+        Constants.SELECTION1.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         currentLocation = Vector2.zero;
         SCALE_TICK = new Vector3(.04f, .04f, 0);
         SCALE_DELTA = 0.5f;

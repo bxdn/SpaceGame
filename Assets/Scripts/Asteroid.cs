@@ -1,23 +1,24 @@
 ﻿using System;
 using UnityEngine;
 
-public class Asteroid : Body
+public class Asteroid : Orbiter
 {
     private static readonly int MIN_SIZE = 1;
     private static readonly int MAX_SIZE = 15;
     private static readonly int ORBITER_DELTA = 20;
-    private static readonly Body[] subBodies = new Body[0];
-    private readonly int size;
+    private static readonly Orbiter[] subBodies = new Orbiter[0];
+    public sealed override int Size { get; }
+    public sealed override String Name { get; }
 
-    public Asteroid(int orbiteeSize) : base()
+    public Asteroid(Planet parent, int orbiteeSize, int id) : base(parent)
     {
-        size = ColonizerR.r.Next(MIN_SIZE, Mathf.Min(orbiteeSize - ORBITER_DELTA, MAX_SIZE));
+        Name = "A" + parent.Name.Substring(1) + "-" + id;
+        Size = ColonizerR.r.Next(MIN_SIZE, Mathf.Min(orbiteeSize - ORBITER_DELTA, MAX_SIZE));
     }
-    public Asteroid() : base()
+    public Asteroid(SolarSystem sol, char id) : base(sol)
     {
-        size = ColonizerR.r.Next(MIN_SIZE, MAX_SIZE);
+        Name = "A-" + sol.id.ToString(Constants.FMT) + id;
+        Size = ColonizerR.r.Next(MIN_SIZE, MAX_SIZE);
     }
-    public override Body[] SubBodies => subBodies;
-
-    public override int Size => size;
+    public override Orbiter[] SubBodies => subBodies;
 }

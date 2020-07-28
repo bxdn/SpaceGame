@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,8 @@ public class WorldGeneration : MonoBehaviour
         Galaxy = new Galaxy();
         Debug.Log("Finished Galaxy Generation!");
         //RenderGalaxy(Galaxy);
-        Galaxy.RenderSystem();
+        Galaxy.startingPlanet.Owner = Player.Domain;
+        Galaxy.startingSystem.RenderSystem();
     }
 
     public static void ClearGUI()

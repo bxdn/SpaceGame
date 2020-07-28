@@ -13,4 +13,5 @@ public static class Constants
     public static readonly String FMT = "0000";
     public static readonly Material MATERIAL = Resources.Load<Material>("Material");
     public static readonly float SCALE_TICK = 1.2f;
+    public static readonly Color colonizedColor = new Color(.4f, .8f, 1);
 }

@@ -10,22 +10,14 @@ public abstract class Planet : Orbiter, IMiddleChild
     private readonly Orbiter[] subBodies;
     private readonly String name;
     public Planet(SolarSystem sol, char id) : base(sol)
-	{
+    {
         name = "P-" + sol.id.ToString(Constants.FMT) + id;
         size = ColonizerR.r.Next(MinSize, MaxSize);
         int orbitals = ColonizerR.r.Next(0, MaxOrbitals);
         subBodies = new Orbiter[orbitals];
         for (int i = 0; i < orbitals; i++)
         {
-            double bodyTypeChooser = ColonizerR.r.NextDouble();
-            if (bodyTypeChooser < .5)
-            {
-                subBodies[i] = new Asteroid(this, size, i+1);
-            }
-            else
-            {
-                subBodies[i] = new Moon(this, size, i+1);
-            }
+            subBodies[i] = new Moon(this, size, i + 1);
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private static Vector3 SCALE_DEFAULT = new Vector3(175, 100, 0);
+    private static Vector3 SCALE_DEFAULT = new Vector3(217, 100, 0);
     private static Vector3 scale = SCALE_DEFAULT;
     private bool isPanning = false;
     Vector3 mouseOrigin;

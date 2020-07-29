@@ -3,7 +3,7 @@ using System;
 
 public class Moon : Orbiter, IColonizable
 {
-    private static readonly int MIN_SIZE = 10;
+    private static readonly int MIN_SIZE = 5;
     private static readonly int ORBITER_DELTA = 10;
     private static readonly Orbiter[] subBodies = new Orbiter[0];
     public sealed override int Size { get; }

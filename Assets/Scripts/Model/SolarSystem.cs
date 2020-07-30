@@ -50,9 +50,9 @@ public class SolarSystem : IMiddleChild
             }
         }
     }
-    public RockyPlanet DesignateStartingSystem()
+    public Orbiter DesignateStartingSystem()
     {
-        RockyPlanet startPlanet = null;
+        Orbiter startPlanet = null;
         while (startPlanet == null)
         {
             Discovered = false;
@@ -63,6 +63,21 @@ public class SolarSystem : IMiddleChild
                 {
                     startPlanet = r;
                     r.Owner = Player.Domain;
+                }
+                else if (body is GasGiant g)
+                {
+                    foreach(Orbiter orbiter in body.SubBodies)
+                    {
+                        if (orbiter is Moon m)
+                        {
+                            m.Owner = Player.Domain;
+                            startPlanet = m;
+                            break;
+                        }
+                    }
+                }
+                if(startPlanet != null)
+                {
                     break;
                 }
             }

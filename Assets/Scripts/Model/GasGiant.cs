@@ -19,5 +19,9 @@ public class GasGiant : Planet
     public GasGiant(SolarSystem sol, char id) : base(sol, id) {
         AddFields();
         Fields.Add(EField.Type, "Gas Giant");
+        Fields[EField.ArableLand] = "N/A";
+        Fields[EField.OtherUsableLand] = "N/A";
+        Fields[EField.Colonized] = "N/A";
+        Fields[EField.HazardFrequency] = "N/A";
     }
 }

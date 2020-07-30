@@ -21,7 +21,7 @@ public class Asteroid : Orbiter, IColonizable
     public Asteroid(Planet parent, int orbiteeSize, int id) : base(parent)
     {
         SubBodies = new IOrbitChild[0];
-        Size = ColonizerR.r.Next(MIN_SIZE, orbiteeSize - ORBITER_DELTA);
+        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
         Name = "A" + parent.Name.Substring(1) + "-" + id;
         Initialize();
     }

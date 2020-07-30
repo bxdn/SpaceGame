@@ -5,6 +5,7 @@ using System;
 public class Moon : Orbiter, IColonizable
 {
     private static readonly int MIN_SIZE = 10;
+    private static readonly int MAX_SIZE = 50;
     private static readonly int ORBITER_DELTA = 10;
     protected sealed override int Size { get; }
     public sealed override String Name { get; }
@@ -13,7 +14,7 @@ public class Moon : Orbiter, IColonizable
     {
         SubBodies = new Orbiter[0];
         Name = "M" + parent.Name.Substring(1) + "-" + id;
-        Size = ColonizerR.r.Next(MIN_SIZE, orbiteeSize - ORBITER_DELTA);
+        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
         CalculateLandDivision();
         AddFields();
         Fields.Add(EField.Type, "Moon");

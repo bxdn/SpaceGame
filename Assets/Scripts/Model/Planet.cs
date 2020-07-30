@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Model;
+using System;
 using UnityEngine;
 
 public abstract class Planet : Orbiter, IMiddleChild
@@ -6,29 +7,28 @@ public abstract class Planet : Orbiter, IMiddleChild
     protected abstract int MaxSize { get; }
     protected abstract int MinSize { get; }
     protected abstract int MaxOrbitals { get; }
-    private readonly int size;
-    private readonly Orbiter[] subBodies;
-    private readonly String name;
+    protected sealed override int Size { get; }
+    public sealed override String Name { get; }
+    public IOrbitChild[] Children { get; }
+    public sealed override IOrbitChild[] SubBodies => Children;
     public Planet(SolarSystem sol, char id) : base(sol)
     {
-        name = "P-" + sol.id.ToString(Constants.FMT) + id;
-        size = ColonizerR.r.Next(MinSize, MaxSize);
+        Name = "P-" + sol.id.ToString(Constants.FMT) + id;
+        Size = ColonizerR.r.Next(MinSize, MaxSize);
         int orbitals = ColonizerR.r.Next(0, MaxOrbitals);
-        subBodies = new Orbiter[orbitals];
+        Children = new Orbiter[orbitals];
         for (int i = 0; i < orbitals; i++)
         {
-            subBodies[i] = new Moon(this, size, i + 1);
+            if(ColonizerR.r.NextDouble() < .5)
+            {
+                Children[i] = new Moon(this, Size, i + 1);
+            }
+            else
+            {
+                Children[i] = new Asteroid(this, Size, i + 1);
+            }
         }
     }
-
-    public sealed override Orbiter[] SubBodies => subBodies;
-
-    public sealed override int Size => size;
-
-    public sealed override String Name => name;
-
-    public IOrbitChild[] Children => subBodies;
-
     public void RenderSystem()
     {
         WorldGeneration.ClearGUI();

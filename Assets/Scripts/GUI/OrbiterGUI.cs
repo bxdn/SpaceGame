@@ -26,9 +26,9 @@ public class OrbiterGUI : GUIDestroyable
         this.body = body;
         Vector2 loc = new Vector2(initX, initY);
 
-        big = new GameObject("BigCircle");
+        big = new GameObject("BigCircle - " + body.Name);
         AddBig(loc);
-        small = new GameObject("SmallCircle");
+        small = new GameObject("SmallCircle - " + body.Name);
         AddSmall(loc);
         Text text = AddUI(loc, body.Name);
         OrbiterGUIController controller = big.AddComponent<OrbiterGUIController>();

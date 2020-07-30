@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts;
+using Assets.Scripts.Model;
+using System;
 
 public class GasGiant : Planet
 {
@@ -12,5 +14,10 @@ public class GasGiant : Planet
 
     protected override int MaxOrbitals => MAX_ORBITALS;
 
-    public GasGiant(SolarSystem sol, char id) : base(sol, id) { }
+    public sealed override Domain Owner { get => base.Owner; set => throw new InvalidOperationException(); }
+
+    public GasGiant(SolarSystem sol, char id) : base(sol, id) {
+        AddFields();
+        Fields.Add(EField.Type, "Gas Giant");
+    }
 }

@@ -5,14 +5,16 @@ using UnityEngine.EventSystems;
 
 public class ColonyDialogLauncher : MonoBehaviour, IPointerClickHandler
 {
+    public GameObject panel;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Test");
+        panel.SetActive(true);
+        panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     }
 }

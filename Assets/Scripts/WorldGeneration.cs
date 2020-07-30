@@ -16,7 +16,7 @@ public class WorldGeneration : MonoBehaviour
         Debug.Log("Finished Galaxy Generation!");
         //RenderGalaxy(Galaxy);
         Galaxy.startingPlanet.Owner = Player.Domain;
-        Galaxy.startingSystem.RenderSystem();
+        Galaxy.startingPlanet.RenderSystem();
     }
 
     public static void ClearGUI()

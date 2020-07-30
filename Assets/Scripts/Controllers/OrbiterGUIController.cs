@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OrbiterGUIController : MonoBehaviour
+public class OrbiterGUIController : MonoBehaviour, ISelectable
 {
     private float startTime;
     private static readonly float dur = .25f;
@@ -20,6 +19,7 @@ public class OrbiterGUIController : MonoBehaviour
     private float solarDistance = -1;
     private bool expanding = false;
     private bool retracting = false;
+    private bool selected = false;
 
     // Update is called once per frame
     void Update()
@@ -47,19 +47,30 @@ public class OrbiterGUIController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        expanding = true;
-        if (!retracting)
+        if (!selected)
         {
-            startTime = Time.time;
-        }
-        else
-        {
-            startTime = Time.time - (dur - (Time.time - startTime));
-            retracting = false;
+            expanding = true;
+            if (!retracting)
+            {
+                startTime = Time.time;
+            }
+            else
+            {
+                startTime = Time.time - (dur - (Time.time - startTime));
+                retracting = false;
+            }
         }
     }
 
     private void OnMouseExit()
+    {
+        if (!selected)
+        {
+            BeginRetraction();
+        }
+    }
+
+    private void BeginRetraction()
     {
         retracting = true;
         if (!expanding)
@@ -84,6 +95,7 @@ public class OrbiterGUIController : MonoBehaviour
             }
         }
         clickTime = newClickTime;
+        Selection.Select(this);
     }
 
     private void Expand()
@@ -139,5 +151,21 @@ public class OrbiterGUIController : MonoBehaviour
         bigTransform.localPosition = new Vector3(rotatedX, rotatedY, 1);
         smallTransform.localPosition = new Vector3(rotatedX, rotatedY, 0);
         text.transform.localPosition = new Vector3(rotatedX, rotatedY, 0);
+    }
+
+    public void Select()
+    {
+        selected = true;
+        if(Orbiter is Orbiter orbiter)
+        {
+            Utils.SetUIActivated(true);
+            Utils.FillUI(orbiter);
+        }
+    }
+
+    public void Deselect()
+    {
+        selected = false;
+        BeginRetraction();
     }
 }

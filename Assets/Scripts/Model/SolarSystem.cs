@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using UnityEngine;
 
 public class SolarSystem : IMiddleChild
@@ -61,6 +62,7 @@ public class SolarSystem : IMiddleChild
                 if (body is RockyPlanet r)
                 {
                     startPlanet = r;
+                    r.Owner = Player.Domain;
                     break;
                 }
             }

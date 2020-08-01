@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Model;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,9 +45,23 @@ public static class Utils
 
     internal static void FillUI(Orbiter orbiter)
     {
-        foreach(KeyValuePair<EField, String> pair in orbiter.Fields)
+        foreach (GameObject field in Constants.FIELDS)
         {
-            Constants.FIELDS[pair.Key].GetComponent<Text>().text = pair.Value;
+            field.GetComponent<Text>().text = "N/A";
+        }
+        Constants.NAMEF.GetComponent<Text>().text = orbiter.Name;
+        Constants.TYPEF.GetComponent<Text>().text = orbiter.Type;
+        Constants.SIZEF.GetComponent<Text>().text = orbiter.Size.ToString();
+        if (orbiter is IOrbitParent parent)
+        {
+            Constants.OBF.GetComponent<Text>().text = parent.Children.Length.ToString();
+        }
+        if (orbiter is IColonizable colonizable)
+        {
+            Constants.COLF.GetComponent<Text>().text = colonizable.ColonizableManager.Owner == null ? "No" : "Yes";
+            Constants.ARABLEF.GetComponent<Text>().text = colonizable.ColonizableManager.ArableLand.ToString();
+            Constants.OTHERF.GetComponent<Text>().text = colonizable.ColonizableManager.OtherLand.ToString();
+            Constants.HAZARDF.GetComponent<Text>().text = colonizable.ColonizableManager.HazardFrequency.ToString();
         }
     }
 }

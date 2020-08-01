@@ -14,7 +14,7 @@ public class Galaxy : IOrbitParent
     public readonly IDictionary<SolarSystem, ISet<SolarSystem>> reachableStars =
         new Dictionary<SolarSystem, ISet<SolarSystem>>();
     public readonly SolarSystem startingSystem;
-    public readonly Orbiter startingWorld;
+    public readonly IOrbitChild startingWorld;
     public SolarSystem CurrentSystem { get; set; }
 
     public IOrbitChild[] Children => nodes.ToArray();
@@ -25,7 +25,7 @@ public class Galaxy : IOrbitParent
     {
         CreateSystems();
         CreatePaths();
-        Tuple<SolarSystem, Orbiter> start = GetStartingSystem();
+        Tuple<SolarSystem, IOrbitChild> start = GetStartingSystem();
         startingSystem = start.Item1;
         startingWorld = start.Item2;
     }
@@ -86,7 +86,7 @@ public class Galaxy : IOrbitParent
         }
     }
 
-    private Tuple<SolarSystem,Orbiter> GetStartingSystem()
+    private Tuple<SolarSystem,IOrbitChild> GetStartingSystem()
     {
         int systemCount = nodes.Count;
         int systemIdx = ColonizerR.r.Next(systemCount);
@@ -95,8 +95,8 @@ public class Galaxy : IOrbitParent
         {
             if (curIdx++ == systemIdx)
             {
-                Orbiter startWorld = node.DesignateStartingSystem();
-                return new Tuple<SolarSystem, Orbiter>(node, startWorld);
+                IOrbitChild startWorld = node.DesignateStartingSystem();
+                return new Tuple<SolarSystem, IOrbitChild>(node, startWorld);
             }
         }
         return null;

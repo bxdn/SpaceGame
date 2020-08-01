@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using System;
 using UnityEngine;
 
@@ -50,35 +51,35 @@ public class SolarSystem : IMiddleChild
             }
         }
     }
-    public Orbiter DesignateStartingSystem()
+    public IOrbitChild DesignateStartingSystem()
     {
-        Orbiter startPlanet = null;
+        IColonizable startPlanet = null;
         while (startPlanet == null)
         {
             Discovered = false;
             Discover();
-            foreach(Orbiter body in Children)
+            foreach(IOrbitChild body in Children)
             {
-                if (body is RockyPlanet r)
+                if (body is IOrbitParent parent)
                 {
-                    startPlanet = r;
-                    r.Owner = Player.Domain;
-                }
-                else if (body is GasGiant g)
-                {
-                    foreach(Orbiter orbiter in body.SubBodies)
+                    foreach (IOrbitChild orbiter in parent.Children)
                     {
-                        if (orbiter is Moon m)
+                        if (orbiter is Moon moon)
                         {
-                            m.Owner = Player.Domain;
-                            startPlanet = m;
+                            moon.ColonizableManager.Owner = Player.Domain;
+                            startPlanet = moon;
                             break;
                         }
                     }
-                }
-                if(startPlanet != null)
-                {
-                    break;
+                    if (startPlanet == null && parent is IColonizable colonizable)
+                    {
+                        startPlanet = colonizable;
+                        colonizable.ColonizableManager.Owner = Player.Domain;
+                    }
+                    if (startPlanet != null)
+                    {
+                        break;
+                    }
                 }
             }
         }

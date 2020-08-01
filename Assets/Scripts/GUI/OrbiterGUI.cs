@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,8 +22,8 @@ public class OrbiterGUI : GUIDestroyable
 
     public OrbiterGUI(Orbiter body) : base()
 	{
-        float initX = body.distance * Mathf.Cos(body.initialAngle);
-        float initY = body.distance * Mathf.Sin(body.initialAngle);
+        float initX = body.Distance * Mathf.Cos(body.InitialAngle);
+        float initY = body.Distance * Mathf.Sin(body.InitialAngle);
         this.body = body;
         Vector2 loc = new Vector2(initX, initY);
 
@@ -52,7 +53,7 @@ public class OrbiterGUI : GUIDestroyable
 
     private Color GetColor()
     {
-        if (body is IColonizable colonizable && colonizable.Owner == Player.Domain)
+        if (body is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
         {
             return Constants.colonizedColor;
         }
@@ -60,7 +61,7 @@ public class OrbiterGUI : GUIDestroyable
         {
             foreach(IOrbitChild child in planet.Children)
             {
-                if(child is IColonizable colonizableLeaf && colonizableLeaf.Owner == Player.Domain)
+                if(child is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == Player.Domain)
                 {
                     return Constants.colonizedColor;
                 }

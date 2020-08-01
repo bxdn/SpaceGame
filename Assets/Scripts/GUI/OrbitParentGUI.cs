@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,7 +39,7 @@ public class OrbitParentGUI : GUIDestroyable
 
     private Color GetColor()
     {
-        if(middleChild is IColonizable colonizable && colonizable.Owner == Player.Domain)
+        if(middleChild is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
         {
             return Constants.colonizedColor;
         }

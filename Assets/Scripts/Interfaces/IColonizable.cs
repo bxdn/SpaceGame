@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Interfaces
 {
-    interface IColonizable
+    public interface IColonizable : IOrbitChild
     {
-        Domain Owner { get; set; }
+        IColonizableManager ColonizableManager { get; }
     }
 }

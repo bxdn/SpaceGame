@@ -1,18 +1,17 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
 
 public class RockyPlanet : Planet, IColonizable
 {
-    private static readonly int MIN_SIZE = 25;
-    private static readonly int MAX_SIZE = 50;
-    private static readonly int MAX_ORBITALS = 4;
-    public RockyPlanet(SolarSystem sol, char id) : base(sol, id) {
-            CalculateLandDivision();
-            AddFields();
-            Fields.Add(EField.Type, "Rocky Planet");
+    public override string Type => "Rocky Planet";
+    protected sealed override int MaxSize => 50;
+    protected sealed override int MinSize => 25;
+    protected sealed override int MaxOrbitals => 4;
+    public IColonizableManager ColonizableManager { get; }
+    public RockyPlanet(SolarSystem sol, char id) : base(sol, id)
+    {
+        ((ColonizableManager = new ColonizableManager(this)) as ColonizableManager).CalculateLandDivision();
     }
-    protected sealed override int MaxSize => MAX_SIZE;
-    protected sealed override int MinSize => MIN_SIZE;
-    protected sealed override int MaxOrbitals => MAX_ORBITALS;
 }

@@ -37,16 +37,16 @@ public static class Constants
     public static readonly GameObject OTHERL = GameObject.Find("Other Usable Land");
     public static readonly GameObject HAZARDL = GameObject.Find("Hazard Frequency");
 
-    public static readonly IDictionary<EField, GameObject> FIELDS = new Dictionary<EField, GameObject>()
+    public static readonly IList<GameObject> FIELDS = new List<GameObject>()
     {
-        { EField.Name, NAMEF },
-        { EField.Type, TYPEF },
-        { EField.OrbitingBodies, OBF },
-        { EField.Colonized, COLF },
-        { EField.Size, SIZEF },
-        { EField.ArableLand, ARABLEF },
-        { EField.OtherUsableLand, OTHERF },
-        { EField.HazardFrequency, HAZARDF }
+        NAMEF ,
+        TYPEF ,
+        OBF ,
+        COLF ,
+        SIZEF ,
+        ARABLEF ,
+        OTHERF ,
+        HAZARDF
     };
 
     static Constants()

@@ -12,7 +12,12 @@ namespace Assets.Scripts.Model
         public Domain Owner { get; set; }
         public int ArableLand { get; set; }
         public int OtherLand { get; set; }
-        public int HazardFrequency { get; set; }
+        public int HazardFrequency { get; }
+        public IDictionary<String, int> resources = new Dictionary<String, int>();
+        public IDictionary<String, int> Resources 
+        {
+            get => new Dictionary<String, int>(resources);
+        }
         public ColonizableManager(Orbiter orbiter)
         {
             this.orbiter = orbiter;

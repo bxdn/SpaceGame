@@ -43,7 +43,7 @@ public static class Utils
         Constants.HAZARDL.SetActive(activated);
     }
 
-    internal static void FillUI(Orbiter orbiter)
+    public static void FillUI(Orbiter orbiter)
     {
         foreach (GameObject field in Constants.FIELDS)
         {
@@ -63,5 +63,19 @@ public static class Utils
             Constants.OTHERF.GetComponent<Text>().text = colonizable.ColonizableManager.OtherLand.ToString();
             Constants.HAZARDF.GetComponent<Text>().text = colonizable.ColonizableManager.HazardFrequency.ToString();
         }
+    }
+
+    public static void LayoutUI()
+    {
+        float col2X = Screen.width / 3f;
+        float col2FieldX = col2X + 200;
+        Constants.SIZEL.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2X, 0);
+        Constants.ARABLEL.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2X, -25);
+        Constants.OTHERL.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2X, -50);
+        Constants.HAZARDL.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2X, -75);
+        Constants.SIZEF.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2FieldX, 0);
+        Constants.ARABLEF.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2FieldX, -25);
+        Constants.OTHERF.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2FieldX, -50);
+        Constants.HAZARDF.GetComponent<RectTransform>().anchoredPosition = new Vector2(col2FieldX, -75);
     }
 }

@@ -68,5 +68,6 @@ public static class Constants
         ARABLEL.SetActive(false);
         OTHERL.SetActive(false);
         HAZARDL.SetActive(false);
+        Utils.LayoutUI();
     }
 }

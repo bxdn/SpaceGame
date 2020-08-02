@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Interfaces;
 using System;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ public class SystemGUI : GUIDestroyable
         }
         foreach (IOrbitChild child in solarSystem.Children)
         {
-            if (child is IColonizableManager colonizable && colonizable.Owner == Player.Domain)
+            if (child is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
             {
                 return Constants.colonizedColor;
             }

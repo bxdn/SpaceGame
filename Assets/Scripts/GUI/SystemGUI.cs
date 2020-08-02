@@ -40,7 +40,7 @@ public class SystemGUI : GUIDestroyable
             {
                 foreach (IOrbitChild leaf in parent.Children)
                 {
-                    if (leaf is IColonizableManager colonizableLeaf && colonizableLeaf.Owner == Player.Domain)
+                    if (leaf is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == Player.Domain)
                     {
                         return Constants.colonizedColor;
                     }

@@ -54,30 +54,41 @@ public class SolarSystem : IMiddleChild
     public IOrbitChild DesignateStartingSystem()
     {
         IColonizable startPlanet = null;
+        bool startIsMoon = ColonizerR.r.Next(100) < 50;
         while (startPlanet == null)
         {
             Discovered = false;
             Discover();
-            foreach(IOrbitChild body in Children)
+            if (startIsMoon)
             {
-                if (body is IOrbitParent parent)
+                foreach (IOrbitChild body in Children)
                 {
-                    foreach (IOrbitChild orbiter in parent.Children)
+                    if (body is IOrbitParent parent)
                     {
-                        if (orbiter is Moon moon)
+                        foreach (IOrbitChild orbiter in parent.Children)
                         {
-                            moon.ColonizableManager.Owner = Player.Domain;
-                            startPlanet = moon;
-                            break;
+                            if (orbiter is Moon moon)
+                            {
+                                moon.ColonizableManager.Owner = Player.Domain;
+                                startPlanet = moon;
+                                break;
+                            }
                         }
-                    }
-                    if (startPlanet == null && parent is IColonizable colonizable)
-                    {
-                        startPlanet = colonizable;
-                        colonizable.ColonizableManager.Owner = Player.Domain;
                     }
                     if (startPlanet != null)
                     {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (IOrbitChild body in Children)
+                {
+                    if (body is IOrbitParent && body is IColonizable colonizable)
+                    {
+                        colonizable.ColonizableManager.Owner = Player.Domain;
+                        startPlanet = colonizable;
                         break;
                     }
                 }

@@ -17,18 +17,12 @@ public class Asteroid : Orbiter, IColonizable
     {
         Name = "A-" + sol.id.ToString(Constants.FMT) + id;
         Size = ColonizerR.r.Next(MIN_SIZE, MAX_SIZE);
-        ColonizableManager = new ColonizableManager(this)
-        {
-            OtherLand = ColonizerR.r.Next(0, Size),
-        };
+        ColonizableManager = new ColonizableManager(this);
     }
     public Asteroid(Planet parent, int orbiteeSize, int id) : base(parent)
     {
         Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
         Name = "A" + parent.Name.Substring(1) + "-" + id;
-        ColonizableManager = new ColonizableManager(this)
-        {
-            OtherLand = ColonizerR.r.Next(0, Size),
-        };
+        ColonizableManager = new ColonizableManager(this);
     }
 }

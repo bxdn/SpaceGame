@@ -3,7 +3,7 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
 
-public class Moon : Orbiter, IColonizable
+public class Moon : Orbiter, IArable
 {
     private static readonly int MIN_SIZE = 10;
     private static readonly int MAX_SIZE = 50;
@@ -16,7 +16,7 @@ public class Moon : Orbiter, IColonizable
     {
         Name = "M" + parent.Name.Substring(1) + "-" + id;
         Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
-        ((ColonizableManager = new ColonizableManager(this)) as ColonizableManager).CalculateLandDivision();
+        ColonizableManager = new ColonizableManager(this);
     }
 
     

@@ -27,6 +27,10 @@ public static class Constants
     public static readonly GameObject ARABLEF = GameObject.Find("Arable Land Field");
     public static readonly GameObject OTHERF = GameObject.Find("Other Usable Land Field");
     public static readonly GameObject HAZARDF = GameObject.Find("Hazard Frequency Field");
+    public static readonly GameObject WATERF = GameObject.Find("Water Field");
+    public static readonly GameObject METALSF = GameObject.Find("Metals Field");
+    public static readonly GameObject GASSESF = GameObject.Find("Gasses Field");
+    public static readonly GameObject ENERGYF = GameObject.Find("Energy Sources Field");
 
     public static readonly GameObject NAMEL = GameObject.Find("Name");
     public static readonly GameObject TYPEL = GameObject.Find("Type");
@@ -36,6 +40,10 @@ public static class Constants
     public static readonly GameObject ARABLEL = GameObject.Find("Arable Land");
     public static readonly GameObject OTHERL = GameObject.Find("Other Usable Land");
     public static readonly GameObject HAZARDL = GameObject.Find("Hazard Frequency");
+    public static readonly GameObject WATERL = GameObject.Find("Water");
+    public static readonly GameObject METALSL = GameObject.Find("Metals");
+    public static readonly GameObject GASSESL = GameObject.Find("Gasses");
+    public static readonly GameObject ENERGYL = GameObject.Find("Energy Sources");
 
     public static readonly IList<GameObject> FIELDS = new List<GameObject>()
     {
@@ -46,7 +54,11 @@ public static class Constants
         SIZEF ,
         ARABLEF ,
         OTHERF ,
-        HAZARDF
+        HAZARDF,
+        WATERF,
+        METALSF,
+        GASSESF,
+        ENERGYF
     };
 
     static Constants()
@@ -59,6 +71,10 @@ public static class Constants
         ARABLEF.SetActive(false);
         OTHERF.SetActive(false);
         HAZARDF.SetActive(false);
+        WATERF.SetActive(false);
+        METALSF.SetActive(false);
+        GASSESF.SetActive(false);
+        ENERGYF.SetActive(false);
 
         NAMEL.SetActive(false);
         TYPEL.SetActive(false);
@@ -68,6 +84,10 @@ public static class Constants
         ARABLEL.SetActive(false);
         OTHERL.SetActive(false);
         HAZARDL.SetActive(false);
+        WATERL.SetActive(false);
+        METALSL.SetActive(false);
+        GASSESL.SetActive(false);
+        ENERGYL.SetActive(false);
         Utils.LayoutUI();
     }
 }

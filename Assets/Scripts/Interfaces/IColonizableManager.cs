@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Model;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace Assets.Scripts
         int ArableLand { get; }
         int OtherLand { get; }
         int HazardFrequency { get; }
+        IDictionary<EResource, int> Resources { get; }
     }
 }

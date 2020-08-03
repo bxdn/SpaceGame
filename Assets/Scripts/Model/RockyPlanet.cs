@@ -3,7 +3,7 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
 
-public class RockyPlanet : Planet, IColonizable
+public class RockyPlanet : Planet, IArable
 {
     public override string Type => "Rocky Planet";
     protected sealed override int MaxSize => 50;
@@ -12,6 +12,6 @@ public class RockyPlanet : Planet, IColonizable
     public IColonizableManager ColonizableManager { get; }
     public RockyPlanet(SolarSystem sol, char id) : base(sol, id)
     {
-        ((ColonizableManager = new ColonizableManager(this)) as ColonizableManager).CalculateLandDivision();
+        ColonizableManager = new ColonizableManager(this);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,26 +9,48 @@ namespace Assets.Scripts.Model
 {
     public class ColonizableManager : IColonizableManager
     {
-        private readonly Orbiter orbiter;
         public Domain Owner { get; set; }
-        public int ArableLand { get; set; }
-        public int OtherLand { get; set; }
+        public int ArableLand { get; }
+        public int OtherLand { get; }
         public int HazardFrequency { get; }
-        public IDictionary<String, int> resources = new Dictionary<String, int>();
-        public IDictionary<String, int> Resources 
+        public IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
+        public IDictionary<EResource, int> Resources
         {
-            get => new Dictionary<String, int>(resources);
+            get => new Dictionary<EResource, int>(resources);
         }
+        private LandUnit[] land;
         public ColonizableManager(Orbiter orbiter)
         {
-            this.orbiter = orbiter;
             HazardFrequency = ColonizerR.r.Next(100);
+            if(orbiter is IArable)
+            {
+                ArableLand = ColonizerR.r.Next(0, orbiter.Size);
+            }
+            OtherLand = ColonizerR.r.Next(0, orbiter.Size - ArableLand);
             Owner = null;
+            CalculateResourceLayout();
         }
-        public void CalculateLandDivision()
+        public void CalculateResourceLayout()
         {
-            ArableLand = ColonizerR.r.Next(0, orbiter.Size);
-            OtherLand = ColonizerR.r.Next(0, ArableLand);
+            foreach(EResource resource in Enum.GetValues(typeof(EResource)))
+            {
+                resources[resource] = 0;
+            }
+            int usableLandTotal = ArableLand + OtherLand;
+            land = new LandUnit[usableLandTotal];
+            for(int i = 0; i < usableLandTotal; i++)
+            {
+                LandUnit landUnit = new LandUnit(i < ArableLand);
+                land[i] = landUnit;
+                if(landUnit.Resource is EResource resource)
+                {
+                    if (!resources.ContainsKey(resource))
+                    {
+                        resources[resource] = 0;
+                    }
+                    resources[resource]++;
+                }
+            }
         }
     }
 }

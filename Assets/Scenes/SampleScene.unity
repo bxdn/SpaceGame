@@ -646,7 +646,7 @@ GameObject:
   - component: {fileID: 362551295}
   - component: {fileID: 362551294}
   m_Layer: 0
-  m_Name: Silicon Field
+  m_Name: Energy Sources Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2139,7 +2139,7 @@ GameObject:
   - component: {fileID: 1793101721}
   - component: {fileID: 1793101720}
   m_Layer: 0
-  m_Name: Copper Field
+  m_Name: Gasses Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2474,7 +2474,7 @@ GameObject:
   - component: {fileID: 1896136668}
   - component: {fileID: 1896136667}
   m_Layer: 0
-  m_Name: Iron Field
+  m_Name: Metals Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

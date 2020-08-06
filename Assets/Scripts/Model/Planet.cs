@@ -24,11 +24,11 @@ public abstract class Planet : Orbiter, IMiddleChild
         {
             if(ColonizerR.r.NextDouble() < .5)
             {
-                children[i] = new Moon(this, Size, i + 1);
+                children[i] = new Moon(this, i + 1);
             }
             else
             {
-                children[i] = new Asteroid(this, Size, i + 1);
+                children[i] = new Asteroid(this, i + 1);
             }
         }
     }

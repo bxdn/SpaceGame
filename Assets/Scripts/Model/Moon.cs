@@ -11,13 +11,16 @@ public class Moon : Orbiter, IArable
     public override int Size { get; }
     public override string Name { get; set; }
     public override string Type => "Moon";
-    public IColonizableManager ColonizableManager { get; }
-    public Moon(Planet parent, int orbiteeSize, int id) : base(parent)
+    public IColonizableManager ColonizableManager { get; private set; }
+    public Moon(Planet parent, int id) : base(parent)
     {
         Name = "M" + parent.Name.Substring(1) + "-" + id;
-        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
+        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, parent.Size - ORBITER_DELTA));
         ColonizableManager = new ColonizableManager(this);
     }
 
-    
+    public void DesignateStartingWorld()
+    {
+        ColonizableManager = new StartingWorldColonizableManager();
+    }
 }

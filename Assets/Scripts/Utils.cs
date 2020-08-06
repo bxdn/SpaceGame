@@ -67,16 +67,19 @@ public static class Utils
         }
         if (orbiter is IColonizable colonizable)
         {
-            IColonizableManager manager = colonizable.ColonizableManager;
-            IDictionary<EResource, int> resources = manager.Resources;
-            Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
-            Constants.ARABLEF.GetComponent<Text>().text = manager.ArableLand.ToString();
-            Constants.OTHERF.GetComponent<Text>().text = manager.OtherLand.ToString();
-            Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
-            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
-            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Metals].ToString();
-            Constants.GASSESF.GetComponent<Text>().text = resources[EResource.Gasses].ToString();
-            Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
+            IColonizableManager colManager = colonizable.ColonizableManager;
+            if(colManager is ColonizableManager manager)
+            {
+                IDictionary<EResource, int> resources = manager.Resources;
+                Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
+                Constants.ARABLEF.GetComponent<Text>().text = manager.ArableLand.ToString();
+                Constants.OTHERF.GetComponent<Text>().text = manager.OtherLand.ToString();
+                Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
+                Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
+                Constants.METALSF.GetComponent<Text>().text = resources[EResource.Metals].ToString();
+                Constants.GASSESF.GetComponent<Text>().text = resources[EResource.Gasses].ToString();
+                Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
+            }
         }
     }
 

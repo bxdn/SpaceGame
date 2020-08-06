@@ -19,9 +19,9 @@ public class Asteroid : Orbiter, IColonizable
         Size = ColonizerR.r.Next(MIN_SIZE, MAX_SIZE);
         ColonizableManager = new ColonizableManager(this);
     }
-    public Asteroid(Planet parent, int orbiteeSize, int id) : base(parent)
+    public Asteroid(Planet parent, int id) : base(parent)
     {
-        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, orbiteeSize - ORBITER_DELTA));
+        Size = ColonizerR.r.Next(MIN_SIZE, Math.Min(MAX_SIZE, parent.Size - ORBITER_DELTA));
         Name = "A" + parent.Name.Substring(1) + "-" + id;
         ColonizableManager = new ColonizableManager(this);
     }

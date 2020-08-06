@@ -9,9 +9,14 @@ public class RockyPlanet : Planet, IArable
     protected sealed override int MaxSize => 50;
     protected sealed override int MinSize => 25;
     protected sealed override int MaxOrbitals => 4;
-    public IColonizableManager ColonizableManager { get; }
+    public IColonizableManager ColonizableManager { get; private set; }
     public RockyPlanet(SolarSystem sol, char id) : base(sol, id)
     {
         ColonizableManager = new ColonizableManager(this);
+    }
+
+    public void DesignateStartingWorld()
+    {
+        ColonizableManager = new StartingWorldColonizableManager();
     }
 }

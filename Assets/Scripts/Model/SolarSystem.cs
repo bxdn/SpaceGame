@@ -69,7 +69,7 @@ public class SolarSystem : IMiddleChild
                         {
                             if (orbiter is Moon moon)
                             {
-                                moon.ColonizableManager.Owner = Player.Domain;
+                                moon.DesignateStartingWorld();
                                 startPlanet = moon;
                                 break;
                             }
@@ -85,10 +85,10 @@ public class SolarSystem : IMiddleChild
             {
                 foreach (IOrbitChild body in Children)
                 {
-                    if (body is IOrbitParent && body is IColonizable colonizable)
+                    if (body is RockyPlanet planet)
                     {
-                        colonizable.ColonizableManager.Owner = Player.Domain;
-                        startPlanet = colonizable;
+                        planet.DesignateStartingWorld();
+                        startPlanet = planet;
                         break;
                     }
                 }

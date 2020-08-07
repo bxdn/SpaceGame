@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,12 +88,13 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     private void OnMouseDown()
     {
         float newClickTime = Time.time;
-        if (newClickTime - clickTime < 0.3f)
+        if (newClickTime - clickTime < 0.3f && Orbiter is IOrbitParent orbitParent)
         {
-            if(Orbiter is IOrbitParent orbitParent)
-            {
-                orbitParent.RenderSystem();
-            }
+            orbitParent.RenderSystem();
+        }
+        else if (selected && Orbiter is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
+        {
+            colonizable.RenderColony();
         }
         clickTime = newClickTime;
         Selection.Select(this);

@@ -9,6 +9,7 @@ public static class Constants
     public static readonly GameObject GRID = GameObject.Find("Grid");
     public static readonly GameObject CAMERA = GameObject.Find("Camera");
     public static readonly Sprite circle = Resources.Load<Sprite>("Circle");
+    public static readonly Sprite square = Resources.Load<Sprite>("Square");
     public static readonly Texture2D pointer = Resources.Load<Texture2D>("pointer");
     public static readonly GameObject SELECTION1 = GameObject.Find("Selection1");
     public static readonly GameObject SELECTION2 = GameObject.Find("Selection2");

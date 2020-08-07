@@ -25,4 +25,11 @@ public class Asteroid : Orbiter, IColonizable
         Name = "A" + parent.Name.Substring(1) + "-" + id;
         ColonizableManager = new ColonizableManager(this);
     }
+
+    public void RenderColony()
+    {
+        WorldGeneration.ClearGUI();
+        CameraController.Reset();
+        new ColonyGUI(this);
+    }
 }

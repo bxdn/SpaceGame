@@ -12,6 +12,7 @@ public class PathGUI : GUIDestroyable
         line.endWidth = .4f;
         line.SetPosition(0, new Vector3(point1.x, point1.y, 0));
         line.SetPosition(1, new Vector3(point2.x, point2.y, 0));
+        line.sortingLayerName = "Top";
         line.material = Constants.MATERIAL;
         lineObj.AddComponent<PathGUIController>();
         lineObj.transform.SetParent(Constants.GRID.transform);

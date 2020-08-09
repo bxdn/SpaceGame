@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts
 {
+    [System.Serializable]
     static class Player
     {
         public static Domain Domain { get; } = new Domain();

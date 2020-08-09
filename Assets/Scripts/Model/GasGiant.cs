@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Model;
 using System;
-
+[System.Serializable]
 public class GasGiant : Planet
 {
     protected override int MaxSize => 100;

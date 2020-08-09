@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class WorldGeneration : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         Debug.Log("Starting Galaxy Generation!");
-        Galaxy = new Galaxy();
+        Galaxy = Save.SavedGameFound() ? Save.LoadGame() : new Galaxy();
         Debug.Log("Finished Galaxy Generation!");
         Galaxy.RenderStartingSystem();
     }

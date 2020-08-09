@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Model;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,10 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Save.SaveGame();
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #endif
             Application.Quit();
         }
         if (!Locked)

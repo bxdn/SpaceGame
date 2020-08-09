@@ -1,9 +1,10 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+[System.Serializable]
 public class Galaxy : IOrbitParent
 {
     private static readonly int NUM_STARS = 1000;
@@ -32,16 +33,16 @@ public class Galaxy : IOrbitParent
 
     private void CreateSystems()
     {
-        ISet<Vector2> locations = new HashSet<Vector2>();
+        ISet<SVector2> locations = new HashSet<SVector2>();
         for (int i = 0; i < NUM_STARS; i++)
         {
-            Vector2 location = Vector2.zero;
+            SVector2 location = new SVector2(0,0);
             bool acceptable = false;
             while (!acceptable)
             {
                 bool unacceptable = false;
-                location = new Vector2((float)ColonizerR.r.NextDouble() * MAP_SIZE, (float)ColonizerR.r.NextDouble() * MAP_SIZE);
-                foreach (Vector2 loc in locations)
+                location = new SVector2((float)ColonizerR.r.NextDouble() * MAP_SIZE, (float)ColonizerR.r.NextDouble() * MAP_SIZE);
+                foreach (SVector2 loc in locations)
                 {
                     float deltaX = loc.x - location.x;
                     float deltaY = loc.y - location.y;
@@ -126,7 +127,7 @@ public class Galaxy : IOrbitParent
             {
                 if (!finishedNodes.Contains(adjNode))
                 {
-                    new PathGUI(node.location, adjNode.location);
+                    new PathGUI(new Vector2(node.location.x, node.location.y), new Vector2(adjNode.location.x, adjNode.location.y));
                 }
             }
             finishedNodes.Add(node);
@@ -137,7 +138,7 @@ public class Galaxy : IOrbitParent
         }
         else
         {
-            CameraController.Reset(CurrentSystem.location);
+            CameraController.Reset(new Vector2(CurrentSystem.location.x, CurrentSystem.location.y));
         }
     }
 }

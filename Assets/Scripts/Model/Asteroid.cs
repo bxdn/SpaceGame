@@ -3,7 +3,7 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
 using UnityEngine;
-
+[System.Serializable]
 public class Asteroid : Orbiter, IColonizable
 {
     private static readonly int MIN_SIZE = 1;

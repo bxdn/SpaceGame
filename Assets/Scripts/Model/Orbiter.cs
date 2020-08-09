@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public abstract class Orbiter : IOrbitChild
 {
     private static readonly int MAX_DIST = 100;

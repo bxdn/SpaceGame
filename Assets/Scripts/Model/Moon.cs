@@ -2,7 +2,7 @@
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
-
+[System.Serializable]
 public class Moon : Orbiter, IArable
 {
     private static readonly int MIN_SIZE = 10;

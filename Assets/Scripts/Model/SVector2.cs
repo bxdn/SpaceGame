@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
-    public class StartingWorldColonizableManager : IColonizableManager
+    public struct SVector2
     {
-        public Domain Owner { get; set; }
-
-        public StartingWorldColonizableManager()
+        public readonly float x;
+        public readonly float y;
+        public SVector2(float x, float y)
         {
-            Owner = Player.Domain;
+            this.x = x;
+            this.y = y;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Model;
 using System;
 using UnityEngine;
-
+[System.Serializable]
 public abstract class Planet : Orbiter, IMiddleChild
 {
     protected abstract int MaxSize { get; }

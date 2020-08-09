@@ -1,14 +1,15 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System;
 using UnityEngine;
-
+[System.Serializable]
 public class SolarSystem : IMiddleChild
 {
     private static readonly int MAX_BODIES = 15;
     private static int count;
     public readonly int id;
-    public readonly Vector2 location;
+    public readonly SVector2 location;
 
     public IOrbitChild[] Children { get; private set; }
     public bool Discovered { get; private set; } = false;
@@ -17,7 +18,7 @@ public class SolarSystem : IMiddleChild
 
     public string Name => "S-" + id.ToString(Constants.FMT);
 
-    public SolarSystem(Vector2 loc)
+    public SolarSystem(SVector2 loc)
 	{
         id = count++;
         location = loc;

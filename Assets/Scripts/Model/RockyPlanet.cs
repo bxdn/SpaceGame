@@ -2,7 +2,7 @@
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
-
+[System.Serializable]
 public class RockyPlanet : Planet, IArable
 {
     public override string Type => "Rocky Planet";

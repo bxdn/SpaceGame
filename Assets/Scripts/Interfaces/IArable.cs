@@ -8,5 +8,6 @@ namespace Assets.Scripts.Interfaces
 {
     public interface IArable : IColonizable
     {
+        bool DesignateStartingWorld();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using UnityEngine;
 
 public static class Constants
@@ -46,6 +46,12 @@ public static class Constants
     public static readonly GameObject GASSESL = GameObject.Find("Gasses");
     public static readonly GameObject ENERGYL = GameObject.Find("Energy Sources");
 
+    public static readonly GameObject COLONY_PANEL = GameObject.Find("Panel");
+    public static readonly GameObject MASKING_PANEL = GameObject.Find("MaskingPanel");
+
+    public static readonly IDictionary<EResource, String> RESOURCE_MAP;
+    public static readonly IDictionary<EGood, String> GOOD_MAP;
+
     public static readonly IList<GameObject> FIELDS = new List<GameObject>()
     {
         NAMEF ,
@@ -89,6 +95,37 @@ public static class Constants
         METALSL.SetActive(false);
         GASSESL.SetActive(false);
         ENERGYL.SetActive(false);
+
+        COLONY_PANEL.SetActive(false);
         Utils.LayoutUI();
+
+        var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
+        resourceBuilder.Add(EResource.Gasses, "Gas");
+        resourceBuilder.Add(EResource.Water, "Water");
+        resourceBuilder.Add(EResource.Metals, "Metal");
+        resourceBuilder.Add(EResource.EnergySource, "Energy Source");
+        RESOURCE_MAP = resourceBuilder.ToImmutable();
+
+        var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
+        goodBuilder.Add(EGood.Alcohol, "Alcohol");
+        goodBuilder.Add(EGood.Atmosphere, "Atmosphere");
+        goodBuilder.Add(EGood.BuildingMaterials, "Building Materials");
+        goodBuilder.Add(EGood.Chemicals, "Chemicals");
+        goodBuilder.Add(EGood.Clothes, "Clothes");
+        goodBuilder.Add(EGood.Electronics, "Electronics");
+        goodBuilder.Add(EGood.Energy, "Energy");
+        goodBuilder.Add(EGood.EntertainmentItems, "EntertainmentItems");
+        goodBuilder.Add(EGood.Fabric, "Fabric");
+        goodBuilder.Add(EGood.Food, "Food");
+        goodBuilder.Add(EGood.Gas, "Gas");
+        goodBuilder.Add(EGood.Machinery, "Machinery");
+        goodBuilder.Add(EGood.Metal, "Metal");
+        goodBuilder.Add(EGood.People, "People");
+        goodBuilder.Add(EGood.Robotics, "Robotics");
+        goodBuilder.Add(EGood.Steel, "Steel");
+        goodBuilder.Add(EGood.Tools, "Tools");
+        goodBuilder.Add(EGood.Water, "Water");
+        goodBuilder.Add(EGood.Wood, "Wood");
+        GOOD_MAP = goodBuilder.ToImmutable();
     }
 }

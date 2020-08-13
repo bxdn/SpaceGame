@@ -9,18 +9,18 @@ namespace Assets.Scripts.Controllers
 {
     public static class Selection
     {
-        private static ISelectable currentSelection;
+        public static ISelectable CurrentSelection { get; private set; }
 
         public static void Select(ISelectable newSelection)
         {
-            if(newSelection != currentSelection)
+            if(newSelection != CurrentSelection)
             {
-                if (currentSelection != null)
+                if (CurrentSelection != null)
                 {
-                    currentSelection.Deselect();
+                    CurrentSelection.Deselect();
                 }
                 newSelection.Select();
-                currentSelection = newSelection;
+                CurrentSelection = newSelection;
             }
         } 
     }

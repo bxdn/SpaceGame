@@ -7,13 +7,37 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
-    public class StartingWorldColonizableManager : IColonizableManager
+    public class StartingWorldColonizableManager : ColonizableManager
     {
-        public Domain Owner { get; set; }
-
-        public StartingWorldColonizableManager()
+        public StartingWorldColonizableManager(Orbiter orbiter) : base(orbiter) { }
+        public bool DesignateStartingColony()
         {
-            Owner = Player.Domain;
+            if (ArableLand < 10)
+            {
+                return false;
+            }
+            if (OtherLand < 10)
+            {
+                return false;
+            }
+            if (Resources[EResource.Gasses] == 0)
+            {
+                return false;
+            }
+            if (Resources[EResource.Water] == 0)
+            {
+                return false;
+            }
+            if (Resources[EResource.Metals] == 0)
+            {
+                return false;
+            }
+            if (Resources[EResource.EnergySource] == 0)
+            {
+                return false;
+            }
+            Colonize();
+            return true;
         }
     }
 }

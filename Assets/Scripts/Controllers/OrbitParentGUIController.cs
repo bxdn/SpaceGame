@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class OrbitParentGUIController : MonoBehaviour, ISelectable
@@ -29,7 +30,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
             text.color = new Color(0, 0, 0, alpha - .05f);
         }
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
-        if (scrollDelta != 0)
+        if (scrollDelta != 0 && !CameraController.Locked)
         {
             Utils.Scale(bigTransform, scrollDelta);
             Transform textTransform = text.gameObject.transform;
@@ -39,24 +40,32 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseEnter()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         mouseOn = true;
     }
 
     private void OnMouseExit()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         mouseOn = false;
     }
 
     private void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         float newClickTime = Time.time;
         if(newClickTime - clickTime < 0.3f)
         {
             System.Parent.RenderSystem();
-        }
-        else if(selected && System is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
-        {
-            colonizable.RenderColony();
         }
         clickTime = newClickTime;
         Selection.Select(this);
@@ -66,7 +75,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     {
         selected = true;
         Utils.SetUIActivated(System is Planet);
-        if(System is Planet planet)
+        if (System is Planet planet)
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(planet);

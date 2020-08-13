@@ -3,6 +3,7 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class OrbiterGUIController : MonoBehaviour, ISelectable
 {
@@ -26,7 +27,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     void Update()
     {
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
-        if (scrollDelta != 0)
+        if (scrollDelta != 0 && !CameraController.Locked)
         {
             Utils.Scale(bigTransform, scrollDelta);
             Utils.Scale(smallTransform, scrollDelta);
@@ -48,6 +49,10 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseEnter()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         if (!selected)
         {
             expanding = true;
@@ -65,6 +70,10 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseExit()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         if (!selected)
         {
             BeginRetraction();
@@ -87,14 +96,14 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
         float newClickTime = Time.time;
         if (newClickTime - clickTime < 0.3f && Orbiter is IOrbitParent orbitParent)
         {
             orbitParent.RenderSystem();
-        }
-        else if (selected && Orbiter is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
-        {
-            colonizable.RenderColony();
         }
         clickTime = newClickTime;
         Selection.Select(this);
@@ -158,7 +167,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     public void Select()
     {
         selected = true;
-        if(Orbiter is Orbiter orbiter)
+        if (Orbiter is Orbiter orbiter)
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(orbiter);

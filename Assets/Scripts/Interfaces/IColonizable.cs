@@ -9,7 +9,5 @@ namespace Assets.Scripts.Interfaces
     public interface IColonizable : IOrbitChild
     {
         IColonizableManager ColonizableManager { get; }
-
-        void RenderColony();
     }
 }

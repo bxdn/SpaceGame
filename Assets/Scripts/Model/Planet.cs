@@ -34,7 +34,7 @@ public abstract class Planet : Orbiter, IMiddleChild
     }
     public void RenderSystem()
     {
-        WorldGeneration.ClearGUI();
+        GUIDestroyable.ClearGUI();
         CameraController.Reset();
         new OrbitParentGUI(this);
         foreach(IOrbitChild child in Children)

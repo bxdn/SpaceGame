@@ -7,7 +7,7 @@ using UnityEngine;
 public class WorldGeneration : MonoBehaviour
 {
     public static Galaxy Galaxy { get; private set; }
-    public static readonly IList<IGUIDestroyable> guis = new List<IGUIDestroyable>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,13 +16,5 @@ public class WorldGeneration : MonoBehaviour
         Galaxy = Save.SavedGameFound() ? Save.LoadGame() : new Galaxy();
         Debug.Log("Finished Galaxy Generation!");
         Galaxy.RenderStartingSystem();
-    }
-
-    public static void ClearGUI()
-    {
-        foreach(IGUIDestroyable gui in guis)
-        {
-            gui.Destroy();
-        }
     }
 }

@@ -68,9 +68,8 @@ public class SolarSystem : IMiddleChild
                     {
                         foreach (IOrbitChild orbiter in parent.Children)
                         {
-                            if (orbiter is Moon moon)
+                            if (orbiter is Moon moon && moon.DesignateStartingWorld())
                             {
-                                moon.DesignateStartingWorld();
                                 startPlanet = moon;
                                 break;
                             }
@@ -86,9 +85,8 @@ public class SolarSystem : IMiddleChild
             {
                 foreach (IOrbitChild body in Children)
                 {
-                    if (body is RockyPlanet planet)
+                    if (body is RockyPlanet planet && planet.DesignateStartingWorld())
                     {
-                        planet.DesignateStartingWorld();
                         startPlanet = planet;
                         break;
                     }
@@ -101,7 +99,7 @@ public class SolarSystem : IMiddleChild
     public void RenderSystem()
     {
         Discover();
-        WorldGeneration.ClearGUI();
+        GUIDestroyable.ClearGUI();
         CameraController.Reset();
         SelectorController.Reset();
         WorldGeneration.Galaxy.CurrentSystem = this;

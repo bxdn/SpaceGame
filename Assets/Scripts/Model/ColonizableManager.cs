@@ -4,22 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
     public class ColonizableManager : IColonizableManager
     {
-        public Domain Owner { get; set; }
+        public Domain Owner { get; private set; }
         public int ArableLand { get; }
         public int OtherLand { get; }
         public int HazardFrequency { get; }
-        public IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
+        private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         public IDictionary<EResource, int> Resources
         {
             get => new Dictionary<EResource, int>(resources);
         }
-        private LandUnit[] land;
+        private IDictionary<EGood, float> goods = new Dictionary<EGood, float>();
+        public IDictionary<EGood, float> Goods
+        {
+            get => new Dictionary<EGood, float>(goods);
+        }
+        public LandUnit[] Land { get; private set; }
         public ColonizableManager(Orbiter orbiter)
         {
             HazardFrequency = ColonizerR.r.Next(100);
@@ -38,20 +44,24 @@ namespace Assets.Scripts.Model
                 resources[resource] = 0;
             }
             int usableLandTotal = ArableLand + OtherLand;
-            land = new LandUnit[usableLandTotal];
+            Land = new LandUnit[usableLandTotal];
             for(int i = 0; i < usableLandTotal; i++)
             {
                 LandUnit landUnit = new LandUnit(i < ArableLand);
-                land[i] = landUnit;
+                Land[i] = landUnit;
                 if(landUnit.Resource is EResource resource)
                 {
-                    if (!resources.ContainsKey(resource))
-                    {
-                        resources[resource] = 0;
-                    }
                     resources[resource]++;
                 }
             }
+        }
+        public void Colonize()
+        {
+            Owner = Player.Domain;
+            goods[EGood.Food] = 100;
+            goods[EGood.Water] = 100;
+            goods[EGood.People] = 100;
+            goods[EGood.BuildingMaterials] = 100;
         }
     }
 }

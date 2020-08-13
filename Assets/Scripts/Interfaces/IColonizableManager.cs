@@ -10,6 +10,12 @@ namespace Assets.Scripts
 {
     public interface IColonizableManager
     {
-        Domain Owner { get; set; }
+        Domain Owner { get; }
+        IDictionary<EGood, float> Goods { get; }
+        IDictionary<EResource, int> Resources { get; }
+        int ArableLand { get; }
+        int OtherLand { get; }
+        int HazardFrequency { get; }
+        LandUnit[] Land { get; }
     }
 }

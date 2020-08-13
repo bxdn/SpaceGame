@@ -19,17 +19,8 @@ public class Moon : Orbiter, IArable
         ColonizableManager = new ColonizableManager(this);
     }
 
-    public void DesignateStartingWorld()
+    public bool DesignateStartingWorld()
     {
-        //ColonizableManager = new StartingWorldColonizableManager();
-        ColonizableManager = new ColonizableManager(this);
-        ColonizableManager.Owner = Player.Domain;
-    }
-
-    public void RenderColony()
-    {
-        WorldGeneration.ClearGUI();
-        CameraController.Reset();
-        new ColonyGUI(this);
+        return ((ColonizableManager = new StartingWorldColonizableManager(this)) as StartingWorldColonizableManager).DesignateStartingColony();
     }
 }

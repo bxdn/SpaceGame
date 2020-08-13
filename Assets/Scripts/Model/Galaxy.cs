@@ -117,7 +117,7 @@ public class Galaxy : IOrbitParent
 
     public void RenderSystem()
     {
-        WorldGeneration.ClearGUI();
+        GUIDestroyable.ClearGUI();
         SelectorController.Reset();
         ISet<SolarSystem> finishedNodes = new HashSet<SolarSystem>();
         foreach (SolarSystem node in nodes)

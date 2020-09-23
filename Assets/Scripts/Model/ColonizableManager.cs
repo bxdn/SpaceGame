@@ -60,7 +60,6 @@ namespace Assets.Scripts.Model
             Owner = Player.Domain;
             goods[EGood.Food] = 100;
             goods[EGood.Water] = 100;
-            goods[EGood.People] = 100;
             goods[EGood.BuildingMaterials] = 100;
         }
     }

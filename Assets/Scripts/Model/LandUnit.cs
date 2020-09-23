@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Assets.Scripts.Model
     {
         public bool Arable { get; }
         public EResource? Resource { get; }
-        public Structure Structure { get; set; } = null;
+        public StructureInfo Structure { get; set; } = null;
         public LandUnit(bool arable, EResource? resource)
         {
             if(resource == null)

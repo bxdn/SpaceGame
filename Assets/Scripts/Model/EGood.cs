@@ -19,7 +19,6 @@ namespace Assets.Scripts.Model
         Electronics,
         Fabric,
         Clothes,
-        People,
         Robotics,
         EntertainmentItems,
         Alcohol,

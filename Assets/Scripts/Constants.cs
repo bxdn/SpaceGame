@@ -120,7 +120,6 @@ public static class Constants
         goodBuilder.Add(EGood.Gas, "Gas");
         goodBuilder.Add(EGood.Machinery, "Machinery");
         goodBuilder.Add(EGood.Metal, "Metal");
-        goodBuilder.Add(EGood.People, "People");
         goodBuilder.Add(EGood.Robotics, "Robotics");
         goodBuilder.Add(EGood.Steel, "Steel");
         goodBuilder.Add(EGood.Tools, "Tools");

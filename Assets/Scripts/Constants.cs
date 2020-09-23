@@ -48,6 +48,7 @@ public static class Constants
 
     public static readonly GameObject COLONY_PANEL = GameObject.Find("Panel");
     public static readonly GameObject MASKING_PANEL = GameObject.Find("MaskingPanel");
+    public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
@@ -97,6 +98,7 @@ public static class Constants
         ENERGYL.SetActive(false);
 
         COLONY_PANEL.SetActive(false);
+        COLONY_BUTTON.SetActive(false);
         Utils.LayoutUI();
 
         var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();

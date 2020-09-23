@@ -166,12 +166,16 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     public void Select()
     {
+        bool colonyButtonActivated = false;
         selected = true;
         if (Orbiter is Orbiter orbiter)
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(orbiter);
+            if (orbiter is IColonizable c && c.ColonizableManager.Owner == Player.Domain)
+                colonyButtonActivated = true;
         }
+        Constants.COLONY_BUTTON.SetActive(colonyButtonActivated);
     }
 
     public void Deselect()

@@ -74,16 +74,20 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     public void Select()
     {
         selected = true;
+        bool colonyButtonActivated = false;
         Utils.SetUIActivated(System is Planet);
         if (System is Planet planet)
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(planet);
+            if (planet is IColonizable c && c.ColonizableManager.Owner == Player.Domain)
+               colonyButtonActivated = true;
         }
         else
         {
             Utils.SetUIActivated(false);
         }
+        Constants.COLONY_BUTTON.SetActive(colonyButtonActivated);
     }
 
     public void Deselect()

@@ -49,7 +49,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseEnter()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() || CameraController.Locked)
         {
             return;
         }
@@ -70,7 +70,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseExit()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() || CameraController.Locked)
         {
             return;
         }
@@ -96,7 +96,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     private void OnMouseDown()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() || CameraController.Locked)
         {
             return;
         }

@@ -11,7 +11,7 @@ namespace Assets.Scripts
     public interface IColonizableManager
     {
         Domain Owner { get; }
-        IDictionary<EGood, float> Goods { get; }
+        Colony Colony { get; }
         IDictionary<EResource, int> Resources { get; }
         int ArableLand { get; }
         int OtherLand { get; }

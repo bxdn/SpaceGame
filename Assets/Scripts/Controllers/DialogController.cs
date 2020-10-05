@@ -72,14 +72,14 @@ public class DialogController : EventTrigger
         guis.Clear();
         if(colonizable != null)
         {
-            Vector2 currentPosition = new Vector2(0, -10);
+            Vector2 currentPosition = new Vector2(0, 0);
             foreach (LandUnit unit in colonizable.ColonizableManager.Land)
             {
                 guis.Add(new LandUnitGUI(unit, currentPosition));
                 currentPosition = new Vector2(0, currentPosition.y - 25);
             }
-            currentPosition = new Vector2(0, -10);
-            foreach (var good in colonizable.ColonizableManager.Goods)
+            currentPosition = new Vector2(0, 0);
+            foreach (var good in colonizable.ColonizableManager.Colony.Goods)
             {
                 guis.Add(new GoodGUI(good.Key, good.Value, currentPosition));
                 currentPosition = new Vector2(0, currentPosition.y - 25);

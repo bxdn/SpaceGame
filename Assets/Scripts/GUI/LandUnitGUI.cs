@@ -30,6 +30,8 @@ namespace Assets.Scripts.GUI
         private void CreateStructureField()
         {
             GameObject text = new GameObject("Text", typeof(RectTransform));
+            var controller = text.AddComponent<StructureLabelController>();
+            controller.Unit = unit;
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
@@ -47,6 +49,20 @@ namespace Assets.Scripts.GUI
             transform.localScale = new Vector3(.5f, .5f, 1);
             transform.anchoredPosition = new Vector2(pos.x + 250, pos.y);
             transform.sizeDelta = new Vector2(200, 200);
+
+            var underline = new GameObject("Underline", typeof(RectTransform));
+            transforms.Add(underline.transform);
+            objects.Add(underline);
+            var image = underline.AddComponent<Image>();
+            image.color = Color.black;
+            var underlineTransform = (RectTransform)underline.transform;
+            underlineTransform.SetParent(PARENT_TRANSFORM);
+            underlineTransform.anchorMin = new Vector2(0, 1);
+            underlineTransform.anchorMax = new Vector2(0, 1);
+            underlineTransform.anchoredPosition = new Vector2(pos.x + 300, pos.y - 20);
+            underlineTransform.sizeDelta = new Vector2(200, 200);
+            underlineTransform.localScale = new Vector3(.5f, .01f, 1);
+
         }
 
         private void CreateResourceField()

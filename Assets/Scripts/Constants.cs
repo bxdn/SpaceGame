@@ -47,14 +47,17 @@ public static class Constants
     public static readonly GameObject ENERGYL = GameObject.Find("Energy Sources");
 
     public static readonly GameObject COLONY_PANEL = GameObject.Find("Panel");
+    public static readonly GameObject STRUCTURE_PANEL = GameObject.Find("Structure Panel");
     public static readonly GameObject MASKING_PANEL = GameObject.Find("MaskingPanel");
+    public static readonly GameObject STRUCTURE_MASKING_PANEL = GameObject.Find("Structure Masking Panel");
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
+    public static readonly StructureInfo[] STRUCTURE_INFOS = new StructureInfo[] { StructureRegistry.Housing, StructureRegistry.Farm, StructureRegistry.WaterCollectionPlant};
 
-    public static readonly IList<GameObject> FIELDS = new List<GameObject>()
-    {
+    public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
+    { 
         NAMEF ,
         TYPEF ,
         OBF ,
@@ -67,8 +70,7 @@ public static class Constants
         METALSF,
         GASSESF,
         ENERGYF
-    };
-
+    });
     static Constants()
     {
         NAMEF.SetActive(false);

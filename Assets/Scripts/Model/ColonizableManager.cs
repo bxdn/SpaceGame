@@ -20,11 +20,7 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EResource, int>(resources);
         }
-        private IDictionary<EGood, float> goods = new Dictionary<EGood, float>();
-        public IDictionary<EGood, float> Goods
-        {
-            get => new Dictionary<EGood, float>(goods);
-        }
+        public Colony Colony { get; private set; }
         public LandUnit[] Land { get; private set; }
         public ColonizableManager(Orbiter orbiter)
         {
@@ -58,9 +54,7 @@ namespace Assets.Scripts.Model
         public void Colonize()
         {
             Owner = Player.Domain;
-            goods[EGood.Food] = 100;
-            goods[EGood.Water] = 100;
-            goods[EGood.BuildingMaterials] = 100;
+            Colony = new Colony();
         }
     }
 }

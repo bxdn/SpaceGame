@@ -21,8 +21,8 @@ namespace Assets.Scripts.Model
         {
             BuildHousing();
             BuildFarm();
-            /*BuildWaterCollectionPlant();
-            BuildLumberMill();
+            BuildWaterCollectionPlant();
+            /*BuildLumberMill();
             BuildMetalMine();
             BuildEnergyPlant();
             BuildGasCollectionPlant();*/
@@ -50,7 +50,15 @@ namespace Assets.Scripts.Model
 
         private static void BuildWaterCollectionPlant()
         {
-            throw new NotImplementedException();
+            var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
+            costBuilder.Add(EGood.BuildingMaterials, 10);
+            var cost = costBuilder.ToImmutable();
+            var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
+            flowBuilder.Add(EGood.Water, 2);
+            var flow = flowBuilder.ToImmutable();
+            var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
+            var service = serviceBuilder.ToImmutable();
+            WaterCollectionPlant = new StructureInfo("Farm", cost, flow, service, 10, x => x.Resource == EResource.Water);
         }
 
         private static void BuildFarm()
@@ -64,7 +72,7 @@ namespace Assets.Scripts.Model
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
-            Housing = new StructureInfo("Farm", cost, flow, service, 10);
+            Housing = new StructureInfo("Farm", cost, flow, service, 10, x => x.Arable);
         }
 
         private static void BuildHousing()
@@ -77,7 +85,7 @@ namespace Assets.Scripts.Model
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             serviceBuilder.Add(EService.Housing, 10);
             var service = serviceBuilder.ToImmutable();
-            Housing = new StructureInfo("Housing", cost, flow, service, 0);
+            Housing = new StructureInfo("Housing", cost, flow, service, 0, x => true);
         }
     }
 }

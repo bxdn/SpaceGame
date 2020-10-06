@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DialogController : EventTrigger
+public class ColonyDialogController : EventTrigger
 {
     private bool dragging;
     private Vector3 curPos;

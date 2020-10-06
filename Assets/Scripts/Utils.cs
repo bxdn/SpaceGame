@@ -77,11 +77,11 @@ public static class Utils
             Constants.METALSF.GetComponent<Text>().text = resources[EResource.Metals].ToString();
             Constants.GASSESF.GetComponent<Text>().text = resources[EResource.Gasses].ToString();
             Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
-            DialogController.Fill(colonizable.ColonizableManager.Owner == Player.Domain ? colonizable : null);
+            ColonyDialogController.Fill(colonizable.ColonizableManager.Owner == Player.Domain ? colonizable : null);
         }
         else
         {
-            DialogController.Fill(null);
+            ColonyDialogController.Fill(null);
         }
     }
 

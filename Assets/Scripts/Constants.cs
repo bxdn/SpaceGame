@@ -100,6 +100,7 @@ public static class Constants
         ENERGYL.SetActive(false);
 
         COLONY_PANEL.SetActive(false);
+        STRUCTURE_PANEL.SetActive(false);
         COLONY_BUTTON.SetActive(false);
         Utils.LayoutUI();
 

@@ -17,6 +17,8 @@ public class StructureLabelController : EventTrigger
     }
     private void LaunchStructureDialog()
     {
-        Debug.Log("Sup");
+        Constants.STRUCTURE_PANEL.SetActive(true);
+        Constants.COLONY_PANEL.SetActive(false);
+        StructurePanelController.Fill(Unit);
     }
 }

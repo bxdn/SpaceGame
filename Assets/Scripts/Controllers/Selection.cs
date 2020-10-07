@@ -16,10 +16,9 @@ namespace Assets.Scripts.Controllers
             if(newSelection != CurrentSelection)
             {
                 if (CurrentSelection != null)
-                {
                     CurrentSelection.Deselect();
-                }
-                newSelection.Select();
+                if(newSelection != null)
+                    newSelection.Select();
                 CurrentSelection = newSelection;
             }
         } 

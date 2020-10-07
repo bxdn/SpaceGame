@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Controllers;
+using System;
 using System.Collections.Generic;
 
 public abstract class GUIDestroyable : IGUIDestroyable

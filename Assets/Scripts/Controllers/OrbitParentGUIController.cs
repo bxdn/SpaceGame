@@ -59,16 +59,15 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     private void OnMouseDown()
     {
         if (EventSystem.current.IsPointerOverGameObject() || CameraController.Locked)
-        {
             return;
-        }
         float newClickTime = Time.time;
         if(newClickTime - clickTime < 0.3f)
-        {
             System.Parent.RenderSystem();
+        else
+        {
+            clickTime = newClickTime;
+            Selection.Select(this);
         }
-        clickTime = newClickTime;
-        Selection.Select(this);
     }
 
     public void Select()
@@ -93,6 +92,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     public void Deselect()
     {
         selected = false;
+        Constants.COLONY_BUTTON.SetActive(false);
     }
 }
 

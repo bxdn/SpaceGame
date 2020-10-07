@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
 using System;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class OrbitParentGUI : GUIDestroyable
         controller.bigTransform = big.transform;
         controller.text = text;
         controller.System = orbitee;
+        Selection.Select(controller);
     }
 
     private void AddBig()

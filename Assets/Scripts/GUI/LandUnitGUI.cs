@@ -35,7 +35,7 @@ namespace Assets.Scripts.GUI
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
-            textComponent.text = unit.Structure == null ? "None" : throw new NotImplementedException();
+            textComponent.text = unit.Structure == null ? "None" : unit.Structure.Name;
             textComponent.fontSize = 38;
             textComponent.font = ARIAL;
             textComponent.color = new Color(0, 0, 0, 1);
@@ -47,8 +47,8 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 250, pos.y);
-            transform.sizeDelta = new Vector2(200, 200);
+            transform.anchoredPosition = new Vector2(pos.x + 300, pos.y);
+            transform.sizeDelta = new Vector2(500, 200);
 
             var underline = new GameObject("Underline", typeof(RectTransform));
             transforms.Add(underline.transform);
@@ -59,9 +59,9 @@ namespace Assets.Scripts.GUI
             underlineTransform.SetParent(PARENT_TRANSFORM);
             underlineTransform.anchorMin = new Vector2(0, 1);
             underlineTransform.anchorMax = new Vector2(0, 1);
-            underlineTransform.anchoredPosition = new Vector2(pos.x + 300, pos.y - 20);
-            underlineTransform.sizeDelta = new Vector2(200, 200);
-            underlineTransform.localScale = new Vector3(.5f, .01f, 1);
+            underlineTransform.anchoredPosition = new Vector2(pos.x + 437.5f, pos.y - 20);
+            underlineTransform.sizeDelta = new Vector2(275, 200);
+            underlineTransform.localScale = new Vector3(1, .01f, 1);
 
         }
 

@@ -14,6 +14,9 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     public Transform bigTransform;
     public Text text;
     public IOrbitChild System { get; set; }
+
+    public IModelObject ModelObject => System;
+
     private bool mouseOn = false;
     private bool selected = false;
 

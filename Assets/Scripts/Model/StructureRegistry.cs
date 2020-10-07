@@ -9,9 +9,9 @@ namespace Assets.Scripts.Model
 {
     public static class StructureRegistry
     {
-        public static StructureInfo Housing { get; private set; }
-        public static StructureInfo Farm { get; private set; }
-        public static StructureInfo WaterCollectionPlant { get; private set; }
+        public static StructureInfo Housing { get; private set; } = BuildHousing();
+        public static StructureInfo Farm { get; private set; } = BuildFarm();
+        public static StructureInfo WaterCollectionPlant { get; private set; } = BuildWaterCollectionPlant();
         public static StructureInfo LumberMill { get; private set; }
         public static StructureInfo MetalMine { get; private set; }
         public static StructureInfo EnergyPlant { get; private set; }
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Model
             throw new NotImplementedException();
         }
 
-        private static void BuildWaterCollectionPlant()
+        private static StructureInfo BuildWaterCollectionPlant()
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 10);
@@ -58,10 +58,11 @@ namespace Assets.Scripts.Model
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
-            WaterCollectionPlant = new StructureInfo("Farm", cost, flow, service, 10, x => x.Resource == EResource.Water);
+            return new StructureInfo("Water Collection Plant", cost, flow, service, 10, 
+                x => x.Resource == EResource.Water);
         }
 
-        private static void BuildFarm()
+        private static StructureInfo BuildFarm()
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 10);
@@ -72,10 +73,10 @@ namespace Assets.Scripts.Model
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
-            Housing = new StructureInfo("Farm", cost, flow, service, 10, x => x.Arable);
+            return new StructureInfo("Farm", cost, flow, service, 10, x => x.Arable);
         }
 
-        private static void BuildHousing()
+        private static StructureInfo BuildHousing()
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 10);
@@ -85,7 +86,7 @@ namespace Assets.Scripts.Model
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             serviceBuilder.Add(EService.Housing, 10);
             var service = serviceBuilder.ToImmutable();
-            Housing = new StructureInfo("Housing", cost, flow, service, 0, x => true);
+            return new StructureInfo("Housing", cost, flow, service, 0, x => true);
         }
     }
 }

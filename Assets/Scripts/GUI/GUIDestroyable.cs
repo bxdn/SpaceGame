@@ -16,5 +16,6 @@ public abstract class GUIDestroyable : IGUIDestroyable
 		{
 			gui.Destroy();
 		}
+		guis.Clear();
 	}
 }

@@ -54,6 +54,7 @@ public static class Constants
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
+    public static readonly IDictionary<EService, String> SERVICE_MAP;
     public static readonly StructureInfo[] STRUCTURE_INFOS = new StructureInfo[] { StructureRegistry.Housing, StructureRegistry.Farm, StructureRegistry.WaterCollectionPlant};
 
     public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
@@ -131,5 +132,16 @@ public static class Constants
         goodBuilder.Add(EGood.Water, "Water");
         goodBuilder.Add(EGood.Wood, "Wood");
         GOOD_MAP = goodBuilder.ToImmutable();
+
+        var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, String>();
+        serviceBuilder.Add(EService.Education, "Education");
+        serviceBuilder.Add(EService.Entertainment, "Entertainment");
+        serviceBuilder.Add(EService.Faith, "Faith");
+        serviceBuilder.Add(EService.FoodService, "FoodService");
+        serviceBuilder.Add(EService.Healthcare, "Healthcare");
+        serviceBuilder.Add(EService.Housing, "Housing");
+        serviceBuilder.Add(EService.Luxury, "Luxury");
+        serviceBuilder.Add(EService.Safety, "Safety");
+        SERVICE_MAP = serviceBuilder.ToImmutable();
     }
 }

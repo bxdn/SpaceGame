@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface ISelectable
+    public interface IModelObject
     {
-        void Select();
-        void Deselect();
-        IModelObject ModelObject { get; }
     }
 }

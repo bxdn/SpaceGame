@@ -42,7 +42,7 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 550, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x + 775, pos.y);
             transform.sizeDelta = new Vector2(500, 200);
         }
 
@@ -72,7 +72,7 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 375, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x + 600, pos.y);
             transform.sizeDelta = new Vector2(400, 200);
         }
 

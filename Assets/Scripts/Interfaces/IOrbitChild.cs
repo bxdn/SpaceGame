@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 
-public interface IOrbitChild : INamable
+public interface IOrbitChild : INamable, IModelObject
 {
 	IOrbitParent Parent { get; }
 }

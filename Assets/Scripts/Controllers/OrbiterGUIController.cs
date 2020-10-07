@@ -18,6 +18,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     public Transform smallTransform;
     public Text text;
     public IOrbitChild Orbiter { get; set; }
+    public IModelObject ModelObject => Orbiter;
     private float solarDistance = -1;
     private bool expanding = false;
     private bool retracting = false;

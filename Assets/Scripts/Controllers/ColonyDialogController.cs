@@ -12,7 +12,7 @@ public class ColonyDialogController : EventTrigger
     private bool dragging;
     private Vector3 curPos;
     private static readonly IList<GUIScrollable> guis = new List<GUIScrollable>();
-    private int scrollVal = 0;
+    private static int scrollVal = 0;
 
     public void Update()
     {
@@ -66,10 +66,9 @@ public class ColonyDialogController : EventTrigger
     public static void Fill(IColonizable colonizable)
     {
         foreach (GUIDestroyable gui in guis)
-        {
             gui.Destroy();
-        }
         guis.Clear();
+        scrollVal = 0;
         if(colonizable != null)
         {
             Vector2 currentPosition = new Vector2(0, 0);

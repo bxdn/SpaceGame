@@ -13,10 +13,6 @@ public class StructureLabelController : EventTrigger
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        LaunchStructureDialog();
-    }
-    private void LaunchStructureDialog()
-    {
         Constants.STRUCTURE_PANEL.SetActive(true);
         Constants.COLONY_PANEL.SetActive(false);
         StructurePanelController.Fill(Unit);

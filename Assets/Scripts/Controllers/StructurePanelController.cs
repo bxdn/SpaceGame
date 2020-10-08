@@ -70,6 +70,8 @@ public class StructurePanelController : EventTrigger
     {
         foreach (var pair in info.Cost)
             colony.IncrementGood(pair.Key, -pair.Value);
-        ColonyDialogController.Fill(c);
+        colony.Workers -= info.RequiredWorkers;
+        colony.AddLandUnitWorked(unit);
+        ColonyDialogController.Reset(c);
     }
 }

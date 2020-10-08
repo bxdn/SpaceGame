@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Constants
 {
@@ -51,11 +52,19 @@ public static class Constants
     public static readonly GameObject MASKING_PANEL = GameObject.Find("MaskingPanel");
     public static readonly GameObject STRUCTURE_MASKING_PANEL = GameObject.Find("Structure Masking Panel");
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
+    public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
+    public static readonly Text WORK_VAL = GameObject.Find("WorkVal").GetComponent<Text>();
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
     public static readonly IDictionary<EService, String> SERVICE_MAP;
-    public static readonly StructureInfo[] STRUCTURE_INFOS = new StructureInfo[] { StructureRegistry.Housing, StructureRegistry.Farm, StructureRegistry.WaterCollectionPlant};
+    public static readonly IList<StructureInfo> STRUCTURE_INFOS = ImmutableList.Create(new StructureInfo[] 
+    { 
+        StructureRegistry.Housing, 
+        StructureRegistry.Farm, 
+        StructureRegistry.WaterCollectionPlant, 
+        StructureRegistry.EnergyPlant
+    });
 
     public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
     { 

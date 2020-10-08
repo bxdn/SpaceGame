@@ -14,28 +14,26 @@ namespace Assets.Scripts.Model
         public static StructureInfo WaterCollectionPlant { get; private set; } = BuildWaterCollectionPlant();
         public static StructureInfo LumberMill { get; private set; }
         public static StructureInfo MetalMine { get; private set; }
-        public static StructureInfo EnergyPlant { get; private set; }
+        public static StructureInfo EnergyPlant { get; private set; } = BuildEnergyPlant();
         public static StructureInfo GasCollectionPlant { get; private set; }
-
-        static StructureRegistry()
-        {
-            BuildHousing();
-            BuildFarm();
-            BuildWaterCollectionPlant();
-            /*BuildLumberMill();
-            BuildMetalMine();
-            BuildEnergyPlant();
-            BuildGasCollectionPlant();*/
-        }
 
         private static void BuildGasCollectionPlant()
         {
             throw new NotImplementedException();
         }
 
-        private static void BuildEnergyPlant()
+        private static StructureInfo BuildEnergyPlant()
         {
-            throw new NotImplementedException();
+            var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
+            costBuilder.Add(EGood.BuildingMaterials, 10);
+            var cost = costBuilder.ToImmutable();
+            var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
+            flowBuilder.Add(EGood.Energy, 2);
+            var flow = flowBuilder.ToImmutable();
+            var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
+            var service = serviceBuilder.ToImmutable();
+            return new StructureInfo("Energy Plant", cost, flow, service, 10,
+                x => x.Resource == EResource.EnergySource);
         }
 
         private static void BuildMetalMine()
@@ -55,6 +53,7 @@ namespace Assets.Scripts.Model
             var cost = costBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
             flowBuilder.Add(EGood.Water, 2);
+            flowBuilder.Add(EGood.Energy, -1);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();

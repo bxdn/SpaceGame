@@ -38,7 +38,7 @@ public class ColonyDialogController : EventTrigger
         }
     }
 
-    private void MoveGUIs(bool ascending)
+    private static void MoveGUIs(bool ascending)
     {
         foreach (GUIScrollable gui in guis)
         {
@@ -63,26 +63,36 @@ public class ColonyDialogController : EventTrigger
         }
     }
 
-    public static void Fill(IColonizable colonizable)
+    public static void Reset(IColonizable colonizable)
+    {
+        scrollVal = 0;
+        if (colonizable != null)
+            Fill(colonizable);
+    }
+    public static void Update(IColonizable colonizable)
+    {
+        Fill(colonizable);
+        for (int i = 0; i < scrollVal; i++)
+            MoveGUIs(true);
+    }
+    private static void Fill(IColonizable colonizable)
     {
         foreach (GUIDestroyable gui in guis)
             gui.Destroy();
         guis.Clear();
-        scrollVal = 0;
-        if(colonizable != null)
+        Vector2 currentPosition = new Vector2(0, 0);
+        foreach (LandUnit unit in colonizable.ColonizableManager.Land)
         {
-            Vector2 currentPosition = new Vector2(0, 0);
-            foreach (LandUnit unit in colonizable.ColonizableManager.Land)
-            {
-                guis.Add(new LandUnitGUI(unit, currentPosition));
-                currentPosition = new Vector2(0, currentPosition.y - 25);
-            }
-            currentPosition = new Vector2(0, 0);
-            foreach (var good in colonizable.ColonizableManager.Colony.Goods)
-            {
-                guis.Add(new GoodGUI(good.Key, good.Value, currentPosition));
-                currentPosition = new Vector2(0, currentPosition.y - 25);
-            }
+            guis.Add(new LandUnitGUI(unit, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
         }
+        currentPosition = new Vector2(0, 0);
+        foreach (var good in colonizable.ColonizableManager.Colony.Goods)
+        {
+            guis.Add(new GoodGUI(good.Key, good.Value, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
+        }
+        Constants.WORK_VAL.text = colonizable.ColonizableManager.Colony.Workers.ToString();
+        Constants.POP_VAL.text = colonizable.ColonizableManager.Colony.Population.ToString();
     }
 }

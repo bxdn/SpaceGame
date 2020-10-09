@@ -25,7 +25,7 @@ public class ColonyDialogController : EventTrigger
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
         if (scrollDelta != 0)
         {
-            if (scrollDelta < 0 && scrollVal < guis.Count - 17)
+            if (scrollDelta < 0 && scrollVal < guis.Count - 20)
             {
                 scrollVal++;
                 MoveGUIs(true);
@@ -89,7 +89,12 @@ public class ColonyDialogController : EventTrigger
         currentPosition = new Vector2(0, 0);
         foreach (var good in colonizable.ColonizableManager.Colony.Goods)
         {
-            guis.Add(new GoodGUI(good.Key, good.Value, currentPosition));
+            guis.Add(new GoodServiceGUI(good.Key, good.Value, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
+        }
+        foreach (var service in colonizable.ColonizableManager.Colony.Services)
+        {
+            guis.Add(new GoodServiceGUI(service.Key, service.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
         Constants.WORK_VAL.text = colonizable.ColonizableManager.Colony.Workers.ToString();

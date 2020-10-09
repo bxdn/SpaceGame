@@ -10,9 +10,9 @@ namespace Assets.Scripts.Model
     {
         Food,
         Water,
+        Energy,
         Tools,
         Machinery,
-        Energy,
         Atmosphere,
         BuildingMaterials,
         Chemicals,

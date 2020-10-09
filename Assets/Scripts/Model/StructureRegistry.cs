@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Model
 {
@@ -28,7 +24,7 @@ namespace Assets.Scripts.Model
             costBuilder.Add(EGood.BuildingMaterials, 10);
             var cost = costBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
-            flowBuilder.Add(EGood.Energy, 2);
+            flowBuilder.Add(EGood.Energy, 5);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
@@ -83,7 +79,7 @@ namespace Assets.Scripts.Model
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
-            serviceBuilder.Add(EService.Housing, 10);
+            serviceBuilder.Add(EService.Housing, 50);
             var service = serviceBuilder.ToImmutable();
             return new StructureInfo("Housing", cost, flow, service, 0, x => true);
         }

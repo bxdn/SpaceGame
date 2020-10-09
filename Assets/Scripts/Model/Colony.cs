@@ -69,9 +69,13 @@ namespace Assets.Scripts.Model
         {
             int amountToIncrease = (int) Math.Min(.01 * Population, services[EService.Housing] - Population * CurrentLevel.ServicesPerPop[EService.Housing]);
             Population += amountToIncrease;
-            for(int i = 0; i < amountToIncrease; i++)
-                if (ColonizerR.r.Next(100) > 33)
-                    Workers++;
+            for (int i = 0; i < amountToIncrease; i++)
+                IncrementWorkers();
+        }
+        private void IncrementWorkers()
+        {
+            if (ColonizerR.r.Next(100) > 33)
+                Workers++;
         }
         private void WorkLand(LandUnit unit)
         {

@@ -32,7 +32,7 @@ public class SystemGUI : GUIDestroyable
         }
         foreach (IOrbitChild child in solarSystem.Children)
         {
-            if (child is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
+            if (child is IColonizable colonizable && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
             {
                 return Constants.colonizedColor;
             }
@@ -40,7 +40,7 @@ public class SystemGUI : GUIDestroyable
             {
                 foreach (IOrbitChild leaf in parent.Children)
                 {
-                    if (leaf is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == Player.Domain)
+                    if (leaf is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                     {
                         return Constants.colonizedColor;
                     }

@@ -30,8 +30,8 @@ namespace Assets.Scripts.Model
             foreach (EResource resource in Enum.GetValues(typeof(EResource)))
                 resources[resource] = 0;
             if (orbiter is IArable)
-                resources[EResource.ArableLand] = ColonizerR.r.Next(0, orbiter.Size);
-            int nonArableLand = ColonizerR.r.Next(0, orbiter.Size - resources[EResource.ArableLand]);
+                resources[EResource.ArableLand] = ColonizerR.r.Next(0, orbiter.Size * 100);
+            int nonArableLand = ColonizerR.r.Next(0, orbiter.Size * 100 - resources[EResource.ArableLand]);
             resources[EResource.Land] = resources[EResource.ArableLand] + nonArableLand;
             for (int i = 0; i < resources[EResource.Land]; i++)
                 AddValidResource();
@@ -39,13 +39,13 @@ namespace Assets.Scripts.Model
         private void AddValidResource()
         {
             var allResources = Enum.GetValues(typeof(EResource)) as EResource[];
-            if (ColonizerR.r.Next(100) > 33)
+            if (ColonizerR.r.Next(100) == 0)
                 resources[allResources[ColonizerR.r.Next(allResources.Length)]]++;
         }
-        public void Colonize()
+        public void Colonize(Galaxy g)
         {
-            Owner = Player.Domain;
-            Colony = new Colony(Resources);
+            Owner = g.Player.Domain;
+            Colony = new Colony(g, Resources);
         }
     }
 }

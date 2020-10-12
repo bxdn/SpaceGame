@@ -48,9 +48,9 @@ public class StructurePanelController : EventTrigger
         guis.Clear();
         if (infoGUI != null)
             infoGUI.Destroy();
-        foreach (StructureInfo info in Constants.STRUCTURE_INFOS)
+        foreach (var pair in Constants.STRUCTURE_MAP)
         {
-            guis.Add(new StructureGUI(info));
+            guis.Add(new StructureGUI(pair.Key));
         }
     }
     public static void FillRightSide(StructureInfo info)
@@ -59,16 +59,16 @@ public class StructurePanelController : EventTrigger
             infoGUI.Destroy();
         infoGUI = new StructureInfoGUI(info);
     }
-    public static void SetStructure(StructureInfo info)
+    public static void SetStructure(EStructure structure)
     {
         Constants.STRUCTURE_PANEL.SetActive(false);
         Constants.COLONY_PANEL.SetActive(true);
         if (Selection.CurrentSelection.ModelObject is IColonizable c && c.ColonizableManager is IColonizableManager m && m.Colony is Colony colony)
-            SetStructure(info, c, colony);
+            SetStructure(structure, c, colony);
     }
-    private static void SetStructure(StructureInfo info, IColonizable c, Colony colony)
+    private static void SetStructure(EStructure structure, IColonizable c, Colony colony)
     {
-        colony.AddStructure(info);
+        colony.AddStructure(structure);
         ColonyDialogController.Reset(c);
     }
 }

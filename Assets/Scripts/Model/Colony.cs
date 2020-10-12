@@ -1,17 +1,16 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
+    [System.Serializable]
     public class Colony
     {
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
         private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
-        private readonly IDictionary<StructureInfo, int> structures = new Dictionary<StructureInfo, int>();
+        private readonly IDictionary<EStructure, int> structures = new Dictionary<EStructure, int>();
         public float Influence { get; private set; } = 100;
         public int Workers { get; set; } = 100;
         public int Population { get; private set; } = 150;
@@ -27,21 +26,21 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EResource, int>(resources);
         }
-        public IDictionary<StructureInfo, int> Structures
+        public IDictionary<EStructure, int> Structures
         {
-            get => new Dictionary<StructureInfo, int>(structures);
+            get => new Dictionary<EStructure, int>(structures);
         }
-        public LevelInfo CurrentLevel { get; private set; } = LevelInfo.FirstLevel;
-        public Colony(IDictionary<EResource, int> resources)
+        public int CurrentLevel { get; private set; } = 0;
+        public Colony(Galaxy g, IDictionary<EResource, int> resources)
         {
-            ColonyUpdater.AddColony(this);
+            ColonyUpdater.AddColony(this, g);
             this.resources = resources;
             goods[EGood.Food] = new GoodInfo(100);
             goods[EGood.Water] = new GoodInfo(100);
-            goods[EGood.BuildingMaterials] = new GoodInfo(100);
+            goods[EGood.BuildingMaterials] = new GoodInfo(130);
             goods[EGood.Energy] = new GoodInfo(100);
             for (int i = 0; i < 3; i ++)
-                AddStructure(StructureRegistry.Housing);
+                AddStructure(EStructure.Housing);
         }
         private void IncrementGood(EGood good, float amount)
         {
@@ -67,9 +66,13 @@ namespace Assets.Scripts.Model
         {
             services[service] = services.ContainsKey(service) ? services[service] + amount : amount;
         }
-        private void IncrementStructure(StructureInfo info, int amount)
+        private void IncrementResource(EResource resource, int amount)
         {
-            structures[info] = structures.ContainsKey(info) ? structures[info] + amount : amount;
+            resources[resource] = resources.ContainsKey(resource) ? resources[resource] + amount : amount;
+        }
+        private void IncrementStructure(EStructure structure, int amount)
+        {
+            structures[structure] = structures.ContainsKey(structure) ? structures[structure] + amount : amount;
         }
         private void ProcessServiceDemand(KeyValuePair<EService, float> servicePerPop)
         {
@@ -81,37 +84,36 @@ namespace Assets.Scripts.Model
         }
         public void TickForward()
         {
-            Debug.Log(Influence);
             var prevGoods = Goods;
+            LevelInfo level = LevelInfo.GetLevel(CurrentLevel);
             foreach (var structurePair in structures)
                 WorkStructures(structurePair);
-            foreach (var goodPair in CurrentLevel.GoodsPerPop)
+            foreach (var goodPair in level.GoodsPerPop)
                 IncrementGood(goodPair.Key, (-goodPair.Value / 100f) * Population);
-            foreach (var good in this.goods)
+            foreach (var good in goods)
                 good.Value.Increasing = !prevGoods.ContainsKey(good.Key) || good.Value.Value >= prevGoods[good.Key].Value;
-            foreach (var service in CurrentLevel.ServicesPerPop)
+            foreach (var service in level.ServicesPerPop)
                 ProcessServiceDemand(service);
             if (services.ContainsKey(EService.Housing) 
-                && services[EService.Housing] > Population * CurrentLevel.ServicesPerPop[EService.Housing])
-                IncrementPop();
+                && services[EService.Housing] > Population * level.ServicesPerPop[EService.Housing])
+                IncrementPop(level);
             Influence++;
             if (Influence >= 200)
                 LevelUp();
         }
         private void LevelUp()
         {
-            if(CurrentLevel.Next != null)
-                CurrentLevel = CurrentLevel.Next;
+            CurrentLevel++;
             Influence = 100;
         }
-        private void WorkStructures(KeyValuePair<StructureInfo, int> structurePair)
+        private void WorkStructures(KeyValuePair<EStructure, int> structurePair)
         {
             for (int i = 0; i < structurePair.Value; i++)
                 WorkStructure(structurePair.Key);
         }
-        private void IncrementPop()
+        private void IncrementPop(LevelInfo level)
         {
-            int amountToIncrease = (int) Math.Min(.01 * Population, services[EService.Housing] - Population * CurrentLevel.ServicesPerPop[EService.Housing]);
+            int amountToIncrease = (int) Math.Min(.01 * Population, services[EService.Housing] - Population * level.ServicesPerPop[EService.Housing]);
             Population += amountToIncrease;
             for (int i = 0; i < amountToIncrease; i++)
                 IncrementWorkers();
@@ -121,18 +123,21 @@ namespace Assets.Scripts.Model
             if (ColonizerR.r.Next(100) > 33)
                 Workers++;
         }
-        private void WorkStructure(StructureInfo structure)
+        private void WorkStructure(EStructure structure)
         {
-            foreach (var goodInfo in structure.Flow)
+            foreach (var goodInfo in Constants.STRUCTURE_MAP[structure].Flow)
                 IncrementGood(goodInfo.Key, goodInfo.Value);
         }
-        public void AddStructure(StructureInfo info)
+        public void AddStructure(EStructure structure)
         {
-            IncrementStructure(info, 1);
+            IncrementStructure(structure, 1);
+            StructureInfo info = Constants.STRUCTURE_MAP[structure];
             foreach (var pair in info.GoodCost)
                 IncrementGood(pair.Key, -pair.Value);
             foreach (var pair in info.ServiceFlow)
                 IncrementService(pair.Key, pair.Value);
+            foreach (var pair in info.ResourceCost)
+                IncrementResource(pair.Key, -pair.Value);
             Workers -= info.RequiredWorkers;
         }
     }

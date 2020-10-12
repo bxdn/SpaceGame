@@ -63,7 +63,7 @@ namespace Assets.Scripts.GUI
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
-            textComponent.text = value.ToString();
+            textComponent.text = Mathf.Floor(value).ToString();
             textComponent.fontSize = 38;
             textComponent.font = ARIAL;
             textComponent.color = new Color(0, 0, 0, 1);

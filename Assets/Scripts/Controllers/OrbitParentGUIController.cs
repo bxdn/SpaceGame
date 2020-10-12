@@ -1,9 +1,5 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.Controllers;
+﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -82,7 +78,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(planet);
-            if (planet is IColonizable c && c.ColonizableManager.Owner == Player.Domain)
+            if (planet is IColonizable c && c.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                colonyButtonActivated = true;
         }
         else

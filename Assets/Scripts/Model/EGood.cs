@@ -22,7 +22,7 @@ namespace Assets.Scripts.Model
         Robotics,
         EntertainmentItems,
         Alcohol,
-        Metal,
+        Iron,
         Gas,
         Wood,
         Steel

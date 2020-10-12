@@ -37,7 +37,6 @@ public class ColonyDialogController : EventTrigger
             }
         }
     }
-
     private static void MoveGUIs(bool ascending)
     {
         foreach (GUIScrollable gui in guis)
@@ -45,7 +44,6 @@ public class ColonyDialogController : EventTrigger
             gui.Scroll(ascending);
         }
     }
-
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (Input.GetMouseButtonDown(0))
@@ -54,7 +52,6 @@ public class ColonyDialogController : EventTrigger
             curPos = Input.mousePosition;
         }
     }
-
     public override void OnPointerUp(PointerEventData eventData)
     {
         if (Input.GetMouseButtonUp(0))
@@ -62,7 +59,6 @@ public class ColonyDialogController : EventTrigger
             dragging = false;
         }
     }
-
     public static void Reset(IColonizable colonizable)
     {
         scrollVal = 0;
@@ -83,7 +79,7 @@ public class ColonyDialogController : EventTrigger
         Vector2 currentPosition = new Vector2(0, 0);
         foreach (var structure in colonizable.ColonizableManager.Colony.Structures)
         {
-            guis.Add(new LandUnitGUI(structure.Key, structure.Value, currentPosition));
+            guis.Add(new LandUnitGUI(Constants.STRUCTURE_MAP[structure.Key], structure.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
         currentPosition = new Vector2(0, 0);

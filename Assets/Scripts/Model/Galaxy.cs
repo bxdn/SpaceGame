@@ -16,6 +16,7 @@ public class Galaxy : IOrbitParent
         new Dictionary<SolarSystem, ISet<SolarSystem>>();
     public readonly SolarSystem startingSystem;
     public readonly IOrbitChild startingWorld;
+    public Player Player { get; } = new Player();
     public SolarSystem CurrentSystem { get; set; }
 
     public IOrbitChild[] Children => nodes.ToArray();
@@ -96,7 +97,7 @@ public class Galaxy : IOrbitParent
         {
             if (curIdx++ == systemIdx)
             {
-                IOrbitChild startWorld = node.DesignateStartingSystem();
+                IOrbitChild startWorld = node.DesignateStartingSystem(this);
                 return new Tuple<SolarSystem, IOrbitChild>(node, startWorld);
             }
         }

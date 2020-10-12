@@ -74,10 +74,10 @@ public static class Utils
             Constants.OTHERF.GetComponent<Text>().text = (manager.Resources[EResource.Land] - manager.Resources[EResource.ArableLand]).ToString();
             Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
             Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
-            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Metals].ToString();
+            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
             Constants.GASSESF.GetComponent<Text>().text = resources[EResource.Gasses].ToString();
             Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
-            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == Player.Domain ? colonizable : null);
+            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable : null);
         }
         else
         {

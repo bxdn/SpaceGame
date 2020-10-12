@@ -5,30 +5,33 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
+    [Serializable]
     public class LevelInfo
     {
         public ImmutableDictionary<EGood, float> GoodsPerPop { get; }
         public ImmutableDictionary<EService, float> ServicesPerPop { get; }
-        public LevelInfo Next { get; }
         public int Idx { get; }
-        private static readonly int LEVELS = 5;
-        public static LevelInfo FirstLevel { get; } = CreateLevels();
-        public LevelInfo(ImmutableDictionary<EGood, float> goods, ImmutableDictionary<EService, float> services, LevelInfo next, int idx)
+        private static readonly int LEVELS = 6;
+        private static readonly LevelInfo[] levels = CreateLevels();
+        public LevelInfo(ImmutableDictionary<EGood, float> goods, ImmutableDictionary<EService, float> services)
         {
-            Idx = idx;
             GoodsPerPop = goods;
             ServicesPerPop = services;
-            Next = next;
         }
-        private static LevelInfo CreateLevels()
+        private static LevelInfo[] CreateLevels()
         {
-            LevelInfo current = null;
-            for (int i = LEVELS; i >= 0; i--)
-                current = new LevelInfo(GetGoodMap(), GetServiceMap(), current, i);
-            return current;
+            var levels = new LevelInfo[LEVELS];
+            for (int i = LEVELS - 1; i >= 0; i--)
+                levels[i] = new LevelInfo(GetGoodMap(), GetServiceMap());
+            return levels;
+        }
+        public static LevelInfo GetLevel(int i)
+        {
+            return levels[i];
         }
         private static ImmutableDictionary<EGood, float> GetGoodMap()
         {
@@ -52,17 +55,16 @@ namespace Assets.Scripts.Model
             return new KeyValuePair<T, float>((T)(object)int.Parse(toks[0]), float.Parse(toks[1]));
         }
         private static class FileManager{
-            private static readonly string GOOD_PATH = "Assets/Resources/GoodLevels.txt";
-            private static readonly string SERVICE_PATH = "Assets/Resources/ServiceLevels.txt";
-            private static readonly StreamReader GOOD_READER = new StreamReader(GOOD_PATH);
-            private static readonly StreamReader SERVICE_READER = new StreamReader(SERVICE_PATH);
+            private static readonly String[] GOODDEMAND = Resources.Load<TextAsset>("GoodLevels").text.Split('\n');
+            private static readonly String[] SERVICEDEMAND = Resources.Load<TextAsset>("ServiceLevels").text.Split('\n');
+            private static int idx = 0;
             public static string ReadGoods()
             {
-                return GOOD_READER.ReadLine();
+                return GOODDEMAND[idx];
             }
             public static string ReadServices()
             {
-                return SERVICE_READER.ReadLine();
+                return SERVICEDEMAND[idx++];
             }
         }
     }

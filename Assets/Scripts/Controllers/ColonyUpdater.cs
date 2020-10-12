@@ -7,17 +7,16 @@ using UnityEngine;
 
 public class ColonyUpdater : MonoBehaviour
 {
-    private static ISet<Colony> colonies = new HashSet<Colony>();
     private float time = -1;
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - time > 1)
+        if (WorldGeneration.Galaxy != null && Time.time - time > 1)
             TickForward();
     }
     private void TickForward()
     {
-        foreach (Colony c in colonies)
+        foreach (Colony c in WorldGeneration.Galaxy.Player.Colonies)
             TickColonyForward(c);
         time = Time.time;
     }
@@ -31,8 +30,8 @@ public class ColonyUpdater : MonoBehaviour
             && m.Colony == c)
             ColonyDialogController.Update(col);
     }
-    public static void AddColony(Colony c)
+    public static void AddColony(Colony c, Galaxy g)
     {
-        colonies.Add(c);
+        g.Player.Colonies.Add(c);
     }
 }

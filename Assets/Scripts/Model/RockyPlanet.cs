@@ -15,8 +15,8 @@ public class RockyPlanet : Planet, IArable
         ColonizableManager = new ColonizableManager(this);
     }
 
-    public bool DesignateStartingWorld()
+    public bool DesignateStartingWorld(Galaxy g)
     {
-        return ((ColonizableManager = new StartingWorldColonizableManager(this)) as StartingWorldColonizableManager).DesignateStartingColony();
+        return ((ColonizableManager = new StartingWorldColonizableManager(this)) as StartingWorldColonizableManager).DesignateStartingColony(g);
     }
 }

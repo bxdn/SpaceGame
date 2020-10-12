@@ -16,21 +16,21 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private readonly IList<Transform> transforms = new List<Transform>();
-        public StructureGUI(StructureInfo info)
+        public StructureGUI(EStructure structure)
         {
             count++;
-            CreateStructureText(info);
+            CreateStructureText(structure);
         }
 
-        private void CreateStructureText(StructureInfo info)
+        private void CreateStructureText(EStructure structure)
         {
             GameObject text = new GameObject("Text", typeof(RectTransform));
             var controller = text.AddComponent<StructureGUIController>();
-            controller.Info = info;
+            controller.Structure = structure;
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
-            textComponent.text = info.Name;
+            textComponent.text = Constants.STRUCTURE_MAP[structure].Name;
             textComponent.fontSize = 38;
             textComponent.font = ARIAL;
             textComponent.color = new Color(0, 0, 0, 1);
@@ -43,7 +43,7 @@ namespace Assets.Scripts.GUI
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
             transform.anchoredPosition = new Vector2(10, 25 - 30 * count);
-            transform.sizeDelta = new Vector2(400, 60);
+            transform.sizeDelta = new Vector2(600, 60);
         }
         public override void Scroll(bool ascending)
         {

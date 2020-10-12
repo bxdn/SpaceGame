@@ -52,7 +52,7 @@ public class SolarSystem : IMiddleChild
             }
         }
     }
-    public IOrbitChild DesignateStartingSystem()
+    public IOrbitChild DesignateStartingSystem(Galaxy g)
     {
         IColonizable startPlanet = null;
         bool startIsMoon = ColonizerR.r.Next(100) < 50;
@@ -68,7 +68,7 @@ public class SolarSystem : IMiddleChild
                     {
                         foreach (IOrbitChild orbiter in parent.Children)
                         {
-                            if (orbiter is Moon moon && moon.DesignateStartingWorld())
+                            if (orbiter is Moon moon && moon.DesignateStartingWorld(g))
                             {
                                 startPlanet = moon;
                                 break;
@@ -85,7 +85,7 @@ public class SolarSystem : IMiddleChild
             {
                 foreach (IOrbitChild body in Children)
                 {
-                    if (body is RockyPlanet planet && planet.DesignateStartingWorld())
+                    if (body is RockyPlanet planet && planet.DesignateStartingWorld(g))
                     {
                         startPlanet = planet;
                         break;

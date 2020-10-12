@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.Model
 {
+    [System.Serializable]
     public class GoodInfo
     {
         public bool Increasing { get; set; }

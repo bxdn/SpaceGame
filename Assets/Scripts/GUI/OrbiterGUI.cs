@@ -53,7 +53,7 @@ public class OrbiterGUI : GUIDestroyable
 
     private Color GetColor()
     {
-        if (body is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
+        if (body is IColonizable colonizable && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
         {
             return Constants.colonizedColor;
         }
@@ -61,7 +61,7 @@ public class OrbiterGUI : GUIDestroyable
         {
             foreach(IOrbitChild child in planet.Children)
             {
-                if(child is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == Player.Domain)
+                if(child is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                 {
                     return Constants.colonizedColor;
                 }

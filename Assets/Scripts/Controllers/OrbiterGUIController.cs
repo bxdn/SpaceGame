@@ -172,7 +172,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(orbiter);
-            if (orbiter is IColonizable c && c.ColonizableManager.Owner == Player.Domain)
+            if (orbiter is IColonizable c && c.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                 colonyButtonActivated = true;
         }
         Constants.COLONY_BUTTON.SetActive(colonyButtonActivated);

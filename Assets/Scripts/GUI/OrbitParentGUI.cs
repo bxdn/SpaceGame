@@ -41,7 +41,7 @@ public class OrbitParentGUI : GUIDestroyable
 
     private Color GetColor()
     {
-        if(middleChild is IColonizable colonizable && colonizable.ColonizableManager.Owner == Player.Domain)
+        if(middleChild is IColonizable colonizable && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
         {
             return Constants.colonizedColor;
         }

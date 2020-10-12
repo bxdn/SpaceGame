@@ -59,13 +59,7 @@ public static class Constants
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
     public static readonly IDictionary<EService, String> SERVICE_MAP;
-    public static readonly IList<StructureInfo> STRUCTURE_INFOS = ImmutableList.Create(new StructureInfo[] 
-    { 
-        StructureRegistry.Housing, 
-        StructureRegistry.Farm, 
-        StructureRegistry.WaterCollectionPlant, 
-        StructureRegistry.EnergyPlant
-    });
+    public static readonly IDictionary<EStructure, StructureInfo> STRUCTURE_MAP;
 
     public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
     { 
@@ -115,10 +109,22 @@ public static class Constants
         COLONY_BUTTON.SetActive(false);
         Utils.LayoutUI();
 
+        var structureBuilder = ImmutableDictionary.CreateBuilder<EStructure, StructureInfo>();
+        structureBuilder.Add(EStructure.Housing, StructureRegistry.Housing);
+        structureBuilder.Add(EStructure.ConstructionManufacturer, StructureRegistry.ConstructionManufacturer);
+        structureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
+        structureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
+        structureBuilder.Add(EStructure.GasPlant, StructureRegistry.GasCollectionPlant);
+        structureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
+        structureBuilder.Add(EStructure.LumberMill, StructureRegistry.LumberMill);
+        structureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
+        structureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
+        STRUCTURE_MAP = structureBuilder.ToImmutable();
+
         var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
-        resourceBuilder.Add(EResource.Gasses, "Gas");
-        resourceBuilder.Add(EResource.Water, "Water");
-        resourceBuilder.Add(EResource.Metals, "Metal");
+        resourceBuilder.Add(EResource.Gasses, "Gas Source");
+        resourceBuilder.Add(EResource.Water, "Water Source");
+        resourceBuilder.Add(EResource.Iron, "Iron Source");
         resourceBuilder.Add(EResource.EnergySource, "Energy Source");
         resourceBuilder.Add(EResource.Land, "Land");
         resourceBuilder.Add(EResource.ArableLand, "Arable Land");
@@ -137,7 +143,7 @@ public static class Constants
         goodBuilder.Add(EGood.Food, "Food");
         goodBuilder.Add(EGood.Gas, "Gas");
         goodBuilder.Add(EGood.Machinery, "Machinery");
-        goodBuilder.Add(EGood.Metal, "Metal");
+        goodBuilder.Add(EGood.Iron, "Iron");
         goodBuilder.Add(EGood.Robotics, "Robotics");
         goodBuilder.Add(EGood.Steel, "Steel");
         goodBuilder.Add(EGood.Tools, "Tools");

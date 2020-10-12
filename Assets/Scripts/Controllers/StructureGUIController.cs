@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 
 public class StructureGUIController : EventTrigger
 {
-    public StructureInfo Info { get; set; }
+    public EStructure Structure { get; set; }
     private float clickTime = -1;
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -20,10 +20,10 @@ public class StructureGUIController : EventTrigger
         float newClickTime = Time.time;
         Console.WriteLine(clickTime.ToString(), newClickTime);
         if (newClickTime - clickTime < 0.3f && Validate())
-            StructurePanelController.SetStructure(Info);
+            StructurePanelController.SetStructure(Structure);
         else
         {
-            StructurePanelController.FillRightSide(Info);
+            StructurePanelController.FillRightSide(Constants.STRUCTURE_MAP[Structure]);
             clickTime = newClickTime;
         }
     }
@@ -35,16 +35,20 @@ public class StructureGUIController : EventTrigger
     }
     private bool ValidateColony(Colony colony)
     {
-        if(colony.Workers < Info.RequiredWorkers)
-            return false;
-        if (!Info.ValidationFunction.Invoke(colony))
+        StructureInfo info = Constants.STRUCTURE_MAP[Structure];
+        if (colony.Workers < info.RequiredWorkers)
             return false;
         var toRet = true;
-        var enumerator = Info.GoodCost.GetEnumerator();
+        var enumerator = info.GoodCost.GetEnumerator();
         enumerator.Reset();
         KeyValuePair<EGood, int> current;
         while (toRet && enumerator.MoveNext())
                 toRet &= colony.Goods.ContainsKey((current = enumerator.Current).Key) && colony.Goods[current.Key].Value >= current.Value;
+        var resourceEnumerator = info.ResourceCost.GetEnumerator();
+        resourceEnumerator.Reset();
+        KeyValuePair<EResource, int> currentResource;
+        while (toRet && resourceEnumerator.MoveNext())
+            toRet &= colony.Resources.ContainsKey((currentResource = resourceEnumerator.Current).Key) && colony.Resources[currentResource.Key] >= currentResource.Value;
         return toRet;
     }
 }

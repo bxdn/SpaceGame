@@ -17,9 +17,8 @@ namespace Assets.Scripts.Model
         public ImmutableDictionary<EGood, float> Flow { get; }
         public ImmutableDictionary<EService, float> ServiceFlow { get; }
         public int RequiredWorkers { get; }
-        public Func<Colony, bool> ValidationFunction { get; }
         public StructureInfo(String name, ImmutableDictionary<EGood, int> cost, ImmutableDictionary<EResource, int> resourceCost, ImmutableDictionary<EGood, float> flow, 
-            ImmutableDictionary<EService, float> serviceFlow, int capacity, Func<Colony, bool> validationFunction)
+            ImmutableDictionary<EService, float> serviceFlow, int capacity)
         {
             this.Name = name;
             this.GoodCost = cost;
@@ -27,7 +26,6 @@ namespace Assets.Scripts.Model
             this.Flow = flow;
             this.RequiredWorkers = capacity;
             this.ServiceFlow = serviceFlow;
-            ValidationFunction = validationFunction;
         }
     }
 }

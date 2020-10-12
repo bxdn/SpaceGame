@@ -9,7 +9,7 @@ namespace Assets.Scripts.Model
     public enum EResource
     {
         Water,
-        Metals,
+        Iron,
         Gasses,
         EnergySource,
         ArableLand,

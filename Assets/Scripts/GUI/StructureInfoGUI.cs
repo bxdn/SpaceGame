@@ -28,7 +28,7 @@ namespace Assets.Scripts.GUI
         {
             int count = 1;
             CreateElement("Workers: " + info.RequiredWorkers, new Vector2(260, 25 - 30 * count));
-            foreach(KeyValuePair<Model.EGood, int> entry in info.Cost)
+            foreach(KeyValuePair<Model.EGood, int> entry in info.GoodCost)
             {
                 count++;
                 CreateElement(Constants.GOOD_MAP[entry.Key] + ": " + entry.Value, new Vector2(260, 25 - 30 * count));

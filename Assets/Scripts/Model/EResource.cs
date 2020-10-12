@@ -11,6 +11,8 @@ namespace Assets.Scripts.Model
         Water,
         Metals,
         Gasses,
-        EnergySource
+        EnergySource,
+        ArableLand,
+        Land
     }
 }

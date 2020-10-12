@@ -13,9 +13,6 @@ namespace Assets.Scripts
         Domain Owner { get; }
         Colony Colony { get; }
         IDictionary<EResource, int> Resources { get; }
-        int ArableLand { get; }
-        int OtherLand { get; }
         int HazardFrequency { get; }
-        LandUnit[] Land { get; }
     }
 }

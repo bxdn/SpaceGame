@@ -13,7 +13,6 @@ using UnityEngine.UIElements;
 public class StructureGUIController : EventTrigger
 {
     public StructureInfo Info { get; set; }
-    public LandUnit Unit { get; set; }
     private float clickTime = -1;
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -38,10 +37,10 @@ public class StructureGUIController : EventTrigger
     {
         if(colony.Workers < Info.RequiredWorkers)
             return false;
-        if (!Info.ValidationFunction.Invoke(Unit))
+        if (!Info.ValidationFunction.Invoke(colony))
             return false;
         var toRet = true;
-        var enumerator = Info.Cost.GetEnumerator();
+        var enumerator = Info.GoodCost.GetEnumerator();
         enumerator.Reset();
         KeyValuePair<EGood, int> current;
         while (toRet && enumerator.MoveNext())

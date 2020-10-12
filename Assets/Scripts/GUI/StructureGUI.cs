@@ -16,18 +16,17 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private readonly IList<Transform> transforms = new List<Transform>();
-        public StructureGUI(StructureInfo info, LandUnit unit)
+        public StructureGUI(StructureInfo info)
         {
             count++;
-            CreateStructureText(info, unit);
+            CreateStructureText(info);
         }
 
-        private void CreateStructureText(StructureInfo info, LandUnit unit)
+        private void CreateStructureText(StructureInfo info)
         {
             GameObject text = new GameObject("Text", typeof(RectTransform));
             var controller = text.AddComponent<StructureGUIController>();
             controller.Info = info;
-            controller.Unit = unit;
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();

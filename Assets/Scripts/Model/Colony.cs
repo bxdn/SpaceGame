@@ -8,7 +8,8 @@ namespace Assets.Scripts.Model
     {
         private readonly IDictionary<EGood, float> goods = new Dictionary<EGood, float>();
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
-        private readonly ISet<LandUnit> units = new HashSet<LandUnit>();
+        private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
+        private readonly IDictionary<StructureInfo, int> structures = new Dictionary<StructureInfo, int>();
         public float Influence { get; private set; } = 50;
         public int Workers { get; set; } = 100;
         public int Population { get; private set; } = 150;
@@ -20,10 +21,19 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EService, float>(services);
         }
+        public IDictionary<EResource, int> Resources
+        {
+            get => new Dictionary<EResource, int>(resources);
+        }
+        public IDictionary<StructureInfo, int> Structures
+        {
+            get => new Dictionary<StructureInfo, int>(structures);
+        }
         public LevelInfo CurrentLevel { get; private set; } = LevelInfo.FirstLevel;
-        public Colony()
+        public Colony(IDictionary<EResource, int> resources)
         {
             ColonyUpdater.AddColony(this);
+            this.resources = resources;
             goods[EGood.Food] = 100;
             goods[EGood.Water] = 100;
             goods[EGood.BuildingMaterials] = 100;
@@ -46,14 +56,14 @@ namespace Assets.Scripts.Model
             if (services[service] < 0)
                 services[service] = 0;
         }
-        public void AddLandUnitWorked(LandUnit u)
+        public void IncrementStructure(StructureInfo info, int amount)
         {
-            units.Add(u);
+            structures[info] = structures.ContainsKey(info) ? structures[info] + amount : amount;
         }
         public void TickForward()
         {
-            foreach (LandUnit unit in units)
-                WorkLand(unit);
+            foreach (var structurePair in structures)
+                WorkStructures(structurePair);
             ProcessDemand();
             if (services.ContainsKey(EService.Housing) 
                 && services[EService.Housing] > Population * CurrentLevel.ServicesPerPop[EService.Housing])
@@ -65,6 +75,13 @@ namespace Assets.Scripts.Model
                 && m.Colony == this)
                 ColonyDialogController.Update(col);
         }
+
+        private void WorkStructures(KeyValuePair<StructureInfo, int> structurePair)
+        {
+            for (int i = 0; i < structurePair.Value; i++)
+                WorkStructure(structurePair.Key);
+        }
+
         private void IncrementPop()
         {
             int amountToIncrease = (int) Math.Min(.01 * Population, services[EService.Housing] - Population * CurrentLevel.ServicesPerPop[EService.Housing]);
@@ -76,12 +93,6 @@ namespace Assets.Scripts.Model
         {
             if (ColonizerR.r.Next(100) > 33)
                 Workers++;
-        }
-        private void WorkLand(LandUnit unit)
-        {
-            var structure = unit.Structure;
-            if (structure != null)
-                WorkStructure(structure);
         }
         private void WorkStructure(StructureInfo structure)
         {

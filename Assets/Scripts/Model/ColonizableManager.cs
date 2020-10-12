@@ -12,49 +12,40 @@ namespace Assets.Scripts.Model
     public class ColonizableManager : IColonizableManager
     {
         public Domain Owner { get; private set; }
-        public int ArableLand { get; }
-        public int OtherLand { get; }
         public int HazardFrequency { get; }
-        private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
+        protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         public IDictionary<EResource, int> Resources
         {
             get => new Dictionary<EResource, int>(resources);
         }
         public Colony Colony { get; private set; }
-        public LandUnit[] Land { get; private set; }
         public ColonizableManager(Orbiter orbiter)
         {
             HazardFrequency = ColonizerR.r.Next(100);
-            if(orbiter is IArable)
-            {
-                ArableLand = ColonizerR.r.Next(0, orbiter.Size);
-            }
-            OtherLand = ColonizerR.r.Next(0, orbiter.Size - ArableLand);
             Owner = null;
-            CalculateResourceLayout();
+            CalculateResourceLayout(orbiter);
         }
-        public void CalculateResourceLayout()
+        public void CalculateResourceLayout(Orbiter orbiter)
         {
-            foreach(EResource resource in Enum.GetValues(typeof(EResource)))
-            {
+            foreach (EResource resource in Enum.GetValues(typeof(EResource)))
                 resources[resource] = 0;
-            }
-            int usableLandTotal = ArableLand + OtherLand;
-            Land = new LandUnit[usableLandTotal];
-            for(int i = 0; i < usableLandTotal; i++)
-            {
-                LandUnit landUnit = new LandUnit(i < ArableLand);
-                Land[i] = landUnit;
-                if(landUnit.Resource is EResource resource)
-                {
-                    resources[resource]++;
-                }
-            }
+            if (orbiter is IArable)
+                resources[EResource.ArableLand] = ColonizerR.r.Next(0, orbiter.Size);
+            int nonArableLand = ColonizerR.r.Next(0, orbiter.Size - resources[EResource.ArableLand]);
+            resources[EResource.Land] = resources[EResource.ArableLand] + nonArableLand;
+            for (int i = 0; i < resources[EResource.Land]; i++)
+                AddValidResource();
+        }
+        private void AddValidResource()
+        {
+            var allResources = Enum.GetValues(typeof(EResource)) as EResource[];
+            if (ColonizerR.r.Next(100) > 33)
+                resources[allResources[ColonizerR.r.Next(allResources.Length)]]++;
         }
         public void Colonize()
         {
             Owner = Player.Domain;
-            Colony = new Colony();
+            Colony = new Colony(Resources);
         }
     }
 }

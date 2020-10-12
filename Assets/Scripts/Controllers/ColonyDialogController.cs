@@ -81,9 +81,9 @@ public class ColonyDialogController : EventTrigger
             gui.Destroy();
         guis.Clear();
         Vector2 currentPosition = new Vector2(0, 0);
-        foreach (LandUnit unit in colonizable.ColonizableManager.Land)
+        foreach (var structure in colonizable.ColonizableManager.Colony.Structures)
         {
-            guis.Add(new LandUnitGUI(unit, currentPosition));
+            guis.Add(new LandUnitGUI(structure.Key, structure.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
         currentPosition = new Vector2(0, 0);

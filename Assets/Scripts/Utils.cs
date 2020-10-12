@@ -70,8 +70,8 @@ public static class Utils
             IColonizableManager manager = colonizable.ColonizableManager;
             IDictionary<EResource, int> resources = manager.Resources;
             Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
-            Constants.ARABLEF.GetComponent<Text>().text = manager.ArableLand.ToString();
-            Constants.OTHERF.GetComponent<Text>().text = manager.OtherLand.ToString();
+            Constants.ARABLEF.GetComponent<Text>().text = manager.Resources[EResource.ArableLand].ToString();
+            Constants.OTHERF.GetComponent<Text>().text = (manager.Resources[EResource.Land] - manager.Resources[EResource.ArableLand]).ToString();
             Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
             Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
             Constants.METALSF.GetComponent<Text>().text = resources[EResource.Metals].ToString();

@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Model;
+﻿using Assets.Scripts;
+using Assets.Scripts.Controllers;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,8 +18,18 @@ public class ColonyUpdater : MonoBehaviour
     private void TickForward()
     {
         foreach (Colony c in colonies)
-            c.TickForward();
+            TickColonyForward(c);
         time = Time.time;
+    }
+    private void TickColonyForward(Colony c)
+    {
+        c.TickForward();
+        // Update the dialog if this colony is selected
+        if (Selection.CurrentSelection is ISelectable s
+            && s.ModelObject is IColonizable col
+            && col.ColonizableManager is IColonizableManager m
+            && m.Colony == c)
+            ColonyDialogController.Update(col);
     }
     public static void AddColony(Colony c)
     {

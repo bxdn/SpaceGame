@@ -16,17 +16,46 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private IList<Transform> transforms = new List<Transform>();
-        public GoodServiceGUI(EGood good, float value, Vector2 pos)
+        public GoodServiceGUI(EGood good, GoodInfo value, Vector2 pos)
         {
             this.pos = pos;
-            CreateGoodField(good);
-            CreateNumberField(value);
+            CreateNameField(Constants.GOOD_MAP[good]);
+            CreateNumberField(value.Value);
+            CreateDirectionField(value.Increasing);
         }
         public GoodServiceGUI(EService service, float value, Vector2 pos)
         {
             this.pos = pos;
-            CreateServiceField(service);
+            CreateNameField(Constants.SERVICE_MAP[service]);
             CreateNumberField(value);
+        }
+        public GoodServiceGUI(EResource resource, int value, Vector2 pos)
+        {
+            this.pos = pos;
+            CreateNameField(Constants.RESOURCE_MAP[resource]);
+            CreateNumberField(value);
+        }
+        private void CreateDirectionField(bool increasing)
+        {
+            GameObject text = new GameObject("Text", typeof(RectTransform));
+            transforms.Add(text.transform);
+            objects.Add(text);
+            Text textComponent = text.AddComponent<Text>();
+            textComponent.text = increasing ? '\u2191'.ToString() : '\u2193'.ToString();
+            textComponent.fontSize = 38;
+            textComponent.font = ARIAL;
+            textComponent.color = new Color(0, 0, 0, 1);
+            textComponent.lineSpacing = 0;
+            textComponent.fontStyle = FontStyle.Bold;
+            textComponent.alignment = TextAnchor.UpperLeft;
+            RectTransform transform = (RectTransform)text.transform;
+            transform.SetParent(PARENT_TRANSFORM);
+            transform.anchorMin = new Vector2(0, 1);
+            transform.anchorMax = new Vector2(0, 1);
+            transform.pivot = new Vector2(0, 1);
+            transform.localScale = new Vector3(.5f, .5f, 1);
+            transform.anchoredPosition = new Vector2(pos.x + 850, pos.y);
+            transform.sizeDelta = new Vector2(50, 50);
         }
         private void CreateNumberField(float value)
         {
@@ -57,35 +86,13 @@ namespace Assets.Scripts.GUI
                 transform.Translate(new Vector2(0, ascending ? 25 : -25));
             }*/
         }
-
-        private void CreateGoodField(EGood good)
+        private void CreateNameField(string name)
         {
             GameObject text = new GameObject("Text", typeof(RectTransform));
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
-            textComponent.text = Constants.GOOD_MAP[good];
-            textComponent.fontSize = 38;
-            textComponent.font = ARIAL;
-            textComponent.color = new Color(0, 0, 0, 1);
-            textComponent.lineSpacing = 0;
-            textComponent.alignment = TextAnchor.UpperLeft;
-            RectTransform transform = (RectTransform)text.transform;
-            transform.SetParent(PARENT_TRANSFORM);
-            transform.anchorMin = new Vector2(0, 1);
-            transform.anchorMax = new Vector2(0, 1);
-            transform.pivot = new Vector2(0, 1);
-            transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 600, pos.y);
-            transform.sizeDelta = new Vector2(400, 200);
-        }
-        private void CreateServiceField(EService service)
-        {
-            GameObject text = new GameObject("Text", typeof(RectTransform));
-            transforms.Add(text.transform);
-            objects.Add(text);
-            Text textComponent = text.AddComponent<Text>();
-            textComponent.text = Constants.SERVICE_MAP[service];
+            textComponent.text = name;
             textComponent.fontSize = 38;
             textComponent.font = ARIAL;
             textComponent.color = new Color(0, 0, 0, 1);

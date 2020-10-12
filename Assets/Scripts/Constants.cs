@@ -54,6 +54,7 @@ public static class Constants
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
     public static readonly Text WORK_VAL = GameObject.Find("WorkVal").GetComponent<Text>();
+    public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
@@ -119,6 +120,8 @@ public static class Constants
         resourceBuilder.Add(EResource.Water, "Water");
         resourceBuilder.Add(EResource.Metals, "Metal");
         resourceBuilder.Add(EResource.EnergySource, "Energy Source");
+        resourceBuilder.Add(EResource.Land, "Land");
+        resourceBuilder.Add(EResource.ArableLand, "Arable Land");
         RESOURCE_MAP = resourceBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();

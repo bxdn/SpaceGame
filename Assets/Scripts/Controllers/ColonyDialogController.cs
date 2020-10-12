@@ -97,7 +97,13 @@ public class ColonyDialogController : EventTrigger
             guis.Add(new GoodServiceGUI(service.Key, service.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
+        foreach (var resource in colonizable.ColonizableManager.Colony.Resources)
+        {
+            guis.Add(new GoodServiceGUI(resource.Key, resource.Value, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
+        }
         Constants.WORK_VAL.text = colonizable.ColonizableManager.Colony.Workers.ToString();
         Constants.POP_VAL.text = colonizable.ColonizableManager.Colony.Population.ToString();
+        Constants.INF_VAL.text = colonizable.ColonizableManager.Colony.Influence.ToString();
     }
 }

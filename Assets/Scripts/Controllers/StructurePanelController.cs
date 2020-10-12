@@ -61,7 +61,6 @@ public class StructurePanelController : EventTrigger
     }
     public static void SetStructure(StructureInfo info)
     {
-        StructurePanelController.colony.IncrementStructure(info, 1);
         Constants.STRUCTURE_PANEL.SetActive(false);
         Constants.COLONY_PANEL.SetActive(true);
         if (Selection.CurrentSelection.ModelObject is IColonizable c && c.ColonizableManager is IColonizableManager m && m.Colony is Colony colony)
@@ -69,11 +68,7 @@ public class StructurePanelController : EventTrigger
     }
     private static void SetStructure(StructureInfo info, IColonizable c, Colony colony)
     {
-        foreach (var pair in info.GoodCost)
-            colony.IncrementGood(pair.Key, -pair.Value);
-        foreach (var pair in info.ServiceFlow)
-            colony.IncrementService(pair.Key, pair.Value);
-        colony.Workers -= info.RequiredWorkers;
+        colony.AddStructure(info);
         ColonyDialogController.Reset(c);
     }
 }

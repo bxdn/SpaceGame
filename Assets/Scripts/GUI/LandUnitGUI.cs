@@ -1,9 +1,5 @@
 ﻿using Assets.Scripts.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +37,7 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 100, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x + 300, pos.y);
             transform.sizeDelta = new Vector2(500, 200);
         }
 
@@ -64,7 +60,7 @@ namespace Assets.Scripts.GUI
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
             transform.anchoredPosition = new Vector2(pos.x + 10, pos.y);
-            transform.sizeDelta = new Vector2(200, 200);
+            transform.sizeDelta = new Vector2(500, 200);
         }
         public override void Scroll(bool ascending)
         {
@@ -76,7 +72,7 @@ namespace Assets.Scripts.GUI
         public override void Destroy()
         {
             foreach(GameObject gObject in objects){
-                UnityEngine.Object.Destroy(gObject);
+                Object.Destroy(gObject);
             }
         }
     }

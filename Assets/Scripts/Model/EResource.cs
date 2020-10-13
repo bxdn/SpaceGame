@@ -10,7 +10,7 @@ namespace Assets.Scripts.Model
     {
         Water,
         Iron,
-        Gasses,
+        HydrogenSource,
         EnergySource,
         ArableLand,
         Land

@@ -11,12 +11,25 @@ namespace Assets.Scripts.Model
         public static StructureInfo LumberMill { get; private set; } = BuildLumberMill();
         public static StructureInfo IronMine { get; private set; } = BuildIronMine();
         public static StructureInfo EnergyPlant { get; private set; } = BuildEnergyPlant();
-        public static StructureInfo GasCollectionPlant { get; private set; }
+        public static StructureInfo HydrogenCollectionPlant { get; private set; } = BuildHydrogenCollectionPlant();
         public static StructureInfo SteelSmelter { get; private set; } = BuildSteelSmelter();
         public static StructureInfo ConstructionManufacturer { get; private set; } = BuildConstructionManufacturer();
-        private static void BuildGasCollectionPlant()
+        private static StructureInfo BuildHydrogenCollectionPlant()
         {
-            throw new NotImplementedException();
+            var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
+            costBuilder.Add(EGood.BuildingMaterials, 10);
+            var cost = costBuilder.ToImmutable();
+            var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
+            resourceCostBuilder.Add(EResource.Land, 1);
+            resourceCostBuilder.Add(EResource.HydrogenSource, 1);
+            var resourceCost = resourceCostBuilder.ToImmutable();
+            var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
+            flowBuilder.Add(EGood.Hydrogen, 5);
+            flowBuilder.Add(EGood.Energy, -1);
+            var flow = flowBuilder.ToImmutable();
+            var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
+            var service = serviceBuilder.ToImmutable();
+            return new StructureInfo("Hydrogen Collector", cost, resourceCost, flow, service, 10);
         }
 
         private static StructureInfo BuildEnergyPlant()

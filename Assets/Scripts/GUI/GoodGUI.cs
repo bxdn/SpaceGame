@@ -12,7 +12,7 @@ namespace Assets.Scripts.GUI
     public class GoodServiceGUI : GUIScrollable
     {
         private readonly Vector2 pos;
-        private static readonly Transform PARENT_TRANSFORM = Constants.MASKING_PANEL.transform;
+        private static readonly Transform PARENT_TRANSFORM = Constants.GOOD_MASKING_PANEL.transform;
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private IList<Transform> transforms = new List<Transform>();
@@ -54,7 +54,7 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 850, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x + 250, pos.y);
             transform.sizeDelta = new Vector2(50, 50);
         }
         private void CreateNumberField(float value)
@@ -75,16 +75,16 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 775, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x + 175, pos.y);
             transform.sizeDelta = new Vector2(500, 200);
         }
 
         public override void Scroll(bool ascending)
         {
-            /*foreach(Transform transform in transforms)
+            foreach (Transform transform in transforms)
             {
                 transform.Translate(new Vector2(0, ascending ? 25 : -25));
-            }*/
+            }
         }
         private void CreateNameField(string name)
         {
@@ -104,7 +104,7 @@ namespace Assets.Scripts.GUI
             transform.anchorMax = new Vector2(0, 1);
             transform.pivot = new Vector2(0, 1);
             transform.localScale = new Vector3(.5f, .5f, 1);
-            transform.anchoredPosition = new Vector2(pos.x + 600, pos.y);
+            transform.anchoredPosition = new Vector2(pos.x, pos.y);
             transform.sizeDelta = new Vector2(400, 200);
         }
         public override void Destroy()

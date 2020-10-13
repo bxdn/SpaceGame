@@ -70,5 +70,6 @@ public class StructurePanelController : EventTrigger
     {
         colony.AddStructure(structure);
         ColonyDialogController.Reset(c);
+        GoodsDialogController.Update(c);
     }
 }

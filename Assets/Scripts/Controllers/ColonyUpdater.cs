@@ -4,6 +4,7 @@ using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ColonyUpdater : MonoBehaviour
 {
@@ -28,7 +29,12 @@ public class ColonyUpdater : MonoBehaviour
             && s.ModelObject is IColonizable col
             && col.ColonizableManager is IColonizableManager m
             && m.Colony == c)
-            ColonyDialogController.Update(col);
+            UpdateGUIS(col);
+    }
+    private void UpdateGUIS(IColonizable c)
+    {
+        ColonyDialogController.Update(c);
+        GoodsDialogController.Update(c);
     }
     public static void AddColony(Colony c, Galaxy g)
     {

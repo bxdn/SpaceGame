@@ -18,7 +18,7 @@ namespace Assets.Scripts.Model
                 return false;
             if (resources[EResource.Land] < MIN_TOTAL)
                 return false;
-            if (Resources[EResource.Gasses] < 5)
+            if (Resources[EResource.HydrogenSource] < 5)
                 return false;
             if (Resources[EResource.Water] < 5)
                 return false;

@@ -23,7 +23,7 @@ namespace Assets.Scripts.Model
         EntertainmentItems,
         Alcohol,
         Iron,
-        Gas,
+        Hydrogen,
         Wood,
         Steel
     }

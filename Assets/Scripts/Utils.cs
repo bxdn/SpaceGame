@@ -75,13 +75,15 @@ public static class Utils
             Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
             Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
             Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
-            Constants.GASSESF.GetComponent<Text>().text = resources[EResource.Gasses].ToString();
+            Constants.GASSESF.GetComponent<Text>().text = resources[EResource.HydrogenSource].ToString();
             Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
             ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable : null);
+            GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable : null);
         }
         else
         {
             ColonyDialogController.Reset(null);
+            GoodsDialogController.Reset(null);
         }
     }
 

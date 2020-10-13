@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ColonyDialogController : EventTrigger
+public class GoodsDialogController : EventTrigger
 {
     private bool dragging;
     private Vector3 curPos;
-    private static readonly IList<GUIScrollable> structGuis = new List<GUIScrollable>();
-    private static int structScrollVal = 0;
+    private static readonly IList<GUIScrollable> goodGuis = new List<GUIScrollable>();
+    private static int goodScrollVal = 0;
 
     public void Update()
     {
@@ -25,21 +25,21 @@ public class ColonyDialogController : EventTrigger
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
         if (scrollDelta != 0)
         {
-            if (scrollDelta < 0 && structScrollVal < structGuis.Count - 20)
+            if (scrollDelta < 0 && goodScrollVal < goodGuis.Count - 13)
             {
-                structScrollVal++;
+                goodScrollVal++;
                 MoveStructGUIs(true);
             }
-            else if (scrollDelta > 0 && structScrollVal > 0)
+            else if (scrollDelta > 0 && goodScrollVal > 0)
             {
-                structScrollVal--;
+                goodScrollVal--;
                 MoveStructGUIs(false);
             }
         }
     }
     private static void MoveStructGUIs(bool ascending)
     {
-        foreach (GUIScrollable gui in structGuis)
+        foreach (GUIScrollable gui in goodGuis)
         {
             gui.Scroll(ascending);
         }
@@ -61,26 +61,40 @@ public class ColonyDialogController : EventTrigger
     }
     public static void Reset(IColonizable colonizable)
     {
-        structScrollVal = 0;
+        goodScrollVal = 0;
         if (colonizable != null)
             Fill(colonizable);
     }
     public static void Update(IColonizable colonizable)
     {
         Fill(colonizable);
-        for (int i = 0; i < structScrollVal; i++)
+        for (int i = 0; i < goodScrollVal; i++)
             MoveStructGUIs(true);
     }
     private static void Fill(IColonizable colonizable)
     {
-        foreach (GUIDestroyable gui in structGuis)
+        foreach (GUIDestroyable gui in goodGuis)
             gui.Destroy();
-        structGuis.Clear();
+        goodGuis.Clear();
         Vector2 currentPosition = new Vector2(0, 0);
-        foreach (var structure in colonizable.ColonizableManager.Colony.Structures)
+        currentPosition = new Vector2(0, 0);
+        foreach (var good in colonizable.ColonizableManager.Colony.Goods)
         {
-            structGuis.Add(new LandUnitGUI(Constants.STRUCTURE_MAP[structure.Key], structure.Value, currentPosition));
+            goodGuis.Add(new GoodServiceGUI(good.Key, good.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
+        foreach (var service in colonizable.ColonizableManager.Colony.Services)
+        {
+            goodGuis.Add(new GoodServiceGUI(service.Key, service.Value, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
+        }
+        foreach (var resource in colonizable.ColonizableManager.Colony.Resources)
+        {
+            goodGuis.Add(new GoodServiceGUI(resource.Key, resource.Value, currentPosition));
+            currentPosition = new Vector2(0, currentPosition.y - 25);
+        }
+        Constants.WORK_VAL.text = colonizable.ColonizableManager.Colony.Workers.ToString();
+        Constants.POP_VAL.text = colonizable.ColonizableManager.Colony.Population.ToString();
+        Constants.INF_VAL.text = colonizable.ColonizableManager.Colony.Influence.ToString();
     }
 }

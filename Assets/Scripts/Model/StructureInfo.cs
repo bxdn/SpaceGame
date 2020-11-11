@@ -17,15 +17,17 @@ namespace Assets.Scripts.Model
         public ImmutableDictionary<EGood, float> Flow { get; }
         public ImmutableDictionary<EService, float> ServiceFlow { get; }
         public int RequiredWorkers { get; }
+        public int WorkerLevel { get; }
         public StructureInfo(String name, ImmutableDictionary<EGood, int> cost, ImmutableDictionary<EResource, int> resourceCost, ImmutableDictionary<EGood, float> flow, 
-            ImmutableDictionary<EService, float> serviceFlow, int capacity)
+            ImmutableDictionary<EService, float> serviceFlow, int reqWorkers, int workerLevel)
         {
             this.Name = name;
             this.GoodCost = cost;
             this.ResourceCost = resourceCost;
             this.Flow = flow;
-            this.RequiredWorkers = capacity;
+            this.RequiredWorkers = reqWorkers;
             this.ServiceFlow = serviceFlow;
+            this.WorkerLevel = workerLevel;
         }
     }
 }

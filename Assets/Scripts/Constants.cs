@@ -57,6 +57,7 @@ public static class Constants
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
     public static readonly Text WORK_VAL = GameObject.Find("WorkVal").GetComponent<Text>();
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
+    public static readonly Text SHIPS_VAL = GameObject.Find("RocketField").GetComponent<Text>();
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
@@ -117,15 +118,18 @@ public static class Constants
         structureBuilder.Add(EStructure.ConstructionManufacturer, StructureRegistry.ConstructionManufacturer);
         structureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
         structureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
-        structureBuilder.Add(EStructure.HydrogenPlant, StructureRegistry.HydrogenCollectionPlant);
+        structureBuilder.Add(EStructure.ElectrolysisPlant, StructureRegistry.ElectrolysisPlant);
         structureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
         structureBuilder.Add(EStructure.LumberMill, StructureRegistry.LumberMill);
         structureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
         structureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
+        structureBuilder.Add(EStructure.MylarPlant, StructureRegistry.MylarPlant);
+        structureBuilder.Add(EStructure.CarbonGatherer, StructureRegistry.CarbonCollector);
+        structureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
+        structureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
         STRUCTURE_MAP = structureBuilder.ToImmutable();
 
         var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
-        resourceBuilder.Add(EResource.HydrogenSource, "Gas Source");
         resourceBuilder.Add(EResource.Water, "Water Source");
         resourceBuilder.Add(EResource.Iron, "Iron Source");
         resourceBuilder.Add(EResource.EnergySource, "Energy Source");
@@ -152,12 +156,14 @@ public static class Constants
         goodBuilder.Add(EGood.Tools, "Tools");
         goodBuilder.Add(EGood.Water, "Water");
         goodBuilder.Add(EGood.Wood, "Wood");
+        goodBuilder.Add(EGood.Oxygen, "Oxygen");
+        goodBuilder.Add(EGood.Mylar, "Mylar");
+        goodBuilder.Add(EGood.Carbon, "Carbon");
         GOOD_MAP = goodBuilder.ToImmutable();
 
         var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, String>();
         serviceBuilder.Add(EService.Education, "Education");
         serviceBuilder.Add(EService.Entertainment, "Entertainment");
-        serviceBuilder.Add(EService.Faith, "Faith");
         serviceBuilder.Add(EService.FoodService, "FoodService");
         serviceBuilder.Add(EService.Healthcare, "Healthcare");
         serviceBuilder.Add(EService.Housing, "Housing");

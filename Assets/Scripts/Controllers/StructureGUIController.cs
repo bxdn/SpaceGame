@@ -36,7 +36,7 @@ public class StructureGUIController : EventTrigger
     private bool ValidateColony(Colony colony)
     {
         StructureInfo info = Constants.STRUCTURE_MAP[Structure];
-        if (colony.Workers < info.RequiredWorkers)
+        if (colony.Workers < info.RequiredWorkers || info.WorkerLevel > colony.CurrentLevel)
             return false;
         var toRet = true;
         var enumerator = info.GoodCost.GetEnumerator();

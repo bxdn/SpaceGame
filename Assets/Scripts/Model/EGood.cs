@@ -11,6 +11,8 @@ namespace Assets.Scripts.Model
         Food,
         Water,
         Energy,
+        Oxygen,
+        Alcohol,
         Tools,
         Machinery,
         Atmosphere,
@@ -21,10 +23,11 @@ namespace Assets.Scripts.Model
         Clothes,
         Robotics,
         EntertainmentItems,
-        Alcohol,
         Iron,
         Hydrogen,
         Wood,
-        Steel
+        Steel,
+        Mylar,
+        Carbon
     }
 }

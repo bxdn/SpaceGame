@@ -10,11 +10,10 @@ namespace Assets.Scripts.Model
     {
         Housing,
         Healthcare,
-        Faith,
+        Education,
         Entertainment,
         Luxury,
         Safety,
         FoodService,
-        Education
     }
 }

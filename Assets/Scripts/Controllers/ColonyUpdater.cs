@@ -2,17 +2,18 @@
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ColonyUpdater : MonoBehaviour
 {
+    private bool paused = false;
     private float time = -1;
     // Update is called once per frame
     void Update()
     {
-        if (WorldGeneration.Galaxy != null && Time.time - time > 1)
+        if (Input.GetKeyDown(KeyCode.Space))
+            paused = !paused;
+        if (!paused && WorldGeneration.Galaxy != null && Time.time - time > 1)
             TickForward();
     }
     private void TickForward()

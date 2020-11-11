@@ -15,7 +15,11 @@ namespace Assets.Scripts.Model
         ConstructionManufacturer,
         Housing,
         IronMine,
-        HydrogenPlant,
-        SteelSmelter
+        ElectrolysisPlant,
+        SteelSmelter,
+        CarbonGatherer,
+        MylarPlant,
+        AlcoholMaker,
+        DoctorsOffices
     }
 }

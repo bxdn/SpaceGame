@@ -15,6 +15,7 @@ public class StructurePanelController : EventTrigger
     private bool dragging;
     private Vector3 curPos;
     private static Colony colony;
+    private static int scrollVal = 0;
     // Update is called once per frame
     void Update()
     {
@@ -23,6 +24,27 @@ public class StructurePanelController : EventTrigger
             Vector3 pos = Input.mousePosition - curPos;
             curPos = Input.mousePosition;
             transform.Translate(pos);
+        }
+        float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollDelta != 0)
+        {
+            if (scrollDelta < 0 && scrollVal < guis.Count - 13)
+            {
+                scrollVal++;
+                MoveStructGUIs(true);
+            }
+            else if (scrollDelta > 0 && scrollVal > 0)
+            {
+                scrollVal--;
+                MoveStructGUIs(false);
+            }
+        }
+    }
+    private static void MoveStructGUIs(bool ascending)
+    {
+        foreach (GUIScrollable gui in guis)
+        {
+            gui.Scroll(ascending);
         }
     }
     public override void OnPointerDown(PointerEventData eventData)
@@ -42,6 +64,7 @@ public class StructurePanelController : EventTrigger
     }
     public static void Fill(Colony c)
     {
+        scrollVal = 0;
         colony = c;
         foreach (GUIDestroyable gui in guis)
             gui.Destroy();

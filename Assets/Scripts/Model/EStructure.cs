@@ -20,6 +20,12 @@ namespace Assets.Scripts.Model
         CarbonGatherer,
         MylarPlant,
         AlcoholMaker,
-        DoctorsOffices
+        DoctorsOffices,
+        ChipMaker,
+        ScreenMaker,
+        SiliconGatherer,
+        School,
+        WindowMaker,
+        GlassBlower
     }
 }

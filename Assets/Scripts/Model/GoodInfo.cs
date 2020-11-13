@@ -3,11 +3,11 @@
     [System.Serializable]
     public class GoodInfo
     {
-        public bool Increasing { get; set; }
+        public int Increasing { get; set; }
         public float Value { get;}
         public GoodInfo(float value)
         {
-            Increasing = true;
+            Increasing = 0;
             Value = value;
         }
     }

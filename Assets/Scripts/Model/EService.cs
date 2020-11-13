@@ -9,8 +9,8 @@ namespace Assets.Scripts.Model
     public enum EService
     {
         Housing,
-        Healthcare,
         Education,
+        Healthcare,
         Entertainment,
         Luxury,
         Safety,

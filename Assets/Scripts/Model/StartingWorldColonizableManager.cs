@@ -9,8 +9,8 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class StartingWorldColonizableManager : ColonizableManager
     {
-        private static readonly int MIN_ARABLE = 10;
-        private static readonly int MIN_TOTAL = 20;
+        private static readonly int MIN_ARABLE = 500;
+        private static readonly int MIN_TOTAL = 1000;
         public StartingWorldColonizableManager(Orbiter orbiter) : base(orbiter) { }
         public bool DesignateStartingColony(Galaxy g)
         {

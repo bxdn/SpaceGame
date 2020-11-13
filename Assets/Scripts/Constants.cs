@@ -57,6 +57,7 @@ public static class Constants
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
     public static readonly Text WORK_VAL = GameObject.Find("WorkVal").GetComponent<Text>();
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
+    public static readonly Text LVL_VAL = GameObject.Find("LevelVal").GetComponent<Text>();
     public static readonly Text SHIPS_VAL = GameObject.Find("RocketField").GetComponent<Text>();
 
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
@@ -127,6 +128,12 @@ public static class Constants
         structureBuilder.Add(EStructure.CarbonGatherer, StructureRegistry.CarbonCollector);
         structureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
         structureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
+        structureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
+        structureBuilder.Add(EStructure.SiliconGatherer, StructureRegistry.SiliconCollector);
+        structureBuilder.Add(EStructure.ScreenMaker, StructureRegistry.ScreenMaker);
+        structureBuilder.Add(EStructure.School, StructureRegistry.School);
+        structureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
+        structureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
         STRUCTURE_MAP = structureBuilder.ToImmutable();
 
         var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
@@ -139,9 +146,7 @@ public static class Constants
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
         goodBuilder.Add(EGood.Alcohol, "Alcohol");
-        goodBuilder.Add(EGood.Atmosphere, "Atmosphere");
         goodBuilder.Add(EGood.BuildingMaterials, "Building Materials");
-        goodBuilder.Add(EGood.Chemicals, "Chemicals");
         goodBuilder.Add(EGood.Clothes, "Clothes");
         goodBuilder.Add(EGood.Electronics, "Electronics");
         goodBuilder.Add(EGood.Energy, "Energy");
@@ -159,6 +164,11 @@ public static class Constants
         goodBuilder.Add(EGood.Oxygen, "Oxygen");
         goodBuilder.Add(EGood.Mylar, "Mylar");
         goodBuilder.Add(EGood.Carbon, "Carbon");
+        goodBuilder.Add(EGood.Chips, "Chips");
+        goodBuilder.Add(EGood.Screens, "Screens");
+        goodBuilder.Add(EGood.Silicon, "Silicon");
+        goodBuilder.Add(EGood.Glass, "Glass");
+        goodBuilder.Add(EGood.Windows, "Windows");
         GOOD_MAP = goodBuilder.ToImmutable();
 
         var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, String>();

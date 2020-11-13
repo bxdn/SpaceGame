@@ -38,11 +38,14 @@ namespace Assets.Scripts.Model
             this.resources = resources;
             goods[EGood.Food] = new GoodInfo(100);
             goods[EGood.Water] = new GoodInfo(100);
-            goods[EGood.BuildingMaterials] = new GoodInfo(130);
+            goods[EGood.BuildingMaterials] = new GoodInfo(500);
             goods[EGood.Energy] = new GoodInfo(100);
             goods[EGood.Oxygen] = new GoodInfo(100);
+            goods[EGood.Chips] = new GoodInfo(100);
+            goods[EGood.Screens] = new GoodInfo(100);
             for (int i = 0; i < 3; i++)
                 AddStructure(EStructure.Housing);
+            goods[EGood.BuildingMaterials] = new GoodInfo(100);
         }
         private void IncrementGood(EGood good, float amount)
         {
@@ -112,6 +115,7 @@ namespace Assets.Scripts.Model
         }
         public void TickForward()
         {
+            Influence++;
             var prevGoods = Goods;
             LevelInfo level = LevelInfo.GetLevel(CurrentLevel);
             foreach (var structurePair in structures)
@@ -121,7 +125,7 @@ namespace Assets.Scripts.Model
             foreach (var goodPair in level.GoodsPerPopWants)
                 IncrementWantedGood(goodPair.Key, (-goodPair.Value / 100f) * Population);
             foreach (var good in goods)
-                good.Value.Increasing = !prevGoods.ContainsKey(good.Key) || good.Value.Value >= prevGoods[good.Key].Value;
+                AssignDirection(prevGoods, good);
             foreach (var service in level.ServicesPerPopNeeds)
                 ProcessServiceDemand(service);
             foreach (var service in level.ServicesPerPopWants)
@@ -129,9 +133,17 @@ namespace Assets.Scripts.Model
             if (services.ContainsKey(EService.Housing)
                 && services[EService.Housing] > Population * level.ServicesPerPopNeeds[EService.Housing])
                 IncrementPop(level);
-            Influence++;
             if (Influence >= 200)
                 LevelUp();
+        }
+        private void AssignDirection(IDictionary<EGood, GoodInfo> prevGoods, KeyValuePair<EGood, GoodInfo> good)
+        {
+            if (!prevGoods.ContainsKey(good.Key) || good.Value.Value > prevGoods[good.Key].Value)
+                good.Value.Increasing = 1;
+            else if (good.Value.Value == prevGoods[good.Key].Value)
+                good.Value.Increasing = 0;
+            else
+                good.Value.Increasing = -1;
         }
         private void LevelUp()
         {

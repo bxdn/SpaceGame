@@ -13,11 +13,10 @@ namespace Assets.Scripts.Model
         Energy,
         Oxygen,
         Alcohol,
+        Windows,
         Tools,
         Machinery,
-        Atmosphere,
         BuildingMaterials,
-        Chemicals,
         Electronics,
         Fabric,
         Clothes,
@@ -28,6 +27,10 @@ namespace Assets.Scripts.Model
         Wood,
         Steel,
         Mylar,
-        Carbon
+        Carbon,
+        Silicon,
+        Chips,
+        Screens,
+        Glass
     }
 }

@@ -76,8 +76,8 @@ public class GoodsDialogController : EventTrigger
         foreach (GUIDestroyable gui in goodGuis)
             gui.Destroy();
         goodGuis.Clear();
+        int population = colonizable.ColonizableManager.Colony.Population;
         Vector2 currentPosition = new Vector2(0, 0);
-        currentPosition = new Vector2(0, 0);
         foreach (var good in colonizable.ColonizableManager.Colony.Goods)
         {
             goodGuis.Add(new GoodServiceGUI(good.Key, good.Value, currentPosition));
@@ -93,8 +93,31 @@ public class GoodsDialogController : EventTrigger
             goodGuis.Add(new GoodServiceGUI(resource.Key, resource.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
+        currentPosition = new Vector2(300, 0);
+        foreach (var good in LevelInfo.GetLevel(colonizable.ColonizableManager.Colony.CurrentLevel).GoodsPerPopNeeds)
+        {
+            goodGuis.Add(new DemandGUI(good.Key, good.Value * population / 100f, currentPosition));
+            currentPosition = new Vector2(300, currentPosition.y - 25);
+        }
+        foreach (var service in LevelInfo.GetLevel(colonizable.ColonizableManager.Colony.CurrentLevel).ServicesPerPopNeeds)
+        {
+            goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
+            currentPosition = new Vector2(300, currentPosition.y - 25);
+        }
+        currentPosition = new Vector2(450, 0);
+        foreach (var good in LevelInfo.GetLevel(colonizable.ColonizableManager.Colony.CurrentLevel).GoodsPerPopWants)
+        {
+            goodGuis.Add(new DemandGUI(good.Key, good.Value * population / 100f, currentPosition));
+            currentPosition = new Vector2(450, currentPosition.y - 25);
+        }
+        foreach (var service in LevelInfo.GetLevel(colonizable.ColonizableManager.Colony.CurrentLevel).ServicesPerPopWants)
+        {
+            goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
+            currentPosition = new Vector2(450, currentPosition.y - 25);
+        }
         Constants.WORK_VAL.text = colonizable.ColonizableManager.Colony.Workers.ToString();
-        Constants.POP_VAL.text = colonizable.ColonizableManager.Colony.Population.ToString();
+        Constants.POP_VAL.text = population.ToString();
         Constants.INF_VAL.text = colonizable.ColonizableManager.Colony.Influence.ToString();
+        Constants.LVL_VAL.text = colonizable.ColonizableManager.Colony.CurrentLevel.ToString();
     }
 }

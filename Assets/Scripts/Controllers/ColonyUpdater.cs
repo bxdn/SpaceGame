@@ -6,15 +6,20 @@ using UnityEngine;
 
 public class ColonyUpdater : MonoBehaviour
 {
-    private bool paused = false;
+    private static bool paused = true;
     private float time = -1;
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            paused = !paused;
+            TogglePause();
         if (!paused && WorldGeneration.Galaxy != null && Time.time - time > 1)
             TickForward();
+    }
+    public static void TogglePause()
+    {
+        paused = !paused;
+        PlayController.ToggleText();
     }
     private void TickForward()
     {

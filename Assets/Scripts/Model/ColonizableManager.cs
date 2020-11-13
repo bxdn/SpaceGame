@@ -11,6 +11,7 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class ColonizableManager : IColonizableManager
     {
+        private static readonly EResource[] allResources = (Enum.GetValues(typeof(EResource)) as EResource[]).Skip(1).ToArray();
         public Domain Owner { get; private set; }
         public int HazardFrequency { get; }
         protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
@@ -31,6 +32,8 @@ namespace Assets.Scripts.Model
                 resources[resource] = 0;
             if (orbiter is IArable)
                 resources[EResource.ArableLand] = ColonizerR.r.Next(0, orbiter.Size * 100);
+            else
+                resources[EResource.ArableLand] = 0;
             int nonArableLand = ColonizerR.r.Next(0, orbiter.Size * 100 - resources[EResource.ArableLand]);
             resources[EResource.Land] = resources[EResource.ArableLand] + nonArableLand;
             for (int i = 0; i < resources[EResource.Land]; i++)
@@ -38,7 +41,6 @@ namespace Assets.Scripts.Model
         }
         private void AddValidResource()
         {
-            var allResources = Enum.GetValues(typeof(EResource)) as EResource[];
             if (ColonizerR.r.Next(100) == 0)
                 resources[allResources[ColonizerR.r.Next(allResources.Length)]]++;
         }

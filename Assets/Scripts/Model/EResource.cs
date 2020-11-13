@@ -8,10 +8,10 @@ namespace Assets.Scripts.Model
 {
     public enum EResource
     {
+        ArableLand,
         Water,
         Iron,
         EnergySource,
-        ArableLand,
         Land,
     }
 }

@@ -2344,9 +2344,9 @@ RectTransform:
   m_Father: {fileID: 2012168091}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1114, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 160, y: 0}
   m_SizeDelta: {x: 310, y: 63.40033}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &645235844
@@ -2394,7 +2394,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Manage Colony
+  m_Text: Paused
 --- !u!222 &645235846
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4543,6 +4543,98 @@ Transform:
   m_Father: {fileID: 1121507313}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1562493969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562493970}
+  - component: {fileID: 1562493972}
+  - component: {fileID: 1562493971}
+  - component: {fileID: 1562493973}
+  m_Layer: 0
+  m_Name: Reset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1562493970
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562493969}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2012168091}
+  m_RootOrder: 32
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 500, y: 63.40033}
+  m_Pivot: {x: 1, y: 0}
+--- !u!114 &1562493971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562493969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 42
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 72
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Clear Save & Restart
+--- !u!222 &1562493972
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562493969}
+  m_CullTransparentMesh: 0
+--- !u!114 &1562493973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562493969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fe1f4db665b9b4caa94e06db7d61b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1635869912
 GameObject:
   m_ObjectHideFlags: 0
@@ -5733,26 +5825,28 @@ MonoBehaviour:
     Double-Click
     Orbiter = Render Local System
 
+    Double-Click Structure Option = Confirm
 
-    Influence goes up when demands are met.
 
     Influence
-    goes past 100 when needs AND wants are met.
+    goes up when demands are met.
 
-    Once influence reaches 200,
-    Colony levels up.
+    Influence goes past 100 when needs AND wants
+    are met.
 
-    Theoretically, you lose when influence goes under 0, but
-    right now it will just stay at 0.
+    Once influence reaches 200, Colony levels up.
 
-    Colony needs are based on level.
+    Theoretically,
+    you lose when influence goes under 0, but right now it will just stay at 0.
 
-    You
-    are constrained by the resources on the planet, e.g. water and energy sources.
+    Colony
+    needs are based on level.
+
+    You are constrained by the resources on the planet,
+    e.g. water and energy sources.
 
 
-    No
-    Ships or colonies offworld yet, but soon.'
+    No Ships or colonies offworld yet, but soon.'
 --- !u!222 &2003966399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5902,6 +5996,7 @@ RectTransform:
   - {fileID: 49730388}
   - {fileID: 43023173}
   - {fileID: 26257280}
+  - {fileID: 1562493970}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

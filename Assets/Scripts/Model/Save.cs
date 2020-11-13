@@ -30,6 +30,11 @@ namespace Assets.Scripts.Model
             }
             return null;
         }
+        public static void ClearSave()
+        {
+            if (SavedGameFound())
+                File.Delete(Application.persistentDataPath + "/gamesave.save");
+        }
         public static bool SavedGameFound()
         {
             return File.Exists(Application.persistentDataPath + "/gamesave.save");

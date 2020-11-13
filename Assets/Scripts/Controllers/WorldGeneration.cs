@@ -9,10 +9,7 @@ public class WorldGeneration : MonoBehaviour
     void Awake()
     {
         Application.targetFrameRate = 60;
-        Debug.Log("Starting Galaxy Generation!");
-        Galaxy = Save.SavedGameFound() ? Save.LoadGame() : new Galaxy();
-        Debug.Log("Finished Galaxy Generation!");
-        Galaxy.RenderStartingSystem();
+        StartWorld();
         /*int idx = 0;
         for (int i = 0; i < 100; i++)
         {
@@ -38,6 +35,13 @@ public class WorldGeneration : MonoBehaviour
                 smallSquare.transform.localScale = new Vector2(4.7f, 4.7f);
             }
         }*/
+    }
+    public static void StartWorld()
+    {
+        Debug.Log("Starting Galaxy Generation!");
+        Galaxy = Save.SavedGameFound() ? Save.LoadGame() : new Galaxy();
+        Debug.Log("Finished Galaxy Generation!");
+        Galaxy.RenderStartingSystem();
     }
     /*void Update()
     {

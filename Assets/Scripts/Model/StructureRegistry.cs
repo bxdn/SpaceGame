@@ -28,7 +28,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 3);
-            costBuilder.Add(EGood.Chips, 5);
+            costBuilder.Add(EGood.Chips, 2);
             costBuilder.Add(EGood.Screens, 1);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 3);
-            costBuilder.Add(EGood.Chips, 10);
+            costBuilder.Add(EGood.Chips, 5);
             costBuilder.Add(EGood.Screens, 2);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 5);
-            costBuilder.Add(EGood.Chips, 5);
+            costBuilder.Add(EGood.Chips, 3);
             costBuilder.Add(EGood.Screens, 2);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -105,7 +105,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 5);
-            costBuilder.Add(EGood.Chips, 5);
+            costBuilder.Add(EGood.Chips, 3);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
             resourceCostBuilder.Add(EResource.ArableLand, 4);
@@ -142,7 +142,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 5);
-            costBuilder.Add(EGood.Chips, 5);
+            costBuilder.Add(EGood.Chips, 3);
             costBuilder.Add(EGood.Screens, 1);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -194,7 +194,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 2);
-            costBuilder.Add(EGood.Chips, 10);
+            costBuilder.Add(EGood.Chips, 5);
             costBuilder.Add(EGood.Screens, 5);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -369,6 +369,7 @@ namespace Assets.Scripts.Model
             var resourceCost = resourceCostBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
             flowBuilder.Add(EGood.Glass, -2);
+            flowBuilder.Add(EGood.Wood, -1);
             flowBuilder.Add(EGood.Windows, 1);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();

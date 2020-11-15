@@ -5813,40 +5813,40 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Space Bar = Pause/Play
+  m_Text: 'Right-Click & Scroll Controls
 
-    Esc = Save and Quit
+    Space Bar = Pause/Play
 
-    Alt-F4 or Window
-    Exit button =Quit without Saving
+    Esc = Save
+    and Quit
 
-    Double-Click Orbitee = Render Parent System
+    Alt-F4 or Window Exit button =Quit without Saving
 
     Double-Click
-    Orbiter = Render Local System
+    Orbitee = Render Parent System
 
-    Double-Click Structure Option = Confirm
+    Double-Click Orbiter = Render Local System
+
+    Double-Click
+    Structure Option = Confirm
+
+    Double-Click Reset Save Button = Confirm
 
 
     Influence
-    goes up when demands are met.
+    goes up to 100 when demands are met.
 
-    Influence goes past 100 when needs AND wants
-    are met.
+    Influence goes past 100 when needs
+    AND wants are met.
 
     Once influence reaches 200, Colony levels up.
 
     Theoretically,
-    you lose when influence goes under 0, but right now it will just stay at 0.
-
-    Colony
-    needs are based on level.
-
-    You are constrained by the resources on the planet,
-    e.g. water and energy sources.
+    you lose when influence goes under 0, but right now it will just go negative.
 
 
-    No Ships or colonies offworld yet, but soon.'
+    No
+    Ships or colonies offworld yet, but soon.'
 --- !u!222 &2003966399
 CanvasRenderer:
   m_ObjectHideFlags: 0

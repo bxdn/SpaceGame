@@ -76,7 +76,7 @@ namespace Assets.Scripts.Model
             resourceCostBuilder.Add(EResource.EnergySource, 1);
             var resourceCost = resourceCostBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
-            flowBuilder.Add(EGood.Energy, 10);
+            flowBuilder.Add(EGood.Energy, 25);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
@@ -131,7 +131,7 @@ namespace Assets.Scripts.Model
             resourceCostBuilder.Add(EResource.Water, 1);
             var resourceCost = resourceCostBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
-            flowBuilder.Add(EGood.Water, 5);
+            flowBuilder.Add(EGood.Water, 10);
             flowBuilder.Add(EGood.Energy, -1);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
@@ -155,7 +155,7 @@ namespace Assets.Scripts.Model
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
             var service = serviceBuilder.ToImmutable();
-            return new StructureInfo("Farm", cost, resourceCost, flow, service, 10, 0);
+            return new StructureInfo("Farm", cost, resourceCost, flow, service, 5, 0);
         }
         private static StructureInfo BuildHousing()
         {
@@ -258,7 +258,7 @@ namespace Assets.Scripts.Model
             var resourceCost = resourceCostBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
             flowBuilder.Add(EGood.Energy, -1);
-            flowBuilder.Add(EGood.Food, -2);
+            flowBuilder.Add(EGood.Food, -1);
             flowBuilder.Add(EGood.Alcohol, 1);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();
@@ -287,7 +287,7 @@ namespace Assets.Scripts.Model
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             costBuilder.Add(EGood.BuildingMaterials, 3);
-            costBuilder.Add(EGood.Chips, 10);
+            costBuilder.Add(EGood.Chips, 1);
             costBuilder.Add(EGood.Screens, 5);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
@@ -368,7 +368,7 @@ namespace Assets.Scripts.Model
             resourceCostBuilder.Add(EResource.Land, 1);
             var resourceCost = resourceCostBuilder.ToImmutable();
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
-            flowBuilder.Add(EGood.Glass, -2);
+            flowBuilder.Add(EGood.Glass, -1);
             flowBuilder.Add(EGood.Wood, -1);
             flowBuilder.Add(EGood.Windows, 1);
             var flow = flowBuilder.ToImmutable();

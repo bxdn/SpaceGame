@@ -117,7 +117,7 @@ namespace Assets.Scripts.Model
         {
             Influence++;
             var prevGoods = Goods;
-            LevelInfo level = LevelInfo.GetLevel(CurrentLevel);
+            LevelInfo level = LevelInfo.GetLevel(Math.Min(CurrentLevel, 5));
             foreach (var structurePair in structures)
                 WorkStructures(structurePair);
             foreach (var goodPair in level.GoodsPerPopNeeds)

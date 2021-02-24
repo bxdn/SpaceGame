@@ -10,7 +10,7 @@ public class ResetController : MonoBehaviour, IPointerClickHandler
         float newClick = Time.time;
         if (!CameraController.Locked && newClick - lastClick < .5)
         {
-            Save.ClearSave();
+            SaveUtility.ClearSave();
             WorldGeneration.StartWorld();
         }
         else

@@ -17,7 +17,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     public Transform bigTransform;
     public Transform smallTransform;
     public Text text;
-    public IOrbitChild Orbiter { get; set; }
+    public IChild Orbiter { get; set; }
     public IModelObject ModelObject => Orbiter;
     private float solarDistance = -1;
     private bool expanding = false;
@@ -100,7 +100,7 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
         if (EventSystem.current.IsPointerOverGameObject() || CameraController.Locked)
             return;
         float newClickTime = Time.time;
-        if (newClickTime - clickTime < 0.3f && Orbiter is IOrbitParent orbitParent)
+        if (newClickTime - clickTime < 0.3f && Orbiter is IParent orbitParent)
             orbitParent.RenderSystem();
         else
         {

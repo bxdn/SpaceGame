@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface IColonizable : IBody
+    public interface IBody : IChild
     {
-        IColonizableManager ColonizableManager { get; }
+        int Size { get; }
     }
 }

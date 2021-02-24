@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
-    public static class Save
+    public static class SaveUtility
     {
         public static void SaveGame()
         {

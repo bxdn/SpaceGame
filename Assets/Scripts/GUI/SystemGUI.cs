@@ -30,15 +30,15 @@ public class SystemGUI : GUIDestroyable
         {
             return Color.grey;
         }
-        foreach (IOrbitChild child in solarSystem.Children)
+        foreach (IChild child in solarSystem.Children)
         {
             if (child is IColonizable colonizable && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
             {
                 return Constants.colonizedColor;
             }
-            else if (child is IOrbitParent parent)
+            else if (child is IParent parent)
             {
-                foreach (IOrbitChild leaf in parent.Children)
+                foreach (IChild leaf in parent.Children)
                 {
                     if (leaf is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                     {

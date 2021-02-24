@@ -7,10 +7,10 @@ public abstract class Planet : Orbiter, IMiddleChild
     protected abstract int MaxSize { get; }
     protected abstract int MinSize { get; }
     protected abstract int MaxOrbitals { get; }
-    private readonly IOrbitChild[] children;
-    public IOrbitChild[] Children
+    private readonly IChild[] children;
+    public IChild[] Children
     {
-        get => (IOrbitChild[]) children.Clone();
+        get => (IChild[]) children.Clone();
     }
     public override int Size { get; }
     public override String Name { get; set; }
@@ -37,7 +37,7 @@ public abstract class Planet : Orbiter, IMiddleChild
         GUIDestroyable.ClearGUI();
         CameraController.Reset();
         new OrbitParentGUI(this);
-        foreach(IOrbitChild child in Children)
+        foreach(IChild child in Children)
         {
             if(child is Orbiter orbiter)
             {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 [System.Serializable]
-public class Galaxy : IOrbitParent
+public class Galaxy : IParent
 {
     private static readonly int NUM_STARS = 1000;
     private static readonly int REACHABLE_DISTANCE_SQUARED = 300;
@@ -15,11 +15,11 @@ public class Galaxy : IOrbitParent
     public readonly IDictionary<SolarSystem, ISet<SolarSystem>> reachableStars =
         new Dictionary<SolarSystem, ISet<SolarSystem>>();
     public readonly SolarSystem startingSystem;
-    public readonly IOrbitChild startingWorld;
+    public readonly IChild startingWorld;
     public Player Player { get; } = new Player();
     public SolarSystem CurrentSystem { get; set; }
 
-    public IOrbitChild[] Children => nodes.ToArray();
+    public IChild[] Children => nodes.ToArray();
 
     public string Name => null;
 
@@ -27,7 +27,7 @@ public class Galaxy : IOrbitParent
     {
         CreateSystems();
         CreatePaths();
-        Tuple<SolarSystem, IOrbitChild> start = GetStartingSystem();
+        Tuple<SolarSystem, IChild> start = GetStartingSystem();
         startingSystem = start.Item1;
         startingWorld = start.Item2;
     }
@@ -88,7 +88,7 @@ public class Galaxy : IOrbitParent
         }
     }
 
-    private Tuple<SolarSystem,IOrbitChild> GetStartingSystem()
+    private Tuple<SolarSystem,IChild> GetStartingSystem()
     {
         int systemCount = nodes.Count;
         int systemIdx = ColonizerR.r.Next(systemCount);
@@ -97,8 +97,8 @@ public class Galaxy : IOrbitParent
         {
             if (curIdx++ == systemIdx)
             {
-                IOrbitChild startWorld = node.DesignateStartingSystem(this);
-                return new Tuple<SolarSystem, IOrbitChild>(node, startWorld);
+                IChild startWorld = node.DesignateStartingSystem(this);
+                return new Tuple<SolarSystem, IChild>(node, startWorld);
             }
         }
         return null;

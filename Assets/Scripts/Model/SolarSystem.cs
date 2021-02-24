@@ -11,10 +11,10 @@ public class SolarSystem : IMiddleChild
     public readonly int id;
     public readonly SVector2 location;
 
-    public IOrbitChild[] Children { get; private set; }
+    public IChild[] Children { get; private set; }
     public bool Discovered { get; private set; } = false;
 
-    public IOrbitParent Parent => WorldGeneration.Galaxy;
+    public IParent Parent => WorldGeneration.Galaxy;
 
     public string Name => "S-" + id.ToString(Constants.FMT);
 
@@ -52,7 +52,7 @@ public class SolarSystem : IMiddleChild
             }
         }
     }
-    public IOrbitChild DesignateStartingSystem(Galaxy g)
+    public IChild DesignateStartingSystem(Galaxy g)
     {
         IColonizable startPlanet = null;
         bool startIsMoon = ColonizerR.r.Next(100) < 50;
@@ -62,11 +62,11 @@ public class SolarSystem : IMiddleChild
             Discover();
             if (startIsMoon)
             {
-                foreach (IOrbitChild body in Children)
+                foreach (IChild body in Children)
                 {
-                    if (body is IOrbitParent parent)
+                    if (body is IParent parent)
                     {
-                        foreach (IOrbitChild orbiter in parent.Children)
+                        foreach (IChild orbiter in parent.Children)
                         {
                             if (orbiter is Moon moon && moon.DesignateStartingWorld(g))
                             {
@@ -83,7 +83,7 @@ public class SolarSystem : IMiddleChild
             }
             else
             {
-                foreach (IOrbitChild body in Children)
+                foreach (IChild body in Children)
                 {
                     if (body is RockyPlanet planet && planet.DesignateStartingWorld(g))
                     {
@@ -104,7 +104,7 @@ public class SolarSystem : IMiddleChild
         SelectorController.Reset();
         WorldGeneration.Galaxy.CurrentSystem = this;
         new OrbitParentGUI(this);
-        foreach (IOrbitChild child in Children)
+        foreach (IChild child in Children)
         {
             if (child is Orbiter orbiter)
             {

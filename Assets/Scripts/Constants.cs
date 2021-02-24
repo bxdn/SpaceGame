@@ -21,6 +21,7 @@ public static class Constants
     public static readonly float SCALE_TICK = 1.2f;
     public static readonly Color colonizedColor = new Color(.4f, .8f, 1);
 
+    public static readonly GameObject TOP_INFO = GameObject.Find("Top Info");
     public static readonly GameObject NAMEF = GameObject.Find("Name Field");
     public static readonly GameObject TYPEF = GameObject.Find("Type Field");
     public static readonly GameObject OBF = GameObject.Find("Orbiting Bodies Field");

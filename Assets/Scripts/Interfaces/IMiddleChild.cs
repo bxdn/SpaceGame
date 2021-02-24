@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMiddleChild : IOrbitChild, IOrbitParent
+public interface IMiddleChild : IChild, IParent
 {
 
 }

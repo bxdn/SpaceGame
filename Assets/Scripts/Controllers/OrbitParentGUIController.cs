@@ -9,7 +9,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     private float clickTime = 0;
     public Transform bigTransform;
     public Text text;
-    public IOrbitChild System { get; set; }
+    public IMiddleChild System { get; set; }
 
     public IModelObject ModelObject => System;
 

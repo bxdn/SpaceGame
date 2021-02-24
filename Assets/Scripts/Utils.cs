@@ -59,7 +59,7 @@ public static class Utils
         Constants.NAMEF.GetComponent<Text>().text = orbiter.Name;
         Constants.TYPEF.GetComponent<Text>().text = orbiter.Type;
         Constants.SIZEF.GetComponent<Text>().text = orbiter.Size.ToString();
-        if (orbiter is IOrbitParent parent)
+        if (orbiter is IParent parent)
             Constants.OBF.GetComponent<Text>().text = parent.Children.Length.ToString();
         if (orbiter is IColonizable colonizable)
         {

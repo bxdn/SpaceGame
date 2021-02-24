@@ -57,9 +57,9 @@ public class OrbiterGUI : GUIDestroyable
         {
             return Constants.colonizedColor;
         }
-        else if (body is IOrbitParent planet)
+        else if (body is IParent planet)
         {
-            foreach(IOrbitChild child in planet.Children)
+            foreach(IChild child in planet.Children)
             {
                 if(child is IColonizable colonizableLeaf && colonizableLeaf.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
                 {

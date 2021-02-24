@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Save.SaveGame();
+            SaveUtility.SaveGame();
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
             #endif

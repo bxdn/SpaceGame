@@ -6,73 +6,102 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.GUI
 {
-    class WorldMapGUI : GUIDestroyable
+    public class WorldMapGUI : GUIDestroyable
     {
-        private static GameObject[] whiteSquares;
-        private static GameObject[] blackSquares;
-        private static GameObject[] features;
+        private readonly GameObject[] whiteSquares;
+        private readonly GameObject[] blackSquares;
+        private readonly GameObject[] features;
+        private readonly GameObject gObject;
+        private readonly WorldMapHoverController controller;
+        private readonly WorldMapRenderController generator;
+        private static readonly int SQUARE_SIZE = 5;
+        public static bool Activated { get; private set; }
+        private static readonly Type[] COMPONENTS = new Type[] { typeof(WorldMapHoverController), typeof(WorldMapRenderController) };
 
         public WorldMapGUI(IColonizable c)
         {
-            int n = c.Size;
+            Activated = true;
+
+            this.gObject = new GameObject("Map", COMPONENTS);
+            controller = gObject.GetComponent<WorldMapHoverController>();
+            generator = gObject.GetComponent<WorldMapRenderController>();
+
+            var n = c.Size;
             whiteSquares = new GameObject[n];
             blackSquares = new GameObject[n];
             features = new GameObject[n];
-            int rowSize = (int)Math.Ceiling(Math.Pow(whiteSquares.Length, .5));
-            CameraController.Reset();
-            Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
-            int idx = 0;
-            for (int i = 0; i < rowSize; i++)
-            {
-                for (int j = 0; j < rowSize && idx < whiteSquares.Length; j++)
-                {
-                    Vector2 loc = new Vector2(5 * i, 5 * j);
-                    GameObject whiteSquare = new GameObject("Square");
-                    whiteSquares[idx] = whiteSquare;
-                    whiteSquare.transform.parent = Constants.GRID.transform;
-                    var renderer = whiteSquare.AddComponent<SpriteRenderer>();
-                    renderer.sprite = Constants.square;
-                    renderer.color = new Color(1, 1, 1, 0);
-                    whiteSquare.transform.position = loc;
-                    whiteSquare.transform.localScale = new Vector2(5, 5);
 
-                    GameObject blackSquare = new GameObject("Square");
-                    blackSquares[idx] = blackSquare;
-                    blackSquare.transform.parent = Constants.GRID.transform;
-                    var smallRenderer = blackSquare.AddComponent<SpriteRenderer>();
-                    smallRenderer.sprite = Constants.square;
-                    smallRenderer.color = Color.black;
-                    smallRenderer.sortingOrder = 1;
-                    blackSquare.transform.position = loc;
-                    blackSquare.transform.localScale = new Vector2(4.7f, 4.7f);
+            var rowSize = (int)Math.Ceiling(Math.Pow(n, .5));
+            controller.Init(whiteSquares, rowSize);
+            generator.Init(this, n, rowSize);
+        }
 
-                    GameObject letter = new GameObject("Letter", typeof(RectTransform));
-                    features[idx++] = letter;
-                    letter.transform.parent = Constants.CANVAS.transform;
-                    letter.transform.localScale = new Vector2(.05f, .05f);
-                    var text = letter.AddComponent<Text>();
-                    text.alignment = TextAnchor.MiddleCenter;
-                    text.text = ColonizerR.r.Next(100) < 10 ? ((char)ColonizerR.r.Next('A', 'Z')).ToString() : "";
-                    text.font = ARIAL;
-                    text.fontSize = 72;
-                    text.color = Color.white;
-                    letter.transform.position = loc;
-                }
-            }
-            WorldMapController.Init(whiteSquares);
+        public static void Render(IColonizable c)
+        {
+            GUIDestroyable.ClearGUI();
+            new WorldMapGUI(c);
+        }
+        
+        public void AddSquare(int idx, int x, int y)
+        {
+            var loc = new Vector2(SQUARE_SIZE * x, SQUARE_SIZE * y);
+            AddBigSquare(idx, loc);
+            AddSmallSquare(idx, loc);
+            AddLetter(idx, loc);
+        }
+
+        private void AddBigSquare(int idx, Vector2 loc)
+        {
+            var whiteSquare = UnityEngine.Object.Instantiate(Constants.WHITE_SQUARE, loc, Quaternion.identity, Constants.GRID.transform);
+            whiteSquares[idx] = whiteSquare;
+        }
+
+        private void AddSmallSquare(int idx, Vector2 loc)
+        {
+            var blackSquare = UnityEngine.Object.Instantiate(Constants.BLACK_SQUARE, loc, Quaternion.identity, Constants.GRID.transform);
+            blackSquares[idx] = blackSquare;
+        }
+
+        private void AddLetter(int idx, Vector2 loc)
+        {
+            var letter = UnityEngine.Object.Instantiate(Constants.LETTER, loc, Quaternion.identity, Constants.CANVAS.transform);
+            letter.GetComponent<Text>().text = ColonizerR.r.Next(100) < 10 ? ((char)ColonizerR.r.Next('A', 'Z')).ToString() : ""; 
+            features[idx] = letter;
         }
 
         public override void Destroy()
         {
+            Activated = false;
+            controller.Disabled = true;
+            generator.BeginDestruction();
             for (int i = 0; i < whiteSquares.Length; i++)
-                DestroySquare(i);
+                DisableSquare(i);
         }
 
-        private void DestroySquare(int i)
+        private void DisableSquare(int i)
         {
+            if (whiteSquares[i] == null)
+                return;
+            whiteSquares[i].SetActive(false);
+            blackSquares[i].SetActive(false);
+            features[i].SetActive(false);
+        }
+
+        public void DestroySquare(int i)
+        {
+            if(whiteSquares[i] == null)
+                return;
             GameObject.Destroy(whiteSquares[i]);
             GameObject.Destroy(blackSquares[i]);
             GameObject.Destroy(features[i]);
+            whiteSquares[i] = null;
+            blackSquares[i] = null;
+            features[i] = null;
+        }
+
+        public void FinishDestruction()
+        {
+            GameObject.Destroy(gObject);
         }
     }
 }

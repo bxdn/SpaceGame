@@ -15,5 +15,6 @@ public abstract class GUIDestroyable : IGUIDestroyable
 		foreach (IGUIDestroyable gui in GUIS)
 			gui.Destroy();
 		GUIS.Clear();
+		CameraController.Reset();
 	}
 }

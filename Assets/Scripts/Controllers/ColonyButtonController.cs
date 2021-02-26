@@ -15,16 +15,16 @@ public class ColonyButtonController : MonoBehaviour, IPointerClickHandler
 
     private static void Activate()
     {
-        GUIDestroyable.ClearGUI();
         var selected = Selection.CurrentSelection;
-        if (WorldMapController.Activated)
+        if (WorldMapGUI.Activated)
             if (selected is OrbitParentGUIController)
                 (selected as OrbitParentGUIController).System.RenderSystem();
             else
                 (selected as OrbiterGUIController).Orbiter.Parent.RenderSystem();
         else
-            new WorldMapGUI(selected.ModelObject as IColonizable);
-        WorldMapController.Activated = !WorldMapController.Activated;
+        {
+            WorldMapGUI.Render(selected.ModelObject as IColonizable);
+        }
         Constants.TOP_INFO.SetActive(!Constants.TOP_INFO.activeSelf);
         /*Constants.COLONY_PANEL.SetActive(true);
         Constants.GOODS_PANEL.SetActive(true);

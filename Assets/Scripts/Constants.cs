@@ -21,6 +21,10 @@ public static class Constants
     public static readonly float SCALE_TICK = 1.2f;
     public static readonly Color colonizedColor = new Color(.4f, .8f, 1);
 
+    public static readonly GameObject BLACK_SQUARE = Resources.Load<GameObject>("BlackSquare");
+    public static readonly GameObject WHITE_SQUARE = Resources.Load<GameObject>("WhiteSquare");
+    public static readonly GameObject LETTER = Resources.Load<GameObject>("Letter");
+
     public static readonly GameObject TOP_INFO = GameObject.Find("Top Info");
     public static readonly GameObject NAMEF = GameObject.Find("Name Field");
     public static readonly GameObject TYPEF = GameObject.Find("Type Field");

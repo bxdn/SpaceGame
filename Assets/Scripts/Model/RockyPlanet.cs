@@ -6,8 +6,8 @@ using System;
 public class RockyPlanet : Planet, IArable
 {
     public override string Type => "Rocky Planet";
-    protected sealed override int MaxSize => 50;
-    protected sealed override int MinSize => 25;
+    protected sealed override int MaxSize => 5000;
+    protected sealed override int MinSize => 500;
     protected sealed override int MaxOrbitals => 4;
     public IColonizableManager ColonizableManager { get; private set; }
     public RockyPlanet(SolarSystem sol, char id) : base(sol, id)

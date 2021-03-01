@@ -1,10 +1,8 @@
-﻿using Assets.Scripts.Controllers;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public abstract class GUIDestroyable : IGUIDestroyable
 {
-	public static IList<IGUIDestroyable> GUIS { get; } = new List<IGUIDestroyable>();
+	private static IList<IGUIDestroyable> GUIS { get; } = new List<IGUIDestroyable>();
 	public GUIDestroyable()
 	{
 		GUIS.Add(this);

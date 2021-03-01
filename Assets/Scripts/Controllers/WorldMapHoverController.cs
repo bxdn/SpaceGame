@@ -8,14 +8,16 @@ namespace Assets.Scripts.Controllers
     {
         public bool Disabled { get; set; } = false;
         private int rowSize;
-        private GameObject[] whiteSquares;
+        private int n;
         private static readonly int DISTANCE_ALPHA = 6;
-        private static readonly GameObject[] prevSquares = new GameObject[(int)Mathf.Pow(DISTANCE_ALPHA * 2, 2)];
+        private static readonly int[] prevSquares = new int[(int)Mathf.Pow(DISTANCE_ALPHA * 2, 2)];
         private static int bufferIdx;
-        public void Init(GameObject[] whiteSquares, int rowSize)
+        private WorldMapGUI gui;
+        public void Init(int n, WorldMapGUI gui)
         {
-            this.whiteSquares = whiteSquares;
-            this.rowSize = rowSize;
+            this.n = n;
+            rowSize = (int)Math.Ceiling(Math.Pow(n, .5));
+            this.gui = gui;
         }
         private void Update()
         {
@@ -27,7 +29,7 @@ namespace Assets.Scripts.Controllers
         {
             var mousePos = CameraController.Camera.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             for (int i = 0; i < prevSquares.Length; i++)
-                UpdatePrevSquareAlpha(prevSquares[i], mousePos);
+                UpdateAlpha(prevSquares[i], mousePos);
             var roundedMousePos = new Vector2((int)(mousePos.x / 5 + .5), (int)(mousePos.y / 5 + .5));
             bufferIdx = 0;
             for (int i = -DISTANCE_ALPHA; i < DISTANCE_ALPHA; i++)
@@ -45,26 +47,20 @@ namespace Assets.Scripts.Controllers
             int y = (int)roundedMousePos.x + j;
             int idx;
             if (0 <= x && x < rowSize && 0 <= y && y < rowSize && 
-                (idx = x * rowSize + y) < whiteSquares.Length)
+                (idx = x * rowSize + y) < n)
                 UpdateAndBufferSquareAlpha(idx, mousePos);
         }
         private void UpdateAndBufferSquareAlpha(int squareIdx, Vector2 mousePos)
         {
-            var square = whiteSquares[squareIdx];
-            prevSquares[bufferIdx++] = square;
-            if(square != null)
-                UpdateAlpha(square, mousePos);
+            prevSquares[bufferIdx++] = squareIdx;
+            UpdateAlpha(squareIdx, mousePos);
         }
-        private static void UpdatePrevSquareAlpha(GameObject prevSquare, Vector2 mousePos)
+        private void UpdateAlpha(int squareIdx, Vector2 mousePos)
         {
-            if (prevSquare != null)
-                UpdateAlpha(prevSquare, mousePos);
-        }
-        private static void UpdateAlpha(GameObject square, Vector2 mousePos)
-        {
-            var distance = Mathf.Sqrt(Mathf.Pow(square.transform.position.x - mousePos.x, 2) + Mathf.Pow(square.transform.position.y - mousePos.y, 2));
+            var distance = Mathf.Sqrt(Mathf.Pow((squareIdx  % rowSize) * WorldMapGUI.SQUARE_SIZE  - mousePos.x, 2) 
+                + Mathf.Pow((squareIdx / rowSize) * WorldMapGUI.SQUARE_SIZE - mousePos.y, 2));
             var alpha = Mathf.Max(0, Mathf.Min(1, -.1f * distance + (DISTANCE_ALPHA - 1) / 2.0f));
-            square.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+            gui.SetWhiteSquareAlpha(squareIdx, alpha);
         }
     }
 }

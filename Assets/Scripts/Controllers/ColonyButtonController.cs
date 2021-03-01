@@ -1,5 +1,4 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.Controllers;
+﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using UnityEngine;

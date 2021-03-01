@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.GUI;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers
@@ -13,10 +14,10 @@ namespace Assets.Scripts.Controllers
 
         private WorldMapGUI gui;
 
-        public void Init(WorldMapGUI gui, int totalSquares, int rowSize)
+        public void Init(int totalSquares, WorldMapGUI gui )
         {
             this.totalSquares = totalSquares;
-            this.rowSize = rowSize;
+            rowSize = (int)Math.Ceiling(Math.Pow(totalSquares, .5));
             this.gui = gui;
         }
 
@@ -44,7 +45,8 @@ namespace Assets.Scripts.Controllers
         private void RenderSquareBatch()
         {
             for (int i = 0; i < SQUARES_PER_FRAME && curIdx < totalSquares; i++)
-                gui.AddSquare(curIdx, curIdx % rowSize, curIdx++ / rowSize);
+                gui.AddSquare(curIdx, (curIdx % rowSize) * WorldMapGUI.SQUARE_SIZE, 
+                    (curIdx++ / rowSize) * WorldMapGUI.SQUARE_SIZE);
         }
         private void DestroySquareBatch()
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Model
 {
+    [System.Serializable]
     public enum EGood
     {
         Food,
@@ -16,7 +17,6 @@ namespace Assets.Scripts.Model
         Windows,
         Tools,
         Machinery,
-        BuildingMaterials,
         Electronics,
         Fabric,
         Clothes,
@@ -24,13 +24,11 @@ namespace Assets.Scripts.Model
         EntertainmentItems,
         Iron,
         Hydrogen,
-        Wood,
         Steel,
         Mylar,
         Carbon,
         Silicon,
         Chips,
-        Screens,
         Glass
     }
 }

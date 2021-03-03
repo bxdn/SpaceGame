@@ -35,9 +35,9 @@ public class ColonyUpdater : MonoBehaviour
             && s.ModelObject is IColonizable col
             && col.ColonizableManager is IColonizableManager m
             && m.Colony == c)
-            UpdateGUIS(col);
+            UpdateGUIS(c);
     }
-    private void UpdateGUIS(IColonizable c)
+    private void UpdateGUIS(Colony c)
     {
         ColonyDialogController.Update(c);
         GoodsDialogController.Update(c);

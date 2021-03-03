@@ -28,7 +28,7 @@ namespace Assets.Scripts.GUI
             squares = new Square[n];
 
             hoverController.Init(n, this);
-            renderController.Init(n, this);
+            renderController.Init(n, this, c.ColonizableManager);
         }
 
         public static void Render(IColonizable c)
@@ -44,11 +44,15 @@ namespace Assets.Scripts.GUI
                 square.WhiteSquare.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
         }
 
-        public void AddSquare(int idx, int x, int y)
+        public void AddSquare(int idx, Vector2 coords, string field)
         {
-            var loc = new Vector2(x, y);
-            var square = new Square(AddBigSquare(loc), AddSmallSquare(loc), AddLetter(loc));
+            var square = new Square(AddBigSquare(coords), AddSmallSquare(coords), AddLetter(coords, field));
             squares[idx] = square;
+        }
+
+        public void ChangeField(int idx, string field)
+        {
+            squares[idx].Feature.GetComponent<Text>().text = field;
         }
 
         private GameObject AddBigSquare(Vector2 loc)
@@ -63,12 +67,11 @@ namespace Assets.Scripts.GUI
                 Quaternion.identity, Constants.GRID.transform);
         }
 
-        private GameObject AddLetter(Vector2 loc)
+        private GameObject AddLetter(Vector2 loc, string field)
         {
             var letter = UnityEngine.Object.Instantiate(Constants.LETTER, loc, 
                 Quaternion.identity, Constants.CANVAS.transform);
-            letter.GetComponent<Text>().text = ColonizerR.r.Next(100) < 10 ? 
-                ((char)ColonizerR.r.Next('A', 'Z')).ToString() : "";
+            letter.GetComponent<Text>().text = field;
             return letter;
         }
 

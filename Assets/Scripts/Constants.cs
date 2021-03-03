@@ -59,8 +59,8 @@ public static class Constants
     public static readonly GameObject GOOD_MASKING_PANEL = GameObject.Find("MaskingPanel2");
     public static readonly GameObject STRUCTURE_MASKING_PANEL = GameObject.Find("Structure Masking Panel");
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
+    public static readonly GameObject MENUS_BUTTON = GameObject.Find("Menus");
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
-    public static readonly Text WORK_VAL = GameObject.Find("WorkVal").GetComponent<Text>();
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
     public static readonly Text LVL_VAL = GameObject.Find("LevelVal").GetComponent<Text>();
     public static readonly Text SHIPS_VAL = GameObject.Find("RocketField").GetComponent<Text>();
@@ -117,16 +117,15 @@ public static class Constants
         STRUCTURE_PANEL.SetActive(false);
         GOODS_PANEL.SetActive(false);
         COLONY_BUTTON.SetActive(false);
+        MENUS_BUTTON.SetActive(false);
         Utils.LayoutUI();
 
         var structureBuilder = ImmutableDictionary.CreateBuilder<EStructure, StructureInfo>();
         structureBuilder.Add(EStructure.Housing, StructureRegistry.Housing);
-        structureBuilder.Add(EStructure.ConstructionManufacturer, StructureRegistry.ConstructionManufacturer);
         structureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
         structureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
         structureBuilder.Add(EStructure.ElectrolysisPlant, StructureRegistry.ElectrolysisPlant);
         structureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
-        structureBuilder.Add(EStructure.LumberMill, StructureRegistry.LumberMill);
         structureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
         structureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
         structureBuilder.Add(EStructure.MylarPlant, StructureRegistry.MylarPlant);
@@ -135,7 +134,6 @@ public static class Constants
         structureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
         structureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
         structureBuilder.Add(EStructure.SiliconGatherer, StructureRegistry.SiliconCollector);
-        structureBuilder.Add(EStructure.ScreenMaker, StructureRegistry.ScreenMaker);
         structureBuilder.Add(EStructure.School, StructureRegistry.School);
         structureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
         structureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
@@ -144,14 +142,12 @@ public static class Constants
         var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
         resourceBuilder.Add(EResource.Water, "Water Source");
         resourceBuilder.Add(EResource.Iron, "Iron Source");
-        resourceBuilder.Add(EResource.EnergySource, "Energy Source");
         resourceBuilder.Add(EResource.Land, "Land");
-        resourceBuilder.Add(EResource.ArableLand, "Arable Land");
+        resourceBuilder.Add(EResource.Silicon, "Silicon");
         RESOURCE_MAP = resourceBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
         goodBuilder.Add(EGood.Alcohol, "Alcohol");
-        goodBuilder.Add(EGood.BuildingMaterials, "Building Materials");
         goodBuilder.Add(EGood.Clothes, "Clothes");
         goodBuilder.Add(EGood.Electronics, "Electronics");
         goodBuilder.Add(EGood.Energy, "Energy");
@@ -165,12 +161,10 @@ public static class Constants
         goodBuilder.Add(EGood.Steel, "Steel");
         goodBuilder.Add(EGood.Tools, "Tools");
         goodBuilder.Add(EGood.Water, "Water");
-        goodBuilder.Add(EGood.Wood, "Wood");
         goodBuilder.Add(EGood.Oxygen, "Oxygen");
         goodBuilder.Add(EGood.Mylar, "Mylar");
         goodBuilder.Add(EGood.Carbon, "Carbon");
         goodBuilder.Add(EGood.Chips, "Chips");
-        goodBuilder.Add(EGood.Screens, "Screens");
         goodBuilder.Add(EGood.Silicon, "Silicon");
         goodBuilder.Add(EGood.Glass, "Glass");
         goodBuilder.Add(EGood.Windows, "Windows");

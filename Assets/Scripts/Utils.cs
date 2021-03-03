@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
@@ -64,23 +65,68 @@ public static class Utils
         if (orbiter is IColonizable colonizable)
         {
             IColonizableManager manager = colonizable.ColonizableManager;
-            IDictionary<EResource, int> resources = manager.Resources;
+            var resources = manager.Resources;
             Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
-            Constants.ARABLEF.GetComponent<Text>().text = manager.Resources[EResource.ArableLand].ToString();
-            Constants.OTHERF.GetComponent<Text>().text = (manager.Resources[EResource.Land] - manager.Resources[EResource.ArableLand]).ToString();
-            Constants.HAZARDF.GetComponent<Text>().text = manager.HazardFrequency.ToString();
-            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
-            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
+            Constants.ARABLEF.GetComponent<Text>().text = "N/A";
+            Constants.OTHERF.GetComponent<Text>().text = resources[EResource.Land].Count.ToString();
+            Constants.HAZARDF.GetComponent<Text>().text = manager.Habitability.ToString();
+            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].Count.ToString();
+            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].Count.ToString();
             Constants.GASSESF.GetComponent<Text>().text = "N/A";
-            Constants.ENERGYF.GetComponent<Text>().text = resources[EResource.EnergySource].ToString();
-            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable : null);
-            GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable : null);
+            Constants.ENERGYF.GetComponent<Text>().text = "N/A";
+            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.Colony : null);
+            GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.Colony : null);
         }
         else
         {
             ColonyDialogController.Reset(null);
             GoodsDialogController.Reset(null);
         }
+    }
+
+    public static int SquareCoordsToIdx(Vector2Int coords, int rowSize)
+    {
+        return coords.y * rowSize + coords.x;
+    }
+
+    public static Vector2Int IdxToSquareCoords(int idx, int rowSize)
+    {
+        return new Vector2Int(idx % rowSize, idx / rowSize);
+    }
+
+    public static Vector2Int GetCurrentSquareCoords()
+    {
+        return WorldToSquareCoords(GetCurrentMousePosition());
+    }
+
+    public static Vector2Int SquareIdxToWorldCoords(int idx, int rowSize)
+    {
+        return SquareToWorldCoords(IdxToSquareCoords(idx, rowSize));
+    }
+
+    public static int GetCurrentSquareIdx(int rowSize)
+    {
+        return SquareCoordsToIdx(WorldToSquareCoords(GetCurrentMousePosition()), rowSize);
+    }
+
+    public static Vector2Int SquareToWorldCoords(Vector2Int coords)
+    {
+        return new Vector2Int(coords.x * WorldMapGUI.SQUARE_SIZE, coords.y * WorldMapGUI.SQUARE_SIZE);
+    }
+
+    public static Vector2Int WorldToSquareCoords(Vector2 coords)
+    {
+        return new Vector2Int((int)(coords.x / WorldMapGUI.SQUARE_SIZE + .5), (int)(coords.y / WorldMapGUI.SQUARE_SIZE + .5));
+    }
+
+    public static Vector2 GetCurrentMousePosition()
+    {
+        return CameraController.Camera.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    public static int GetRowSize(int n)
+    {
+        return (int)Math.Ceiling(Math.Pow(n, .5));
     }
 
     public static void LayoutUI()

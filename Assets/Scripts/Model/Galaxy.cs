@@ -107,13 +107,9 @@ public class Galaxy : IParent
     public void RenderStartingSystem()
     {
         if(startingWorld is Planet p)
-        {
             p.RenderSystem();
-        }
         else
-        {
             startingWorld.Parent.RenderSystem();
-        }
     }
 
     public void RenderSystem()

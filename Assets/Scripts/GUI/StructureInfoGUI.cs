@@ -27,7 +27,7 @@ namespace Assets.Scripts.GUI
         private void CreatePriceText()
         {
             int count = 1;
-            CreateElement("Workers: " + info.RequiredWorkers + " (Lvl " + info.WorkerLevel + "+)", new Vector2(260, 25 - 30 * count));
+            CreateElement("Workers: Lvl " + info.WorkerLevel + "+)", new Vector2(260, 25 - 30 * count));
             foreach(KeyValuePair<Model.EGood, int> entry in info.GoodCost)
             {
                 count++;

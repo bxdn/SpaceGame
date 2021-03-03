@@ -59,29 +59,30 @@ public class ColonyDialogController : EventTrigger
             dragging = false;
         }
     }
-    public static void Reset(IColonizable colonizable)
+    public static void Reset(Colony colony)
     {
         structScrollVal = 0;
-        if (colonizable != null)
-            Fill(colonizable);
+        Fill(colony);
     }
-    public static void Update(IColonizable colonizable)
+    public static void Update(Colony c)
     {
-        Fill(colonizable);
+        Fill(c);
         for (int i = 0; i < structScrollVal; i++)
             MoveStructGUIs(true);
     }
-    private static void Fill(IColonizable colonizable)
+    private static void Fill(Colony colony)
     {
+        if (colony == null)
+            return;
         foreach (GUIDestroyable gui in structGuis)
             gui.Destroy();
         structGuis.Clear();
         Vector2 currentPosition = new Vector2(0, 0);
-        foreach (var structure in colonizable.ColonizableManager.Colony.Structures)
+        foreach (var structure in colony.Structures)
         {
             structGuis.Add(new LandUnitGUI(Constants.STRUCTURE_MAP[structure.Key], structure.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
-        Constants.SHIPS_VAL.text = colonizable.ColonizableManager.Colony.Rockets.ToString();
+        Constants.SHIPS_VAL.text = colony.Rockets.ToString();
     }
 }

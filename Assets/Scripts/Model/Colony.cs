@@ -12,8 +12,7 @@ namespace Assets.Scripts.Model
         private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         private readonly IDictionary<EStructure, int> structures = new Dictionary<EStructure, int>();
         public float Influence { get; private set; } = 100;
-        public int Workers { get; private set; } = 100;
-        public int Population { get; private set; } = 150;
+        public int Population { get; private set; } = 0;
         public int Rockets { get; private set; } = 0;
         public IDictionary<EGood, GoodInfo> Goods
         {
@@ -32,20 +31,14 @@ namespace Assets.Scripts.Model
             get => new Dictionary<EStructure, int>(structures);
         }
         public int CurrentLevel { get; private set; } = 0;
-        public Colony(Galaxy g, IDictionary<EResource, int> resources)
+        public Colony(Galaxy g, IDictionary<EResource, IList<int>> resources)
         {
             ColonyUpdater.AddColony(this, g);
-            this.resources = resources;
-            goods[EGood.Food] = new GoodInfo(100);
-            goods[EGood.Water] = new GoodInfo(100);
-            goods[EGood.BuildingMaterials] = new GoodInfo(500);
+            foreach (var resource in resources)
+                this.resources[resource.Key] = resource.Value.Count;
             goods[EGood.Energy] = new GoodInfo(100);
-            goods[EGood.Oxygen] = new GoodInfo(100);
             goods[EGood.Chips] = new GoodInfo(100);
-            goods[EGood.Screens] = new GoodInfo(100);
-            for (int i = 0; i < 3; i++)
-                AddStructure(EStructure.Housing);
-            goods[EGood.BuildingMaterials] = new GoodInfo(100);
+            goods[EGood.Steel] = new GoodInfo(100);
         }
         private void IncrementGood(EGood good, float amount)
         {
@@ -103,19 +96,19 @@ namespace Assets.Scripts.Model
         }
         private void ProcessServiceWant(KeyValuePair<EService, float> servicePerPop)
         {
-            if (Influence > 100)
-            {
-                float demand = servicePerPop.Value * Population;
-                float maxInfluenceHit = 100 - Influence;
-                if (!services.ContainsKey(servicePerPop.Key))
-                    IncrementInfluence(Math.Max(maxInfluenceHit, -demand));
-                else if (services[servicePerPop.Key] < demand)
-                    IncrementInfluence(Math.Max(maxInfluenceHit, services[servicePerPop.Key] - demand));
-            }
+            if (Influence <= 100)
+                return;
+            float demand = servicePerPop.Value * Population;
+            float maxInfluenceHit = 100 - Influence;
+            if (!services.ContainsKey(servicePerPop.Key))
+                IncrementInfluence(Math.Max(maxInfluenceHit, -demand));
+            else if (services[servicePerPop.Key] < demand)
+                IncrementInfluence(Math.Max(maxInfluenceHit, services[servicePerPop.Key] - demand));
         }
         public void TickForward()
         {
-            Influence++;
+            if(Population > 0)
+                Influence++;
             var prevGoods = Goods;
             LevelInfo level = LevelInfo.GetLevel(Math.Min(CurrentLevel, 5));
             foreach (var structurePair in structures)
@@ -157,15 +150,10 @@ namespace Assets.Scripts.Model
         }
         private void IncrementPop(LevelInfo level)
         {
-            int amountToIncrease = (int)Math.Min(.01 * Population, services[EService.Housing] - Population * level.ServicesPerPopNeeds[EService.Housing]);
+            var maxIncrease = Math.Max(1, .01 * Population);
+            var potentialIncrease = services[EService.Housing] - Population * level.ServicesPerPopNeeds[EService.Housing];
+            int amountToIncrease = (int)Math.Min(maxIncrease, potentialIncrease);
             Population += amountToIncrease;
-            for (int i = 0; i < amountToIncrease; i++)
-                IncrementWorkers();
-        }
-        private void IncrementWorkers()
-        {
-            if (ColonizerR.r.Next(100) > 33)
-                Workers++;
         }
         private void WorkStructure(EStructure structure)
         {
@@ -187,11 +175,9 @@ namespace Assets.Scripts.Model
                 IncrementService(pair.Key, pair.Value);
             foreach (var pair in info.ResourceCost)
                 IncrementResource(pair.Key, -pair.Value);
-            Workers -= info.RequiredWorkers;
         }
         public void AddRocket()
         {
-            IncrementGood(EGood.BuildingMaterials, -50);
             IncrementGood(EGood.Hydrogen, -100);
             IncrementGood(EGood.Energy, -50);
             IncrementGood(EGood.Oxygen, -50);

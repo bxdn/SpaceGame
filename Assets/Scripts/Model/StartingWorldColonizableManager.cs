@@ -9,20 +9,17 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class StartingWorldColonizableManager : ColonizableManager
     {
-        private static readonly int MIN_ARABLE = 500;
-        private static readonly int MIN_TOTAL = 1000;
+        private static readonly int MIN_TOTAL = 500;
         public StartingWorldColonizableManager(Orbiter orbiter) : base(orbiter) { }
         public bool DesignateStartingColony(Galaxy g)
         {
-            if (resources[EResource.ArableLand] < MIN_ARABLE)
+            if (Habitability < 90)
                 return false;
-            if (resources[EResource.Land] < MIN_TOTAL)
+            if (resources[EResource.Land].Count < MIN_TOTAL)
                 return false;
-            if (Resources[EResource.Water] < 5)
+            if (Resources[EResource.Water].Count < 50)
                 return false;
-            if (Resources[EResource.Iron] < 5)
-                return false;
-            if (Resources[EResource.EnergySource] < 5)
+            if (Resources[EResource.Iron].Count < 50)
                 return false;
             Colonize(g);
             return true;

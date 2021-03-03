@@ -4,7 +4,6 @@ using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -85,14 +84,10 @@ public class StructurePanelController : EventTrigger
     public static void SetStructure(EStructure structure)
     {
         Constants.STRUCTURE_PANEL.SetActive(false);
-        Constants.COLONY_PANEL.SetActive(true);
-        if (Selection.CurrentSelection.ModelObject is IColonizable c && c.ColonizableManager is IColonizableManager m && m.Colony is Colony colony)
-            SetStructure(structure, c, colony);
-    }
-    private static void SetStructure(EStructure structure, IColonizable c, Colony colony)
-    {
-        colony.AddStructure(structure);
-        ColonyDialogController.Reset(c);
-        GoodsDialogController.Update(c);
+        Constants.COLONY_PANEL.SetActive(false);
+        Constants.GOODS_PANEL.SetActive(false);
+        CameraController.Locked = false;
+        if (Selection.CurrentSelection.ModelObject is IColonizable c && c.ColonizableManager is IColonizableManager m)
+            AddStructureController.Activate(structure, m);
     }
 }

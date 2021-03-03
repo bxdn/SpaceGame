@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Model
 {
+    [System.Serializable]
     public enum EResource
     {
-        ArableLand,
         Water,
         Iron,
-        EnergySource,
         Land,
+        Silicon
     }
 }

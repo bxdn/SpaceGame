@@ -16,16 +16,16 @@ namespace Assets.Scripts.Model
         public ImmutableDictionary<EResource, int> ResourceCost { get; }
         public ImmutableDictionary<EGood, float> Flow { get; }
         public ImmutableDictionary<EService, float> ServiceFlow { get; }
-        public int RequiredWorkers { get; }
+        public Enum PrereqFeature { get; }
         public int WorkerLevel { get; }
         public StructureInfo(String name, ImmutableDictionary<EGood, int> cost, ImmutableDictionary<EResource, int> resourceCost, ImmutableDictionary<EGood, float> flow, 
-            ImmutableDictionary<EService, float> serviceFlow, int reqWorkers, int workerLevel)
+            ImmutableDictionary<EService, float> serviceFlow, Enum prereqFeature, int workerLevel)
         {
             this.Name = name;
             this.GoodCost = cost;
             this.ResourceCost = resourceCost;
             this.Flow = flow;
-            this.RequiredWorkers = reqWorkers;
+            this.PrereqFeature = prereqFeature;
             this.ServiceFlow = serviceFlow;
             this.WorkerLevel = workerLevel;
         }

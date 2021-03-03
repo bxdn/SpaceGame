@@ -9,7 +9,6 @@ namespace Assets.Scripts.Model
     {
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
-        private readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         private readonly IDictionary<EStructure, int> structures = new Dictionary<EStructure, int>();
         public float Influence { get; private set; } = 100;
         public int Population { get; private set; } = 0;
@@ -22,20 +21,14 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EService, float>(services);
         }
-        public IDictionary<EResource, int> Resources
-        {
-            get => new Dictionary<EResource, int>(resources);
-        }
         public IDictionary<EStructure, int> Structures
         {
             get => new Dictionary<EStructure, int>(structures);
         }
         public int CurrentLevel { get; private set; } = 0;
-        public Colony(Galaxy g, IDictionary<EResource, IList<int>> resources)
+        public Colony(Galaxy g)
         {
             ColonyUpdater.AddColony(this, g);
-            foreach (var resource in resources)
-                this.resources[resource.Key] = resource.Value.Count;
             goods[EGood.Energy] = new GoodInfo(100);
             goods[EGood.Chips] = new GoodInfo(100);
             goods[EGood.Steel] = new GoodInfo(100);
@@ -77,10 +70,6 @@ namespace Assets.Scripts.Model
         private void IncrementService(EService service, float amount)
         {
             services[service] = services.ContainsKey(service) ? services[service] + amount : amount;
-        }
-        private void IncrementResource(EResource resource, int amount)
-        {
-            resources[resource] = resources.ContainsKey(resource) ? resources[resource] + amount : amount;
         }
         private void IncrementStructure(EStructure structure, int amount)
         {
@@ -173,8 +162,6 @@ namespace Assets.Scripts.Model
                 IncrementGood(pair.Key, -pair.Value);
             foreach (var pair in info.ServiceFlow)
                 IncrementService(pair.Key, pair.Value);
-            foreach (var pair in info.ResourceCost)
-                IncrementResource(pair.Key, -pair.Value);
         }
         public void AddRocket()
         {

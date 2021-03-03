@@ -15,11 +15,11 @@ namespace Assets.Scripts.Model
         {
             if (Habitability < 90)
                 return false;
-            if (resources[EResource.Land].Count < MIN_TOTAL)
+            if (resources[EResource.Land] < MIN_TOTAL)
                 return false;
-            if (Resources[EResource.Water].Count < 50)
+            if (Resources[EResource.Water] < 50)
                 return false;
-            if (Resources[EResource.Iron].Count < 50)
+            if (Resources[EResource.Iron] < 50)
                 return false;
             Colonize(g);
             return true;

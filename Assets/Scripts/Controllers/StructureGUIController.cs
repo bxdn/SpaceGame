@@ -44,11 +44,6 @@ public class StructureGUIController : EventTrigger
         KeyValuePair<EGood, int> current;
         while (toRet && enumerator.MoveNext())
                 toRet &= colony.Goods.ContainsKey((current = enumerator.Current).Key) && colony.Goods[current.Key].Value >= current.Value;
-        var resourceEnumerator = info.ResourceCost.GetEnumerator();
-        resourceEnumerator.Reset();
-        KeyValuePair<EResource, int> currentResource;
-        while (toRet && resourceEnumerator.MoveNext())
-            toRet &= colony.Resources.ContainsKey((currentResource = resourceEnumerator.Current).Key) && colony.Resources[currentResource.Key] >= currentResource.Value;
         return toRet;
     }
 }

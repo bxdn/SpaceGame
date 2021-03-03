@@ -10,12 +10,12 @@ namespace Assets.Scripts.Model
         private static readonly EResource[] allResources = (Enum.GetValues(typeof(EResource)) as EResource[]).ToArray();
         public Domain Owner { get; private set; }
         public int Habitability { get; }
-        protected readonly IDictionary<EResource, IList<int>> resources = new Dictionary<EResource, IList<int>>();
+        protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         private readonly Enum[] features;
         public int Size { get; }
-        public IDictionary<EResource, IList<int>> Resources
+        public IDictionary<EResource, int> Resources
         {
-            get => new Dictionary<EResource, IList<int>>(resources);
+            get => new Dictionary<EResource, int>(resources);
         }
         public Colony Colony { get; private set; }
         public ColonizableManager(Orbiter orbiter)
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Model
         public void CalculateResourceLayout(Orbiter orbiter)
         {
             foreach (EResource resource in Enum.GetValues(typeof(EResource)))
-                resources[resource] = new List<int>();
+                resources[resource] = 0;
             for (int i = 0; i < orbiter.Size; i++)
                 AddValidResource(i);
         }
@@ -37,21 +37,22 @@ namespace Assets.Scripts.Model
         {
             if (ColonizerR.r.Next(100) > Habitability)
                 return;
-            resources[EResource.Land].Add(idx);
             features[idx] = EResource.Land;
             if (ColonizerR.r.Next(100) < 5)
                 AddResource(idx);
+            else
+                resources[EResource.Land]++;
         }
         private void AddResource(int idx)
         {
             var resource = allResources[ColonizerR.r.Next(allResources.Length)];
-            resources[resource].Add(idx);
+            resources[resource]++;
             features[idx] = resource;
         }
         public void Colonize(Galaxy g)
         {
             Owner = g.Player.Domain;
-            Colony = new Colony(g, Resources);
+            Colony = new Colony(g);
         }
         public Enum GetFeature(int i)
         {

@@ -67,6 +67,7 @@ namespace Assets.Scripts.Controllers
             Constants.COLONY_BUTTON.SetActive(true);
             Constants.COLONY_PANEL.SetActive(true);
             Constants.GOODS_PANEL.SetActive(true);
+            CameraController.Locked = true;
             activated = false;
         }
     }

@@ -86,11 +86,6 @@ public class GoodsDialogController : EventTrigger
             goodGuis.Add(new GoodServiceGUI(service.Key, service.Value, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
-        foreach (var resource in colony.Resources)
-        {
-            goodGuis.Add(new GoodServiceGUI(resource.Key, resource.Value, currentPosition));
-            currentPosition = new Vector2(0, currentPosition.y - 25);
-        }
         currentPosition = new Vector2(300, 0);
         foreach (var good in LevelInfo.GetLevel(colony.CurrentLevel).GoodsPerPopNeeds)
         {

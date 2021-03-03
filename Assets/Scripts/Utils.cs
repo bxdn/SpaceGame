@@ -68,10 +68,10 @@ public static class Utils
             var resources = manager.Resources;
             Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
             Constants.ARABLEF.GetComponent<Text>().text = "N/A";
-            Constants.OTHERF.GetComponent<Text>().text = resources[EResource.Land].Count.ToString();
+            Constants.OTHERF.GetComponent<Text>().text = resources[EResource.Land].ToString();
             Constants.HAZARDF.GetComponent<Text>().text = manager.Habitability.ToString();
-            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].Count.ToString();
-            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].Count.ToString();
+            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
+            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
             Constants.GASSESF.GetComponent<Text>().text = "N/A";
             Constants.ENERGYF.GetComponent<Text>().text = "N/A";
             ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.Colony : null);

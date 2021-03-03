@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Model;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -68,7 +69,7 @@ public static class Constants
     public static readonly IDictionary<EResource, String> RESOURCE_MAP;
     public static readonly IDictionary<EGood, String> GOOD_MAP;
     public static readonly IDictionary<EService, String> SERVICE_MAP;
-    public static readonly IDictionary<EStructure, StructureInfo> STRUCTURE_MAP;
+    public static readonly IDictionary<Enum, IFeatureInfo> FEATURE_MAP;
 
     public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
     { 
@@ -120,31 +121,28 @@ public static class Constants
         MENUS_BUTTON.SetActive(false);
         Utils.LayoutUI();
 
-        var structureBuilder = ImmutableDictionary.CreateBuilder<EStructure, StructureInfo>();
-        structureBuilder.Add(EStructure.Housing, StructureRegistry.Housing);
-        structureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
-        structureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
-        structureBuilder.Add(EStructure.ElectrolysisPlant, StructureRegistry.ElectrolysisPlant);
-        structureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
-        structureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
-        structureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
-        structureBuilder.Add(EStructure.MylarPlant, StructureRegistry.MylarPlant);
-        structureBuilder.Add(EStructure.CarbonGatherer, StructureRegistry.CarbonCollector);
-        structureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
-        structureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
-        structureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
-        structureBuilder.Add(EStructure.SiliconGatherer, StructureRegistry.SiliconCollector);
-        structureBuilder.Add(EStructure.School, StructureRegistry.School);
-        structureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
-        structureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
-        STRUCTURE_MAP = structureBuilder.ToImmutable();
-
-        var resourceBuilder = ImmutableDictionary.CreateBuilder<EResource, String>();
-        resourceBuilder.Add(EResource.Water, "Water Source");
-        resourceBuilder.Add(EResource.Iron, "Iron Source");
-        resourceBuilder.Add(EResource.Land, "Land");
-        resourceBuilder.Add(EResource.Silicon, "Silicon");
-        RESOURCE_MAP = resourceBuilder.ToImmutable();
+        var featureBuilder = ImmutableDictionary.CreateBuilder<Enum, IFeatureInfo>();
+        featureBuilder.Add(EStructure.Housing, StructureRegistry.Housing);
+        featureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
+        featureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
+        featureBuilder.Add(EStructure.ElectrolysisPlant, StructureRegistry.ElectrolysisPlant);
+        featureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
+        featureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
+        featureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
+        featureBuilder.Add(EStructure.MylarPlant, StructureRegistry.MylarPlant);
+        featureBuilder.Add(EStructure.CarbonGatherer, StructureRegistry.CarbonCollector);
+        featureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
+        featureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
+        featureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
+        featureBuilder.Add(EStructure.SiliconGatherer, StructureRegistry.SiliconCollector);
+        featureBuilder.Add(EStructure.School, StructureRegistry.School);
+        featureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
+        featureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
+        featureBuilder.Add(EResource.Water, ResourceRegistry.Water);
+        featureBuilder.Add(EResource.Iron, ResourceRegistry.Iron);
+        featureBuilder.Add(EResource.Land, ResourceRegistry.Land);
+        featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
+        FEATURE_MAP = featureBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
         goodBuilder.Add(EGood.Alcohol, "Alcohol");

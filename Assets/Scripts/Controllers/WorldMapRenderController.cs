@@ -67,33 +67,7 @@ namespace Assets.Scripts.Controllers
             var field = c.GetFeature(idx);
             if (field == null)
                 return "X";
-            switch (field)
-            {
-                case Model.EResource.Iron:
-                    return "M";
-                case Model.EResource.Water:
-                    return "W";
-                case Model.EStructure.Farm:
-                    return "F";
-                case Model.EResource.Silicon:
-                    return "S";
-                case Model.EStructure.IronMine:
-                    return "IM";
-                case Model.EStructure.EnergyPlant:
-                    return "E";
-                case Model.EStructure.Housing:
-                    return "H";
-                case Model.EStructure.WaterPlant:
-                    return "WM";
-                case Model.EStructure.SteelSmelter:
-                    return "ST";
-                case Model.EStructure.SiliconGatherer:
-                    return "SM";
-                case Model.EStructure.ChipMaker:
-                    return "C";
-                default:
-                    return "";
-            }
+            return Constants.FEATURE_MAP[field].Code;
         }
     }
 }

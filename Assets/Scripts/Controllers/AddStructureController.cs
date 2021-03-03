@@ -46,7 +46,7 @@ namespace Assets.Scripts.Controllers
         private static void SetBuildableStructure()
         {
             var squareIdx = Utils.GetCurrentSquareIdx(rowSize);
-            var requiredSquareFeature = Constants.STRUCTURE_MAP[structure].PrereqFeature;
+            var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
             var actualSquareFeature = manager.GetFeature(squareIdx);
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature);
             if (structureIsPlacable)

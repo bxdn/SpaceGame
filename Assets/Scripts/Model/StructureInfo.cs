@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
-    public class StructureInfo
+    public class StructureInfo : IFeatureInfo
     {
         public string Name { get; }
         public ImmutableDictionary<EGood, int> GoodCost { get; }
@@ -18,8 +18,9 @@ namespace Assets.Scripts.Model
         public ImmutableDictionary<EService, float> ServiceFlow { get; }
         public Enum PrereqFeature { get; }
         public int WorkerLevel { get; }
+        public string Code { get; }
         public StructureInfo(String name, ImmutableDictionary<EGood, int> cost, ImmutableDictionary<EResource, int> resourceCost, ImmutableDictionary<EGood, float> flow, 
-            ImmutableDictionary<EService, float> serviceFlow, Enum prereqFeature, int workerLevel)
+            ImmutableDictionary<EService, float> serviceFlow, Enum prereqFeature, int workerLevel, string code)
         {
             this.Name = name;
             this.GoodCost = cost;
@@ -28,6 +29,7 @@ namespace Assets.Scripts.Model
             this.PrereqFeature = prereqFeature;
             this.ServiceFlow = serviceFlow;
             this.WorkerLevel = workerLevel;
+            this.Code = code;
         }
     }
 }

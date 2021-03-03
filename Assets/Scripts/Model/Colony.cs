@@ -147,17 +147,17 @@ namespace Assets.Scripts.Model
         private void WorkStructure(EStructure structure)
         {
             bool validGoods = true;
-            foreach (var goodInfo in Constants.STRUCTURE_MAP[structure].Flow)
+            foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
                 validGoods &= goodInfo.Value > 0 || goods.ContainsKey(goodInfo.Key) && goods[goodInfo.Key].Value >= -goodInfo.Value;
             if (!validGoods)
                 return;
-            foreach (var goodInfo in Constants.STRUCTURE_MAP[structure].Flow)
+            foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
                 IncrementGood(goodInfo.Key, goodInfo.Value);
         }
         public void AddStructure(EStructure structure)
         {
             IncrementStructure(structure, 1);
-            StructureInfo info = Constants.STRUCTURE_MAP[structure];
+            var info = (StructureInfo) Constants.FEATURE_MAP[structure];
             foreach (var pair in info.GoodCost)
                 IncrementGood(pair.Key, -pair.Value);
             foreach (var pair in info.ServiceFlow)

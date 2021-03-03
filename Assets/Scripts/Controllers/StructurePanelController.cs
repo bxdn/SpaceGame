@@ -70,9 +70,10 @@ public class StructurePanelController : EventTrigger
         guis.Clear();
         if (infoGUI != null)
             infoGUI.Destroy();
-        foreach (var pair in Constants.STRUCTURE_MAP)
+        foreach (var pair in Constants.FEATURE_MAP)
         {
-            guis.Add(new StructureGUI(pair.Key));
+            if(pair.Key is EStructure struc)
+                guis.Add(new StructureGUI(struc));
         }
     }
     public static void FillRightSide(StructureInfo info)

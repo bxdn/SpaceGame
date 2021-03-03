@@ -11,7 +11,7 @@ namespace Assets.Scripts.Model
         public Domain Owner { get; private set; }
         public int Habitability { get; }
         protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
-        private readonly Enum[] features;
+        private readonly Area[] features;
         public int Size { get; }
         public IDictionary<EResource, int> Resources
         {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Model
         {
             Habitability = ColonizerR.r.Next(100);
             Owner = null;
-            features = new Enum[orbiter.Size];
+            features = new Area[orbiter.Size];
             Size = orbiter.Size;
             CalculateResourceLayout(orbiter);
         }
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Model
         {
             if (ColonizerR.r.Next(100) > Habitability)
                 return;
-            features[idx] = EResource.Land;
+            features[idx] = new Area(EResource.Land);
             if (ColonizerR.r.Next(100) < 5)
                 AddResource(idx);
             else
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Model
         {
             var resource = allResources[ColonizerR.r.Next(allResources.Length)];
             resources[resource]++;
-            features[idx] = resource;
+            features[idx] = new Area(resource);
         }
         public void Colonize(Galaxy g)
         {
@@ -56,12 +56,15 @@ namespace Assets.Scripts.Model
         }
         public Enum GetFeature(int i)
         {
-            return features[i];
+            var feature = features[i];
+            if (feature == null)
+                return null;
+            return feature.Feature;
         }
 
         public void UpdateFeature(int i, Enum feature)
         {
-            features[i] = feature;
+            features[i] = new Area(feature);
         }
     }
 }

@@ -23,7 +23,7 @@ public class StructureGUIController : EventTrigger
             StructurePanelController.SetStructure(Structure);
         else
         {
-            StructurePanelController.FillRightSide(Constants.STRUCTURE_MAP[Structure]);
+            StructurePanelController.FillRightSide((StructureInfo)Constants.FEATURE_MAP[Structure]);
             clickTime = newClickTime;
         }
     }
@@ -35,7 +35,7 @@ public class StructureGUIController : EventTrigger
     }
     public static bool ValidateColony(Colony colony, EStructure structure)
     {
-        StructureInfo info = Constants.STRUCTURE_MAP[structure];
+        var info = (StructureInfo) Constants.FEATURE_MAP[structure];
         if (info.WorkerLevel > colony.CurrentLevel)
             return false;
         var toRet = true;

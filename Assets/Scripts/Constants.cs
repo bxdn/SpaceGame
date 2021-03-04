@@ -60,6 +60,7 @@ public static class Constants
     public static readonly GameObject GOOD_MASKING_PANEL = GameObject.Find("MaskingPanel2");
     public static readonly GameObject STRUCTURE_MASKING_PANEL = GameObject.Find("Structure Masking Panel");
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
+    public static readonly GameObject COLONIZE_BUTTON = GameObject.Find("Colonize Button");
     public static readonly GameObject MENUS_BUTTON = GameObject.Find("Menus");
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
@@ -118,6 +119,7 @@ public static class Constants
         STRUCTURE_PANEL.SetActive(false);
         GOODS_PANEL.SetActive(false);
         COLONY_BUTTON.SetActive(false);
+        COLONIZE_BUTTON.SetActive(false);
         MENUS_BUTTON.SetActive(false);
         Utils.LayoutUI();
 
@@ -138,10 +140,12 @@ public static class Constants
         featureBuilder.Add(EStructure.School, StructureRegistry.School);
         featureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
         featureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
+        featureBuilder.Add(EStructure.CopperMine, StructureRegistry.CopperMine);
         featureBuilder.Add(EResource.Water, ResourceRegistry.Water);
         featureBuilder.Add(EResource.Iron, ResourceRegistry.Iron);
         featureBuilder.Add(EResource.Land, ResourceRegistry.Land);
         featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
+        featureBuilder.Add(EResource.Copper, ResourceRegistry.Copper);
         FEATURE_MAP = featureBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
@@ -166,6 +170,7 @@ public static class Constants
         goodBuilder.Add(EGood.Silicon, "Silicon");
         goodBuilder.Add(EGood.Glass, "Glass");
         goodBuilder.Add(EGood.Windows, "Windows");
+        goodBuilder.Add(EGood.Copper, "Copper");
         GOOD_MAP = goodBuilder.ToImmutable();
 
         var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, String>();

@@ -27,6 +27,7 @@ namespace Assets.Scripts.Model
         SiliconGatherer,
         School,
         WindowMaker,
-        GlassBlower
+        GlassBlower,
+        CopperMine
     }
 }

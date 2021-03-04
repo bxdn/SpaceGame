@@ -16,7 +16,7 @@ public class MenuController : MonoBehaviour, IPointerClickHandler
 
     private static void Activate()
     {
-        var current = (IColonizable)Selection.CurrentSelection.ModelObject;
+        var current = (IColonizable)Selection.CurrentSelection;
         GoodsDialogController.Reset(current.ColonizableManager.Colony);
         ColonyDialogController.Reset(current.ColonizableManager.Colony);
         Constants.COLONY_PANEL.SetActive(true);

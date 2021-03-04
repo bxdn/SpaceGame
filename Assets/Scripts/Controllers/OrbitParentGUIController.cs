@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class OrbitParentGUIController : MonoBehaviour, ISelectable
+public class OrbitParentGUIController : MonoBehaviour
 {
     private float clickTime = 0;
     public Transform bigTransform;
@@ -19,6 +19,8 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     // Update is called once per frame
     void Update()
     {
+        if (selected && Selection.CurrentSelection != ModelObject)
+            Deselect();
         float alpha = text.color.a;
         if (alpha < 1 && (mouseOn || selected))
         {
@@ -65,12 +67,13 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
         else
         {
             clickTime = newClickTime;
-            Selection.Select(this);
+            Select();
         }
     }
 
     public void Select()
     {
+        Selection.Select(ModelObject);
         selected = true;
         bool colonyButtonActivated = false;
         Utils.SetUIActivated(System is Planet);
@@ -78,7 +81,7 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(planet);
-            if (planet is IColonizable c && c.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
+            if (planet is IColonizable)
                colonyButtonActivated = true;
         }
         else
@@ -91,7 +94,6 @@ public class OrbitParentGUIController : MonoBehaviour, ISelectable
     public void Deselect()
     {
         selected = false;
-        Constants.COLONY_BUTTON.SetActive(false);
     }
 }
 

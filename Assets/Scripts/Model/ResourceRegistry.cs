@@ -11,7 +11,7 @@ namespace Assets.Scripts.Model
         public static ResourceInfo Land { get; private set; } = GetLand();
         public static ResourceInfo Water { get; private set; } = GetWater();
         public static ResourceInfo Silicon { get; private set; } = GetSilicon();
-
+        public static ResourceInfo Copper { get; private set; } = GetCopper();
         public static ResourceInfo Iron { get; private set; } = GetIron();
 
         private static ResourceInfo GetLand()
@@ -29,6 +29,10 @@ namespace Assets.Scripts.Model
         private static ResourceInfo GetIron()
         {
             return new ResourceInfo("Iron", "I");
+        }
+        private static ResourceInfo GetCopper()
+        {
+            return new ResourceInfo("Copper", "C");
         }
     }
 }

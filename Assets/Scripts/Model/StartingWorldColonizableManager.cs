@@ -9,19 +9,19 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class StartingWorldColonizableManager : ColonizableManager
     {
-        private static readonly int MIN_TOTAL = 500;
         public StartingWorldColonizableManager(Orbiter orbiter) : base(orbiter) { }
         public bool DesignateStartingColony(Galaxy g)
         {
             if (Habitability < 90)
                 return false;
-            if (resources[EResource.Land] < MIN_TOTAL)
+            if (Resources[EResource.Water] < 10)
                 return false;
-            if (Resources[EResource.Water] < 50)
+            if (Resources[EResource.Iron] < 10)
                 return false;
-            if (Resources[EResource.Iron] < 50)
+            if (Resources[EResource.Copper] < 10)
                 return false;
-            Colonize(g);
+            if (Resources[EResource.Silicon] < 10)
+                return false;
             return true;
         }
     }

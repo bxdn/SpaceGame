@@ -31,8 +31,7 @@ public class ColonyUpdater : MonoBehaviour
     {
         c.TickForward();
         // Update the dialog if this colony is selected
-        if (Selection.CurrentSelection is ISelectable s
-            && s.ModelObject is IColonizable col
+        if (Selection.CurrentSelection is IColonizable col
             && col.ColonizableManager is IColonizableManager m
             && m.Colony == c)
             UpdateGUIS(c);

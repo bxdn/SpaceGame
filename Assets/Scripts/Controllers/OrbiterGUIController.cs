@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class OrbiterGUIController : MonoBehaviour, ISelectable
+public class OrbiterGUIController : MonoBehaviour
 {
     private float startTime;
     private static readonly float dur = .25f;
@@ -27,6 +27,8 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     // Update is called once per frame
     void Update()
     {
+        if (selected && Selection.CurrentSelection != ModelObject)
+            Deselect();
         float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
         if (scrollDelta != 0 && !CameraController.Locked)
         {
@@ -105,7 +107,8 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
         else
         {
             clickTime = newClickTime;
-            Selection.Select(this);
+            Selection.Select(ModelObject);
+            Select();
         }
     }
 
@@ -166,13 +169,14 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
 
     public void Select()
     {
+        Selection.Select(ModelObject);
         bool colonyButtonActivated = false;
         selected = true;
         if (Orbiter is Orbiter orbiter)
         {
             Utils.SetUIActivated(true);
             Utils.FillUI(orbiter);
-            if (orbiter is IColonizable c && c.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
+            if (orbiter is IColonizable )
                 colonyButtonActivated = true;
         }
         Constants.COLONY_BUTTON.SetActive(colonyButtonActivated);
@@ -181,7 +185,6 @@ public class OrbiterGUIController : MonoBehaviour, ISelectable
     public void Deselect()
     {
         selected = false;
-        Constants.COLONY_BUTTON.SetActive(false);
         BeginRetraction();
     }
 }

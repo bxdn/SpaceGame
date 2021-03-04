@@ -29,6 +29,7 @@ namespace Assets.Scripts.Model
         Carbon,
         Silicon,
         Chips,
-        Glass
+        Glass,
+        Copper
     }
 }

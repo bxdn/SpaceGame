@@ -88,7 +88,7 @@ public class StructurePanelController : EventTrigger
         Constants.COLONY_PANEL.SetActive(false);
         Constants.GOODS_PANEL.SetActive(false);
         CameraController.Locked = false;
-        if (Selection.CurrentSelection.ModelObject is IColonizable c && c.ColonizableManager is IColonizableManager m)
+        if (Selection.CurrentSelection is IColonizable c && c.ColonizableManager is IColonizableManager m)
             AddStructureController.Activate(structure, m);
     }
 }

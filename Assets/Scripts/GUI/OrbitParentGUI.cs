@@ -21,7 +21,8 @@ public class OrbitParentGUI : GUIDestroyable
         controller.bigTransform = big.transform;
         controller.text = text;
         controller.System = orbitee;
-        Selection.Select(controller);
+        controller.Select();
+        Selection.Select(orbitee);
     }
 
     private void AddBig()

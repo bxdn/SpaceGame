@@ -29,7 +29,7 @@ public class StructureGUIController : EventTrigger
     }
     private bool Validate()
     {
-        return Selection.CurrentSelection.ModelObject is IColonizable c &&
+        return Selection.CurrentSelection is IColonizable c &&
             c.ColonizableManager != null &&
             ValidateColony(c.ColonizableManager.Colony, Structure);
     }

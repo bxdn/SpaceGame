@@ -129,6 +129,11 @@ public static class Utils
         return (int)Math.Ceiling(Math.Pow(n, .5));
     }
 
+    public static float GetDistance(Vector2 pos1, Vector2 pos2)
+    {
+        return (Mathf.Pow(Mathf.Pow(pos1.x - pos2.x, 2) + Mathf.Pow(pos1.y - pos2.y, 2), .5f));
+    }
+
     public static void LayoutUI()
     {
         float col2X = Screen.width / 3f;

@@ -72,7 +72,7 @@ public class StructurePanelController : EventTrigger
             infoGUI.Destroy();
         foreach (var pair in Constants.FEATURE_MAP)
         {
-            if(pair.Key is EStructure struc)
+            if(pair.Key is EStructure struc  && struc != EStructure.LogisticsStation)
                 guis.Add(new StructureGUI(struc));
         }
     }

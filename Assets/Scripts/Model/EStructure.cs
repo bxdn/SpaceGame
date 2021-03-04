@@ -28,6 +28,7 @@ namespace Assets.Scripts.Model
         School,
         WindowMaker,
         GlassBlower,
-        CopperMine
+        CopperMine,
+        LogisticsStation
     }
 }

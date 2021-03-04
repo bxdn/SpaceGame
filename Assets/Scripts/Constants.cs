@@ -62,6 +62,7 @@ public static class Constants
     public static readonly GameObject COLONY_BUTTON = GameObject.Find("Colony Button");
     public static readonly GameObject COLONIZE_BUTTON = GameObject.Find("Colonize Button");
     public static readonly GameObject MENUS_BUTTON = GameObject.Find("Menus");
+    public static readonly GameObject COLONIZE_PROMPT = GameObject.Find("Colonize Prompt");
     public static readonly Text POP_VAL = GameObject.Find("PopVal").GetComponent<Text>();
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
     public static readonly Text LVL_VAL = GameObject.Find("LevelVal").GetComponent<Text>();
@@ -121,6 +122,7 @@ public static class Constants
         COLONY_BUTTON.SetActive(false);
         COLONIZE_BUTTON.SetActive(false);
         MENUS_BUTTON.SetActive(false);
+        COLONIZE_PROMPT.SetActive(false);
         Utils.LayoutUI();
 
         var featureBuilder = ImmutableDictionary.CreateBuilder<Enum, IFeatureInfo>();
@@ -146,6 +148,7 @@ public static class Constants
         featureBuilder.Add(EResource.Land, ResourceRegistry.Land);
         featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
         featureBuilder.Add(EResource.Copper, ResourceRegistry.Copper);
+        featureBuilder.Add(EStructure.LogisticsStation, StructureRegistry.LogisticsStation);
         FEATURE_MAP = featureBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();

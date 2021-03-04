@@ -39,7 +39,8 @@ namespace Assets.Scripts.Controllers
         }
         private static void TriggerDoubleClicked()
         {
-            var colonyCanBuildStructure = StructureGUIController.ValidateColony(manager.Colony, structure);
+            var colonyCanBuildStructure = structure == EStructure.LogisticsStation || 
+                StructureGUIController.ValidateColony(manager.Colony, structure);
             if (colonyCanBuildStructure)
                 SetBuildableStructure();
         }
@@ -48,27 +49,56 @@ namespace Assets.Scripts.Controllers
             var squareIdx = Utils.GetCurrentSquareIdx(rowSize);
             var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
             var actualSquareFeature = manager.GetFeature(squareIdx);
-            var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature);
+            var housingPlaceable = manager.Colony != null && manager.Colony.IsHouseingPlaceable(squareIdx);
+            var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
+                (structure != EStructure.Housing || housingPlaceable);
             if (structureIsPlacable)
                 SetStructure(squareIdx);
         }
         private static void SetStructure(int idx)
         {
-            var col = manager.Colony;
+            if (structure != EStructure.LogisticsStation)
+                AddStandardStructure(manager.Colony, idx);
+            else
+                AddLogisticsStation(idx);
+        }
+        private static void AddStandardStructure(Colony col, int idx)
+        {
             col.AddStructure(structure);
+            UpdateGUIS(col, idx);
+        }
+        private static void AddLogisticsStation(int idx)
+        {
+            if (manager.Colony == null)
+                manager.Colonize();
+            var col = manager.Colony;
+            col.AddLogisticStructure(idx);
+            UpdateGUIS(col, idx);
+            RevertView();
+        }
+        private static void UpdateGUIS(Colony col, int idx)
+        {
             manager.UpdateFeature(idx, structure);
             WorldMapRenderController.RenderSquare(idx);
             ColonyDialogController.Reset(col);
-            GoodsDialogController.Update(col);
+            GoodsDialogController.Reset(col);
         }
         private static void RevertView()
         {
-            Constants.MENUS_BUTTON.SetActive(true);
+            if (manager.Colony != null)
+                RevertToColonyView();
+            else
+                Constants.COLONIZE_BUTTON.SetActive(true);
             Constants.COLONY_BUTTON.SetActive(true);
+            Constants.COLONIZE_PROMPT.SetActive(false);
+            activated = false;
+        }
+        private static void RevertToColonyView()
+        {
+            Constants.MENUS_BUTTON.SetActive(true);
             Constants.COLONY_PANEL.SetActive(true);
             Constants.GOODS_PANEL.SetActive(true);
             CameraController.Locked = true;
-            activated = false;
         }
     }
 }

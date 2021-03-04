@@ -10,11 +10,8 @@ public class ColonizeButtonController : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
-        manager.Colonize(WorldGeneration.Galaxy);
-        ColonyDialogController.Reset(manager.Colony);
-        GoodsDialogController.Reset(manager.Colony);
         gameObject.SetActive(false);
-        Constants.MENUS_BUTTON.SetActive(true);
+        Constants.COLONIZE_PROMPT.SetActive(true);
+        AddStructureController.Activate(EStructure.LogisticsStation, (Selection.CurrentSelection as IColonizable).ColonizableManager);
     }
 }

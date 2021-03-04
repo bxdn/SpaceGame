@@ -7,6 +7,7 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class Colony
     {
+        private static readonly int MAX_HOUSING_RADIUS = 5;
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
         private readonly IDictionary<EStructure, int> structures = new Dictionary<EStructure, int>();
@@ -25,13 +26,20 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EStructure, int>(structures);
         }
+        private readonly IList<int> logisticStructures = new List<int>();
         public int CurrentLevel { get; private set; } = 0;
-        public Colony(Galaxy g)
+        private readonly IColonizableManager manager;
+        public Colony(IColonizableManager manager)
         {
-            ColonyUpdater.AddColony(this, g);
+            ColonyUpdater.AddColony(this);
+            this.manager = manager;
             goods[EGood.Energy] = new GoodInfo(100);
             goods[EGood.Chips] = new GoodInfo(100);
             goods[EGood.Steel] = new GoodInfo(100);
+        }
+        public void AddLogisticStructure(int idx)
+        {
+            logisticStructures.Add(idx);
         }
         private void IncrementGood(EGood good, float amount)
         {
@@ -50,6 +58,23 @@ namespace Assets.Scripts.Model
                 IncrementInfluence(newValue);
             }
         }
+
+        public bool IsHouseingPlaceable(int housingIdx)
+        {
+            var rowSize = Utils.GetRowSize(manager.Size);
+            var isHousingPlaceable = false;
+            for (int i = 0; i < logisticStructures.Count && isHousingPlaceable == false; i++)
+                isHousingPlaceable = IsHousingNearLogisticsStructure(housingIdx, logisticStructures[i], rowSize);
+            return isHousingPlaceable;
+        }
+        private bool IsHousingNearLogisticsStructure(int housingIdx, int logisticsIdx, int rowSize)
+        {
+            var potentialHousingCoords = Utils.IdxToSquareCoords(housingIdx, rowSize);
+            var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
+            var distance = Utils.GetDistance(potentialHousingCoords, logisticStructureCoords);
+            return  distance < MAX_HOUSING_RADIUS;
+        }
+
         private void IncrementWantedGood(EGood good, float amount)
         {
             IncrementGood(good, amount);
@@ -57,8 +82,9 @@ namespace Assets.Scripts.Model
             if (newValue < 0)
             {
                 goods[good] = new GoodInfo(0);
-                if (Influence > 100)
-                    IncrementInfluence(Math.Max(100 - Influence, newValue));
+                var wantThreshold = Mathf.Pow(2, CurrentLevel) * 100;
+                if (Influence > wantThreshold)
+                    IncrementInfluence(Math.Max(wantThreshold - Influence, newValue));
             }
         }
         private void IncrementInfluence(float value)
@@ -85,10 +111,11 @@ namespace Assets.Scripts.Model
         }
         private void ProcessServiceWant(KeyValuePair<EService, float> servicePerPop)
         {
-            if (Influence <= 100)
+            var wantThreshold = Mathf.Pow(2, CurrentLevel) * 100;
+            if (Influence <= wantThreshold)
                 return;
             float demand = servicePerPop.Value * Population;
-            float maxInfluenceHit = 100 - Influence;
+            float maxInfluenceHit = wantThreshold - Influence;
             if (!services.ContainsKey(servicePerPop.Key))
                 IncrementInfluence(Math.Max(maxInfluenceHit, -demand));
             else if (services[servicePerPop.Key] < demand)
@@ -97,15 +124,15 @@ namespace Assets.Scripts.Model
         public void TickForward()
         {
             if(Population > 0)
-                Influence++;
+                Influence += Mathf.Pow(Population, .5f);
             var prevGoods = Goods;
             LevelInfo level = LevelInfo.GetLevel(Math.Min(CurrentLevel, 5));
             foreach (var structurePair in structures)
                 WorkStructures(structurePair);
             foreach (var goodPair in level.GoodsPerPopNeeds)
-                IncrementNeededGood(goodPair.Key, (-goodPair.Value / 100f) * Population);
+                IncrementNeededGood(goodPair.Key, (-goodPair.Value) * Population);
             foreach (var goodPair in level.GoodsPerPopWants)
-                IncrementWantedGood(goodPair.Key, (-goodPair.Value / 100f) * Population);
+                IncrementWantedGood(goodPair.Key, (-goodPair.Value) * Population);
             foreach (var good in goods)
                 AssignDirection(prevGoods, good);
             foreach (var service in level.ServicesPerPopNeeds)
@@ -115,8 +142,8 @@ namespace Assets.Scripts.Model
             if (services.ContainsKey(EService.Housing)
                 && services[EService.Housing] > Population * level.ServicesPerPopNeeds[EService.Housing])
                 IncrementPop(level);
-            if (Influence >= 200)
-                LevelUp();
+            if (Influence >= Mathf.Pow(2, CurrentLevel) * 200 && manager.Habitability >= 90)
+                CurrentLevel++;
         }
         private void AssignDirection(IDictionary<EGood, GoodInfo> prevGoods, KeyValuePair<EGood, GoodInfo> good)
         {
@@ -126,11 +153,6 @@ namespace Assets.Scripts.Model
                 good.Value.Increasing = 0;
             else
                 good.Value.Increasing = -1;
-        }
-        private void LevelUp()
-        {
-            CurrentLevel++;
-            Influence = 100;
         }
         private void WorkStructures(KeyValuePair<EStructure, int> structurePair)
         {
@@ -162,6 +184,21 @@ namespace Assets.Scripts.Model
                 IncrementGood(pair.Key, -pair.Value);
             foreach (var pair in info.ServiceFlow)
                 IncrementService(pair.Key, pair.Value);
+        }
+        private float DistanceToNearestHub(int idx)
+        {
+            var rowSize = Utils.GetRowSize(manager.Size);
+            var strucCoords = Utils.IdxToSquareCoords(idx, rowSize);
+            var minDistance = float.MaxValue;
+            foreach (int hubIdx in logisticStructures)
+                minDistance = MinDistance(strucCoords, hubIdx, rowSize, minDistance);
+            return minDistance;
+        }
+        private float MinDistance(Vector2Int coords, int idx, int rowSize, float currentMin)
+        {
+            var coords2 = Utils.IdxToSquareCoords(idx, rowSize);
+            var distance = Utils.GetDistance(coords, coords2);
+            return Mathf.Min(distance, currentMin);
         }
         public void AddRocket()
         {

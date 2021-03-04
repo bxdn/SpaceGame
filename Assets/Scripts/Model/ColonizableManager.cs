@@ -49,10 +49,10 @@ namespace Assets.Scripts.Model
             resources[resource]++;
             features[idx] = new Area(resource);
         }
-        public void Colonize(Galaxy g)
+        public void Colonize()
         {
-            Owner = g.Player.Domain;
-            Colony = new Colony(g);
+            Owner = WorldGeneration.Galaxy.Player.Domain;
+            Colony = new Colony(this);
         }
         public Enum GetFeature(int i)
         {

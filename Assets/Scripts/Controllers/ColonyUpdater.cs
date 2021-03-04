@@ -41,8 +41,8 @@ public class ColonyUpdater : MonoBehaviour
         ColonyDialogController.Update(c);
         GoodsDialogController.Update(c);
     }
-    public static void AddColony(Colony c, Galaxy g)
+    public static void AddColony(Colony c)
     {
-        g.Player.Colonies.Add(c);
+        WorldGeneration.Galaxy.Player.Colonies.Add(c);
     }
 }

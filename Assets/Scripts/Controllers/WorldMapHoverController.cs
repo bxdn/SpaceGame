@@ -10,7 +10,8 @@ namespace Assets.Scripts.Controllers
         private int rowSize;
         private int n;
         private static readonly int DISTANCE_ALPHA = 6;
-        private static readonly int[] prevSquares = new int[(int)Mathf.Pow(DISTANCE_ALPHA * 2, 2)];
+        private static readonly int PREV_SQUARES_SIZE = (int)Mathf.Pow(DISTANCE_ALPHA * 2, 2);
+        private static int[] prevSquares;
         private static int prevIdx;
         private WorldMapGUI gui;
         public void Init(int n, WorldMapGUI gui)
@@ -18,8 +19,10 @@ namespace Assets.Scripts.Controllers
             this.n = n;
             rowSize = Utils.GetRowSize(n);
             this.gui = gui;
+            prevSquares = new int[PREV_SQUARES_SIZE];
+
         }
-        private void Update()
+    private void Update()
         {
             if (!Disabled)
                 MoveSpotlight();

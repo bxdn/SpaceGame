@@ -11,6 +11,9 @@ public class ResetController : MonoBehaviour, IPointerClickHandler
         if (!CameraController.Locked && newClick - lastClick < .5)
         {
             SaveUtility.ClearSave();
+            Constants.COLONIZE_BUTTON.SetActive(false);
+            Constants.MENUS_BUTTON.SetActive(false);
+            Constants.TOP_INFO.SetActive(true);
             WorldGeneration.StartWorld();
         }
         else

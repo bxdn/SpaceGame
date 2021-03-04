@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.GUI;
-using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System.Collections.Generic;
 using UnityEngine;
@@ -89,7 +88,7 @@ public class GoodsDialogController : EventTrigger
         currentPosition = new Vector2(300, 0);
         foreach (var good in LevelInfo.GetLevel(colony.CurrentLevel).GoodsPerPopNeeds)
         {
-            goodGuis.Add(new DemandGUI(good.Key, good.Value * population / 100f, currentPosition));
+            goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
             currentPosition = new Vector2(300, currentPosition.y - 25);
         }
         foreach (var service in LevelInfo.GetLevel(colony.CurrentLevel).ServicesPerPopNeeds)
@@ -100,7 +99,7 @@ public class GoodsDialogController : EventTrigger
         currentPosition = new Vector2(450, 0);
         foreach (var good in LevelInfo.GetLevel(colony.CurrentLevel).GoodsPerPopWants)
         {
-            goodGuis.Add(new DemandGUI(good.Key, good.Value * population / 100f, currentPosition));
+            goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
         foreach (var service in LevelInfo.GetLevel(colony.CurrentLevel).ServicesPerPopWants)
@@ -109,7 +108,7 @@ public class GoodsDialogController : EventTrigger
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
         Constants.POP_VAL.text = population.ToString();
-        Constants.INF_VAL.text = colony.Influence.ToString();
+        Constants.INF_VAL.text = Mathf.Floor(colony.Influence).ToString();
         Constants.LVL_VAL.text = colony.CurrentLevel.ToString();
     }
 }

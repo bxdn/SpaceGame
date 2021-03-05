@@ -7,7 +7,7 @@ namespace Assets.Scripts
     public interface IColonizableManager
     {
         Domain Owner { get; }
-        Colony Colony { get; }
+        Colony CurrentColony { get; }
         IDictionary<EResource, int> Resources { get; }
         int Habitability { get; }
         Enum GetFeature(int i);

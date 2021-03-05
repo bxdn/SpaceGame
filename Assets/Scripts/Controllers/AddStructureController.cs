@@ -40,7 +40,7 @@ namespace Assets.Scripts.Controllers
         private static void TriggerDoubleClicked()
         {
             var colonyCanBuildStructure = structure == EStructure.LogisticsStation || 
-                StructureGUIController.ValidateColony(manager.Colony, structure);
+                StructureGUIController.ValidateColony(manager.CurrentColony, structure);
             if (colonyCanBuildStructure)
                 SetBuildableStructure();
         }
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Controllers
             var squareIdx = Utils.GetCurrentSquareIdx(rowSize);
             var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
             var actualSquareFeature = manager.GetFeature(squareIdx);
-            var servicePlaceable = manager.Colony != null && manager.Colony.IsServicePlaceable(squareIdx);
+            var servicePlaceable = manager.CurrentColony != null && manager.CurrentColony.IsServicePlaceable(squareIdx);
             var isService = !(Constants.FEATURE_MAP[structure] as StructureInfo).ServiceFlow.IsEmpty;
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
                 (!isService || servicePlaceable);
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Controllers
         private static void SetStructure(int idx)
         {
             if (structure != EStructure.LogisticsStation)
-                AddStandardStructure(manager.Colony, idx);
+                AddStandardStructure(manager.CurrentColony, idx);
             else
                 AddLogisticsStation(idx);
         }
@@ -70,9 +70,9 @@ namespace Assets.Scripts.Controllers
         }
         private static void AddLogisticsStation(int idx)
         {
-            if (manager.Colony == null)
+            if (manager.CurrentColony == null)
                 manager.Colonize();
-            var col = manager.Colony;
+            var col = manager.CurrentColony;
             col.AddLogisticStructure(idx);
             UpdateGUIS(col, idx);
             RevertView();
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Controllers
         }
         private static void RevertView()
         {
-            if (manager.Colony != null)
+            if (manager.CurrentColony != null)
                 RevertToColonyView();
             else
                 Constants.COLONIZE_BUTTON.SetActive(true);

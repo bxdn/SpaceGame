@@ -17,9 +17,10 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EResource, int>(resources);
         }
-        public Colony Colony { get; private set; }
+        public Colony CurrentColony { get; private set; }
+        private IList<Colony> colonies = new List<Colony>();
         public ColonizableManager(Orbiter orbiter)
-        {
+        { 
             Habitability = ColonizerR.r.Next(100);
             Owner = null;
             features = new Area[orbiter.Size];
@@ -52,7 +53,9 @@ namespace Assets.Scripts.Model
         public void Colonize()
         {
             Owner = WorldGeneration.Galaxy.Player.Domain;
-            Colony = new Colony(this);
+            var colony = new Colony(this);
+            CurrentColony = colony;
+            colonies.Add(colony);
         }
         public Enum GetFeature(int i)
         {

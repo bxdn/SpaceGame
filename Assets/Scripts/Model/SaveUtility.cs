@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
@@ -26,6 +21,8 @@ namespace Assets.Scripts.Model
                 FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
                 Galaxy galaxy = (Galaxy)bf.Deserialize(file);
                 file.Close();
+                foreach (var colony in galaxy.Player.Colonies)
+                    colony.LevelInfo.FinishDeserialization();
                 return galaxy;
             }
             return null;

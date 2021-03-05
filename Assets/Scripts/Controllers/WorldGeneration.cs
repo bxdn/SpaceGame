@@ -8,7 +8,11 @@ public class WorldGeneration : MonoBehaviour
     void Awake()
     {
         Application.targetFrameRate = 60;
-        StartWorld();
+    }
+    private void Update()
+    {
+        if (Galaxy == null)
+            StartWorld();
     }
     public static void StartWorld()
     {

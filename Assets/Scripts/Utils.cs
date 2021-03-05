@@ -74,8 +74,8 @@ public static class Utils
             Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
             Constants.GASSESF.GetComponent<Text>().text = "N/A";
             Constants.ENERGYF.GetComponent<Text>().text = "N/A";
-            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.Colony : null);
-            GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.Colony : null);
+            ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
+            GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
         }
         else
         {

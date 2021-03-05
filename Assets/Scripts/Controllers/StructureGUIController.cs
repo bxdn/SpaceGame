@@ -31,12 +31,12 @@ public class StructureGUIController : EventTrigger
     {
         return Selection.CurrentSelection is IColonizable c &&
             c.ColonizableManager != null &&
-            ValidateColony(c.ColonizableManager.Colony, Structure);
+            ValidateColony(c.ColonizableManager.CurrentColony, Structure);
     }
     public static bool ValidateColony(Colony colony, EStructure structure)
     {
         var info = (StructureInfo) Constants.FEATURE_MAP[structure];
-        if (info.WorkerLevel > colony.CurrentLevel)
+        if (info.WorkerLevel > colony.LevelInfo.CurrentLevel)
             return false;
         var toRet = true;
         var enumerator = info.GoodCost.GetEnumerator();

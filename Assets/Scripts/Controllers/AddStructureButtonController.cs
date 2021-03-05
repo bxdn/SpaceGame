@@ -14,7 +14,7 @@ public class AddStructureButtonController : EventTrigger
             Constants.COLONY_PANEL.SetActive(false);
             if (Selection.CurrentSelection is IColonizable c &&
             c.ColonizableManager is IColonizableManager m)
-                StructurePanelController.Fill(m.Colony);
+                StructurePanelController.Fill(m.CurrentColony);
         }
     }
 }

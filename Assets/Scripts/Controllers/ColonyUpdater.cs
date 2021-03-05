@@ -33,7 +33,7 @@ public class ColonyUpdater : MonoBehaviour
         // Update the dialog if this colony is selected
         if (Selection.CurrentSelection is IColonizable col
             && col.ColonizableManager is IColonizableManager m
-            && m.Colony == c)
+            && m.CurrentColony == c)
             UpdateGUIS(c);
     }
     private void UpdateGUIS(Colony c)

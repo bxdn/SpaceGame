@@ -86,29 +86,29 @@ public class GoodsDialogController : EventTrigger
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
         currentPosition = new Vector2(300, 0);
-        foreach (var good in LevelInfo.GetLevel(colony.CurrentLevel).GoodsPerPopNeeds)
+        foreach (var good in colony.LevelInfo.GoodsPerPopNeeds)
         {
             goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
             currentPosition = new Vector2(300, currentPosition.y - 25);
         }
-        foreach (var service in LevelInfo.GetLevel(colony.CurrentLevel).ServicesPerPopNeeds)
+        foreach (var service in colony.LevelInfo.ServicesPerPopNeeds)
         {
             goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
             currentPosition = new Vector2(300, currentPosition.y - 25);
         }
         currentPosition = new Vector2(450, 0);
-        foreach (var good in LevelInfo.GetLevel(colony.CurrentLevel).GoodsPerPopWants)
+        foreach (var good in colony.LevelInfo.GoodsPerPopWants)
         {
             goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
-        foreach (var service in LevelInfo.GetLevel(colony.CurrentLevel).ServicesPerPopWants)
+        foreach (var service in colony.LevelInfo.ServicesPerPopWants)
         {
             goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
         Constants.POP_VAL.text = population.ToString();
-        Constants.INF_VAL.text = Mathf.Floor(colony.Influence / (Mathf.Pow(2, colony.CurrentLevel) * 2)).ToString();
-        Constants.LVL_VAL.text = colony.CurrentLevel.ToString();
+        Constants.INF_VAL.text = Mathf.Floor(colony.Influence / (Mathf.Pow(2, colony.LevelInfo.CurrentLevel) * 200)).ToString();
+        Constants.LVL_VAL.text = colony.LevelInfo.CurrentLevel.ToString();
     }
 }

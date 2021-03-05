@@ -12,8 +12,8 @@ public class AddShipButtonController : EventTrigger
         if (Input.GetMouseButtonDown(0))
         {
             if (Selection.CurrentSelection is IColonizable c &&
-            c.ColonizableManager is IColonizableManager m && Validate(m.Colony))
-                m.Colony.AddRocket();
+            c.ColonizableManager is IColonizableManager m && Validate(m.CurrentColony))
+                m.CurrentColony.AddRocket();
         }
     }
 

@@ -17,8 +17,8 @@ public class MenuController : MonoBehaviour, IPointerClickHandler
     private static void Activate()
     {
         var current = (IColonizable)Selection.CurrentSelection;
-        GoodsDialogController.Reset(current.ColonizableManager.Colony);
-        ColonyDialogController.Reset(current.ColonizableManager.Colony);
+        GoodsDialogController.Reset(current.ColonizableManager.CurrentColony);
+        ColonyDialogController.Reset(current.ColonizableManager.CurrentColony);
         Constants.COLONY_PANEL.SetActive(true);
         Constants.GOODS_PANEL.SetActive(true);
         Constants.COLONY_PANEL.GetComponent<RectTransform>().anchoredPosition = new Vector2(-300, 0);

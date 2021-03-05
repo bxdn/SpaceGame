@@ -49,9 +49,10 @@ namespace Assets.Scripts.Controllers
             var squareIdx = Utils.GetCurrentSquareIdx(rowSize);
             var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
             var actualSquareFeature = manager.GetFeature(squareIdx);
-            var housingPlaceable = manager.Colony != null && manager.Colony.IsHouseingPlaceable(squareIdx);
+            var servicePlaceable = manager.Colony != null && manager.Colony.IsServicePlaceable(squareIdx);
+            var isService = !(Constants.FEATURE_MAP[structure] as StructureInfo).ServiceFlow.IsEmpty;
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
-                (structure != EStructure.Housing || housingPlaceable);
+                (!isService || servicePlaceable);
             if (structureIsPlacable)
                 SetStructure(squareIdx);
         }
@@ -64,7 +65,7 @@ namespace Assets.Scripts.Controllers
         }
         private static void AddStandardStructure(Colony col, int idx)
         {
-            col.AddStructure(structure);
+            col.AddStructure(structure, idx);
             UpdateGUIS(col, idx);
         }
         private static void AddLogisticsStation(int idx)

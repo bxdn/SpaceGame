@@ -108,7 +108,7 @@ public class GoodsDialogController : EventTrigger
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
         Constants.POP_VAL.text = population.ToString();
-        Constants.INF_VAL.text = Mathf.Floor(colony.Influence).ToString();
+        Constants.INF_VAL.text = Mathf.Floor(colony.Influence / (Mathf.Pow(2, colony.CurrentLevel) * 2)).ToString();
         Constants.LVL_VAL.text = colony.CurrentLevel.ToString();
     }
 }

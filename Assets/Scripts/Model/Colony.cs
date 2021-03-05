@@ -10,7 +10,7 @@ namespace Assets.Scripts.Model
         private static readonly int MAX_HOUSING_RADIUS = 5;
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
-        private readonly IDictionary<EStructure, int> structures = new Dictionary<EStructure, int>();
+        private readonly IDictionary<EStructure, IList<Structure>> structures = new Dictionary<EStructure, IList<Structure>>();
         public float Influence { get; private set; } = 100;
         public int Population { get; private set; } = 0;
         public int Rockets { get; private set; } = 0;
@@ -22,9 +22,9 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EService, float>(services);
         }
-        public IDictionary<EStructure, int> Structures
+        public IDictionary<EStructure, IList<Structure>> Structures
         {
-            get => new Dictionary<EStructure, int>(structures);
+            get => new Dictionary<EStructure, IList<Structure>>(structures);
         }
         private readonly IList<int> logisticStructures = new List<int>();
         public int CurrentLevel { get; private set; } = 0;
@@ -59,15 +59,15 @@ namespace Assets.Scripts.Model
             }
         }
 
-        public bool IsHouseingPlaceable(int housingIdx)
+        public bool IsServicePlaceable(int serviceIdx)
         {
             var rowSize = Utils.GetRowSize(manager.Size);
             var isHousingPlaceable = false;
             for (int i = 0; i < logisticStructures.Count && isHousingPlaceable == false; i++)
-                isHousingPlaceable = IsHousingNearLogisticsStructure(housingIdx, logisticStructures[i], rowSize);
+                isHousingPlaceable = IsServiceNearLogisticsStructure(serviceIdx, logisticStructures[i], rowSize);
             return isHousingPlaceable;
         }
-        private bool IsHousingNearLogisticsStructure(int housingIdx, int logisticsIdx, int rowSize)
+        private bool IsServiceNearLogisticsStructure(int housingIdx, int logisticsIdx, int rowSize)
         {
             var potentialHousingCoords = Utils.IdxToSquareCoords(housingIdx, rowSize);
             var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
@@ -97,9 +97,11 @@ namespace Assets.Scripts.Model
         {
             services[service] = services.ContainsKey(service) ? services[service] + amount : amount;
         }
-        private void IncrementStructure(EStructure structure, int amount)
+        private void CreateStructure(EStructure structure, Structure struc)
         {
-            structures[structure] = structures.ContainsKey(structure) ? structures[structure] + amount : amount;
+            if (!structures.ContainsKey(structure))
+                structures[structure] = new List<Structure>();
+            structures[structure].Add(struc);
         }
         private void ProcessServiceDemand(KeyValuePair<EService, float> servicePerPop)
         {
@@ -154,10 +156,10 @@ namespace Assets.Scripts.Model
             else
                 good.Value.Increasing = -1;
         }
-        private void WorkStructures(KeyValuePair<EStructure, int> structurePair)
+        private void WorkStructures(KeyValuePair<EStructure, IList<Structure>> structurePair)
         {
-            for (int i = 0; i < structurePair.Value; i++)
-                WorkStructure(structurePair.Key);
+            foreach(Structure structure in structurePair.Value)
+                WorkStructure(structurePair.Key, structure.Multiplier);
         }
         private void IncrementPop(LevelInfo level)
         {
@@ -166,19 +168,22 @@ namespace Assets.Scripts.Model
             int amountToIncrease = (int)Math.Min(maxIncrease, potentialIncrease);
             Population += amountToIncrease;
         }
-        private void WorkStructure(EStructure structure)
+        private void WorkStructure(EStructure structure, float multiplier)
         {
             bool validGoods = true;
             foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
-                validGoods &= goodInfo.Value > 0 || goods.ContainsKey(goodInfo.Key) && goods[goodInfo.Key].Value >= -goodInfo.Value;
+                validGoods &= goodInfo.Value > 0 || goods.ContainsKey(goodInfo.Key) && goods[goodInfo.Key].Value * multiplier >= -goodInfo.Value;
             if (!validGoods)
                 return;
             foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
-                IncrementGood(goodInfo.Key, goodInfo.Value);
+                IncrementGood(goodInfo.Key, goodInfo.Value * multiplier);
         }
-        public void AddStructure(EStructure structure)
+        public void AddStructure(EStructure structure, int idx)
         {
-            IncrementStructure(structure, 1);
+            var strucCoords = new SVector2Int(Utils.IdxToSquareCoords(idx, Utils.GetRowSize(manager.Size)));
+            var goodsMultiplier = 1 / Mathf.Pow(DistanceToNearestHub(idx), .5f);
+            var struc = new Structure(strucCoords, goodsMultiplier);
+            CreateStructure(structure, struc);
             var info = (StructureInfo) Constants.FEATURE_MAP[structure];
             foreach (var pair in info.GoodCost)
                 IncrementGood(pair.Key, -pair.Value);

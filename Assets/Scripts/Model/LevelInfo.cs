@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -11,15 +12,15 @@ using UnityEngine;
 namespace Assets.Scripts.Model
 {
     [Serializable]
-    public class LevelInfo
+    public class LevelInfo : ILevelInfo
     {
-        [field: NonSerialized] public ImmutableDictionary<EGood, float> GoodsPerPopNeeds { get; private set; }
+        [field: NonSerialized] public IDictionary<EGood, float> GoodsPerPopNeeds { get; private set; }
         private Dictionary<EGood, float> goodsPerPopNeeds = new Dictionary<EGood, float>();
-        [field: NonSerialized] public ImmutableDictionary<EService, float> ServicesPerPopNeeds { get; private set; }
+        [field: NonSerialized] public IDictionary<EService, float> ServicesPerPopNeeds { get; private set; }
         private Dictionary<EService, float> servicesPerPopNeeds = new Dictionary<EService, float>();
-        [field: NonSerialized] public ImmutableDictionary<EGood, float> GoodsPerPopWants { get; private set; }
+        [field: NonSerialized] public IDictionary<EGood, float> GoodsPerPopWants { get; private set; }
         private Dictionary<EGood, float> goodsPerPopWants = new Dictionary<EGood, float>();
-        [field: NonSerialized] public ImmutableDictionary<EService, float> ServicesPerPopWants { get; private set; }
+        [field: NonSerialized] public IDictionary<EService, float> ServicesPerPopWants { get; private set; }
         private Dictionary<EService, float> servicesPerPopWants = new Dictionary<EService, float>();
         private static ImmutableDictionary<Enum, float> tier1Wants = CreateTier1Wants();
         public int CurrentLevel { get; private set; }

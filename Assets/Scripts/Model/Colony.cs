@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,6 @@ namespace Assets.Scripts.Model
         private readonly IDictionary<EStructure, IList<Structure>> structures = new Dictionary<EStructure, IList<Structure>>();
         public float Influence { get; private set; } = 100;
         public int Population { get; private set; } = 0;
-        public int Rockets { get; private set; } = 0;
         public IDictionary<EGood, GoodInfo> Goods
         {
             get => new Dictionary<EGood, GoodInfo>(goods);
@@ -26,8 +26,11 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EStructure, IList<Structure>>(structures);
         }
+
+        public ILevelInfo Level { get => level; }
+        private readonly LevelInfo level = new LevelInfo();
+    
         private readonly IList<int> logisticStructures = new List<int>();
-        public LevelInfo LevelInfo { get; } = new LevelInfo();
         private readonly IColonizableManager manager;
         public Colony(IColonizableManager manager)
         {
@@ -82,7 +85,7 @@ namespace Assets.Scripts.Model
             if (newValue < 0)
             {
                 goods[good] = new GoodInfo(0);
-                var wantThreshold = Mathf.Pow(2, LevelInfo.CurrentLevel) * 100;
+                var wantThreshold = Mathf.Pow(2, level.CurrentLevel) * 100;
                 if (Influence > wantThreshold)
                     IncrementInfluence(Math.Max(wantThreshold - Influence, newValue));
             }
@@ -113,7 +116,7 @@ namespace Assets.Scripts.Model
         }
         private void ProcessServiceWant(KeyValuePair<EService, float> servicePerPop)
         {
-            var wantThreshold = Mathf.Pow(2, LevelInfo.CurrentLevel) * 100;
+            var wantThreshold = Mathf.Pow(2, level.CurrentLevel) * 100;
             if (Influence <= wantThreshold)
                 return;
             float demand = servicePerPop.Value * Population;
@@ -130,21 +133,21 @@ namespace Assets.Scripts.Model
             var prevGoods = Goods;
             foreach (var structurePair in structures)
                 WorkStructures(structurePair);
-            foreach (var goodPair in LevelInfo.GoodsPerPopNeeds)
+            foreach (var goodPair in level.GoodsPerPopNeeds)
                 IncrementNeededGood(goodPair.Key, (-goodPair.Value) * Population);
-            foreach (var goodPair in LevelInfo.GoodsPerPopWants)
+            foreach (var goodPair in level.GoodsPerPopWants)
                 IncrementWantedGood(goodPair.Key, (-goodPair.Value) * Population);
             foreach (var good in goods)
                 AssignDirection(prevGoods, good);
-            foreach (var service in LevelInfo.ServicesPerPopNeeds)
+            foreach (var service in level.ServicesPerPopNeeds)
                 ProcessServiceDemand(service);
-            foreach (var service in LevelInfo.ServicesPerPopWants)
+            foreach (var service in level.ServicesPerPopWants)
                 ProcessServiceWant(service);
             if (services.ContainsKey(EService.Housing)
-                && services[EService.Housing] > Population * LevelInfo.ServicesPerPopNeeds[EService.Housing])
-                IncrementPop(LevelInfo);
-            if (Influence >= Mathf.Pow(2, LevelInfo.CurrentLevel) * 200 && manager.Habitability >= 90)
-                LevelInfo.LevelUp();
+                && services[EService.Housing] > Population * level.ServicesPerPopNeeds[EService.Housing])
+                IncrementPop(level);
+            if (Influence >= Mathf.Pow(2, level.CurrentLevel) * 200 && manager.Habitability >= 90)
+                level.LevelUp();
         }
         private void AssignDirection(IDictionary<EGood, GoodInfo> prevGoods, KeyValuePair<EGood, GoodInfo> good)
         {
@@ -204,13 +207,13 @@ namespace Assets.Scripts.Model
             var distance = Utils.GetDistance(coords, coords2);
             return Mathf.Min(distance, currentMin);
         }
-        public void AddRocket()
+        public void FinishDeserialization()
         {
-            IncrementGood(EGood.Hydrogen, -100);
-            IncrementGood(EGood.Energy, -50);
-            IncrementGood(EGood.Oxygen, -50);
-            IncrementGood(EGood.Tools, -50);
-            Rockets++;
+            level.FinishDeserialization();
+        }
+        public bool CanBeSettled()
+        {
+            return manager.Habitability >= 90;
         }
     }
 }

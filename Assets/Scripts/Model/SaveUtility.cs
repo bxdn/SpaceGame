@@ -22,7 +22,7 @@ namespace Assets.Scripts.Model
                 Galaxy galaxy = (Galaxy)bf.Deserialize(file);
                 file.Close();
                 foreach (var colony in galaxy.Player.Colonies)
-                    colony.LevelInfo.FinishDeserialization();
+                    colony.FinishDeserialization();
                 return galaxy;
             }
             return null;

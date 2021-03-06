@@ -83,6 +83,5 @@ public class ColonyDialogController : EventTrigger
             structGuis.Add(new LandUnitGUI((StructureInfo)Constants.FEATURE_MAP[structure.Key], structure.Value.Count, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
-        Constants.SHIPS_VAL.text = colony.Rockets.ToString();
     }
 }

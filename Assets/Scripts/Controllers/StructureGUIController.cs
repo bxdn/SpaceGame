@@ -36,7 +36,9 @@ public class StructureGUIController : EventTrigger
     public static bool ValidateColony(Colony colony, EStructure structure)
     {
         var info = (StructureInfo) Constants.FEATURE_MAP[structure];
-        if (info.WorkerLevel > colony.LevelInfo.CurrentLevel)
+        if (info.WorkerLevel > colony.Level.CurrentLevel)
+            return false;
+        if (structure == EStructure.Housing && !colony.CanBeSettled())
             return false;
         var toRet = true;
         var enumerator = info.GoodCost.GetEnumerator();

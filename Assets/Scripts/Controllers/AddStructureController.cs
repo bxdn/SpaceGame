@@ -39,7 +39,7 @@ namespace Assets.Scripts.Controllers
         }
         private static void TriggerDoubleClicked()
         {
-            var colonyCanBuildStructure = structure == EStructure.LogisticsStation || 
+            var colonyCanBuildStructure = structure == EStructure.HQ || 
                 StructureGUIController.ValidateColony(manager.CurrentColony, structure);
             if (colonyCanBuildStructure)
                 SetBuildableStructure();
@@ -58,29 +58,29 @@ namespace Assets.Scripts.Controllers
         }
         private static void SetStructure(int idx)
         {
-            if (structure != EStructure.LogisticsStation)
+            if (structure != EStructure.HQ)
                 AddStandardStructure(manager.CurrentColony, idx);
             else
-                AddLogisticsStation(idx);
+                AddHQ(idx);
         }
         private static void AddStandardStructure(Colony col, int idx)
         {
             col.AddStructure(structure, idx);
             UpdateGUIS(col, idx);
         }
-        private static void AddLogisticsStation(int idx)
+        private static void AddHQ(int idx)
         {
-            if (manager.CurrentColony == null)
-                manager.Colonize();
+            manager.Colonize(idx);
             var col = manager.CurrentColony;
-            col.AddLogisticStructure(idx);
+            col.AddHQ(idx);
+            WorldMapRenderController.CreateColonySquare(idx);
             UpdateGUIS(col, idx);
             RevertView();
         }
         private static void UpdateGUIS(Colony col, int idx)
         {
             manager.UpdateFeature(idx, structure);
-            WorldMapRenderController.RenderSquare(idx);
+            WorldMapRenderController.ModifySquare(idx);
             ColonyDialogController.Reset(col);
             GoodsDialogController.Reset(col);
         }
@@ -88,10 +88,9 @@ namespace Assets.Scripts.Controllers
         {
             if (manager.CurrentColony != null)
                 RevertToColonyView();
-            else
-                Constants.COLONIZE_BUTTON.SetActive(true);
             Constants.COLONY_BUTTON.SetActive(true);
             Constants.COLONIZE_PROMPT.SetActive(false);
+            Constants.COLONIZE_BUTTON.SetActive(true);
             activated = false;
         }
         private static void RevertToColonyView()

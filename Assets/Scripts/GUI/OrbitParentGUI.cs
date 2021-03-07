@@ -62,6 +62,7 @@ public class OrbitParentGUI : GUIDestroyable
         textComponent.color = new Color(0, 0, 0, 0);
         textComponent.lineSpacing = 0;
         textComponent.alignment = TextAnchor.MiddleCenter;
+        textComponent.raycastTarget = false;
         RectTransform transform = (RectTransform)text.transform;
         transform.localScale = new Vector3(.04f, .04f, 1);
         Vector2 newSize = new Vector2(LayoutUtility.GetPreferredWidth((RectTransform)transform),

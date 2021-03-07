@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.GUI;
+using Assets.Scripts.Model;
 using System;
 using UnityEngine;
 
@@ -49,12 +50,23 @@ namespace Assets.Scripts.Controllers
         private void RenderSquareBatch()
         {
             for (int i = 0; i < SQUARES_PER_FRAME && curIdx < totalSquares; i++)
-                gui.AddSquare(curIdx, Utils.SquareIdxToWorldCoords(curIdx, rowSize), ChooseString(curIdx++));
+            {
+                gui.AddSquare(curIdx, Utils.SquareIdxToWorldCoords(curIdx, rowSize), ChooseString(curIdx));
+                var feature = c.GetFeature(curIdx);
+                if (feature != null && feature.Equals(EStructure.HQ))
+                    CreateColonySquare(curIdx);
+                curIdx++;
+            }
         }
 
-        public static void RenderSquare(int idx)
+        public static void ModifySquare(int idx)
         {
             latestInstance.gui.ChangeField(idx, latestInstance.ChooseString(idx));
+        }
+
+        public static void CreateColonySquare(int idx)
+        {
+            latestInstance.gui.CreateColonyController(idx);
         }
 
         private void DestroySquareBatch()

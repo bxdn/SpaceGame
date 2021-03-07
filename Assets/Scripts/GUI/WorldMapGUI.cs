@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,6 +56,14 @@ namespace Assets.Scripts.GUI
             squares[idx].Feature.GetComponent<Text>().text = field;
         }
 
+        public void CreateColonyController(int idx)
+        {
+            var go = squares[idx].Feature;
+            go.AddComponent<BoxCollider2D>();
+            var controller = go.AddComponent<SelectColonyController>();
+            controller.Idx = idx;
+        }
+
         private GameObject AddBigSquare(Vector2 loc)
         {
             return UnityEngine.Object.Instantiate(Constants.WHITE_SQUARE, loc, 
@@ -71,6 +80,7 @@ namespace Assets.Scripts.GUI
         {
             var letter = UnityEngine.Object.Instantiate(Constants.LETTER, loc, 
                 Quaternion.identity, Constants.CANVAS.transform);
+            letter.name = loc.x.ToString() + " " + loc.y.ToString();
             letter.GetComponent<Text>().text = field;
             return letter;
         }

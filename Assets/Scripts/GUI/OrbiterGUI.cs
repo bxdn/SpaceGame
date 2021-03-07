@@ -92,6 +92,7 @@ public class OrbiterGUI : GUIDestroyable
         textComponent.color = new Color(1, 1, 1, 0);
         textComponent.lineSpacing = 0;
         textComponent.alignment = TextAnchor.MiddleCenter;
+        textComponent.raycastTarget = false;
         RectTransform transform = (RectTransform)text.transform;
         transform.localScale = new Vector3(.030f, .030f, 1);
         transform.localPosition = new Vector3(loc.x, loc.y, 0);

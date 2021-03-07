@@ -22,8 +22,8 @@ namespace Assets.Scripts.Model
         public static StructureInfo WindowMaker { get; private set; } = BuildWindowMaker();
         public static StructureInfo GlassBlower { get; private set; } = BuildGlassBlower();
         public static StructureInfo CopperMine { get; private set; } = BuildCopperMine();
-        public static StructureInfo LogisticsStation { get; private set; } = BuildLogisticsStation();
-        private static StructureInfo BuildLogisticsStation()
+        public static StructureInfo HQ { get; private set; } = BuildHQ();
+        private static StructureInfo BuildHQ()
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
             var cost = costBuilder.ToImmutable();

@@ -36,10 +36,9 @@ public class ColonyButtonController : MonoBehaviour, IPointerClickHandler
     {
         var selectedIsUnOwned = selected is IColonizable c && c.ColonizableManager is IColonizableManager m &&
                 m.Owner != WorldGeneration.Galaxy.Player.Domain;
-        if (selectedIsUnOwned)
-            Constants.COLONIZE_BUTTON.SetActive(true);
-        else
+        if (!selectedIsUnOwned)
             Constants.MENUS_BUTTON.SetActive(true);
+        Constants.COLONIZE_BUTTON.SetActive(true);
         WorldMapGUI.Render(selected as IColonizable);
     }
 }

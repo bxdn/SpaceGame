@@ -30,7 +30,7 @@ namespace Assets.Scripts.Model
         public ILevelInfo Level { get => level; }
         private readonly LevelInfo level = new LevelInfo();
     
-        private readonly IList<int> logisticStructures = new List<int>();
+        private readonly IList<int> hqs = new List<int>();
         private readonly IColonizableManager manager;
         public Colony(IColonizableManager manager)
         {
@@ -40,9 +40,9 @@ namespace Assets.Scripts.Model
             goods[EGood.Chips] = new GoodInfo(100);
             goods[EGood.Steel] = new GoodInfo(100);
         }
-        public void AddLogisticStructure(int idx)
+        public void AddHQ(int idx)
         {
-            logisticStructures.Add(idx);
+            hqs.Add(idx);
         }
         private void IncrementGood(EGood good, float amount)
         {
@@ -66,11 +66,11 @@ namespace Assets.Scripts.Model
         {
             var rowSize = Utils.GetRowSize(manager.Size);
             var isHousingPlaceable = false;
-            for (int i = 0; i < logisticStructures.Count && isHousingPlaceable == false; i++)
-                isHousingPlaceable = IsServiceNearLogisticsStructure(serviceIdx, logisticStructures[i], rowSize);
+            for (int i = 0; i < hqs.Count && isHousingPlaceable == false; i++)
+                isHousingPlaceable = IsServiceNearHQ(serviceIdx, hqs[i], rowSize);
             return isHousingPlaceable;
         }
-        private bool IsServiceNearLogisticsStructure(int housingIdx, int logisticsIdx, int rowSize)
+        private bool IsServiceNearHQ(int housingIdx, int logisticsIdx, int rowSize)
         {
             var potentialHousingCoords = Utils.IdxToSquareCoords(housingIdx, rowSize);
             var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
@@ -197,7 +197,7 @@ namespace Assets.Scripts.Model
             var rowSize = Utils.GetRowSize(manager.Size);
             var strucCoords = Utils.IdxToSquareCoords(idx, rowSize);
             var minDistance = float.MaxValue;
-            foreach (int hubIdx in logisticStructures)
+            foreach (int hubIdx in hqs)
                 minDistance = MinDistance(strucCoords, hubIdx, rowSize, minDistance);
             return minDistance;
         }

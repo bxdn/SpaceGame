@@ -13,6 +13,7 @@ namespace Assets.Scripts
         Enum GetFeature(int i);
         void UpdateFeature(int i, Enum feature);
         int Size { get; }
-        void Colonize();
+        void Colonize(int idx);
+        void SetCurrentColony(int idx);
     }
 }

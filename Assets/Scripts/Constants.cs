@@ -148,7 +148,7 @@ public static class Constants
         featureBuilder.Add(EResource.Land, ResourceRegistry.Land);
         featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
         featureBuilder.Add(EResource.Copper, ResourceRegistry.Copper);
-        featureBuilder.Add(EStructure.LogisticsStation, StructureRegistry.LogisticsStation);
+        featureBuilder.Add(EStructure.HQ, StructureRegistry.HQ);
         FEATURE_MAP = featureBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();

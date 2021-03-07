@@ -12,6 +12,6 @@ public class ColonizeButtonController : MonoBehaviour, IPointerClickHandler
     {
         gameObject.SetActive(false);
         Constants.COLONIZE_PROMPT.SetActive(true);
-        AddStructureController.Activate(EStructure.LogisticsStation, (Selection.CurrentSelection as IColonizable).ColonizableManager);
+        AddStructureController.Activate(EStructure.HQ, (Selection.CurrentSelection as IColonizable).ColonizableManager);
     }
 }

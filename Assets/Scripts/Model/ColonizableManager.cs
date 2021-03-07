@@ -18,7 +18,7 @@ namespace Assets.Scripts.Model
             get => new Dictionary<EResource, int>(resources);
         }
         public Colony CurrentColony { get; private set; }
-        private IList<Colony> colonies = new List<Colony>();
+        private IList<ColonyInfo> colonies = new List<ColonyInfo>();
         public ColonizableManager(Orbiter orbiter)
         { 
             Habitability = ColonizerR.r.Next(100);
@@ -50,12 +50,12 @@ namespace Assets.Scripts.Model
             resources[resource]++;
             features[idx] = new Area(resource);
         }
-        public void Colonize()
+        public void Colonize(int idx)
         {
             Owner = WorldGeneration.Galaxy.Player.Domain;
             var colony = new Colony(this);
             CurrentColony = colony;
-            colonies.Add(colony);
+            colonies.Add(new ColonyInfo(colony, idx));
         }
         public Enum GetFeature(int i)
         {
@@ -68,6 +68,25 @@ namespace Assets.Scripts.Model
         public void UpdateFeature(int i, Enum feature)
         {
             features[i] = new Area(feature);
+        }
+
+        public void SetCurrentColony(int idx)
+        {
+            foreach (ColonyInfo info in colonies)
+                if (info.Idx == idx)
+                    CurrentColony = info.Colony;
+        }
+
+        [Serializable]
+        private class ColonyInfo
+        {
+            public Colony Colony { get; }
+            public int Idx { get; }
+            public ColonyInfo(Colony colony, int idx)
+            {
+                Colony = colony;
+                Idx = idx;
+            }
         }
     }
 }

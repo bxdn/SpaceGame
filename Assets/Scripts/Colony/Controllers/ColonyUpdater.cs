@@ -24,17 +24,13 @@ public class ColonyUpdater : MonoBehaviour
     private void TickForward()
     {
         foreach (Colony c in WorldGeneration.Galaxy.Player.Colonies)
-            TickColonyForward(c);
-        time = Time.time;
-    }
-    private void TickColonyForward(Colony c)
-    {
-        c.TickForward();
-        // Update the dialog if this colony is selected
+            c.TickForward();
+        foreach (Colony c in WorldGeneration.Galaxy.Player.Colonies)
+            c.FinishGoodsCalculations();
         if (Selection.CurrentSelection is IColonizable col
-            && col.ColonizableManager is IColonizableManager m
-            && m.CurrentColony == c)
-            UpdateGUIS(c);
+            && col.ColonizableManager is IColonizableManager m)
+            UpdateGUIS(m.CurrentColony);
+        time = Time.time;
     }
     private void UpdateGUIS(Colony c)
     {

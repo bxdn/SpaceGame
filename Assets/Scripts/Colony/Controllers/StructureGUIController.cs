@@ -1,14 +1,10 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.Controllers;
-using Assets.Scripts.GUI;
+﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class StructureGUIController : EventTrigger
 {
@@ -35,7 +31,6 @@ public class StructureGUIController : EventTrigger
     }
     public static bool ValidateColony(Colony colony, EStructure structure)
     {
-        return true;
         var info = (StructureInfo) Constants.FEATURE_MAP[structure];
         if (info.WorkerLevel > colony.Level.CurrentLevel)
             return false;

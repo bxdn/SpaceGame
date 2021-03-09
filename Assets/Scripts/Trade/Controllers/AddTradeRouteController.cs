@@ -12,7 +12,7 @@ namespace Assets.Scripts.Controllers
     {
         public void OnPointerClick(PointerEventData eventData)
         {
-            TradePanelController.AddRoute();
+            TradePanelController.AddNewRoute();
         }
     }
 }

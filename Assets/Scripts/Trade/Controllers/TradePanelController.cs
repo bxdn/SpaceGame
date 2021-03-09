@@ -3,6 +3,8 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
+using Assets.Scripts.Trade.Model;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,12 +12,11 @@ using UnityEngine.UI;
 
 public class TradePanelController : EventTrigger
 {
-    private static readonly IList<GUIScrollable> guis = new List<GUIScrollable>();
+    private static readonly IList<GameObject> guis = new List<GameObject>();
     private bool dragging;
     private Vector3 curPos;
-    private static Colony colony;
-    private static int scrollVal = 0;
     private static int idx = 0;
+    private static InputField[] currentInputFields = new InputField[5];
     // Update is called once per frame
     void Update()
     {
@@ -24,27 +25,6 @@ public class TradePanelController : EventTrigger
             Vector3 pos = Input.mousePosition - curPos;
             curPos = Input.mousePosition;
             transform.Translate(pos);
-        }
-        float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
-        if (scrollDelta != 0)
-        {
-            if (scrollDelta < 0 && scrollVal < guis.Count - 13)
-            {
-                scrollVal++;
-                MoveGUIs(true);
-            }
-            else if (scrollDelta > 0 && scrollVal > 0)
-            {
-                scrollVal--;
-                MoveGUIs(false);
-            }
-        }
-    }
-    private static void MoveGUIs(bool ascending)
-    {
-        foreach (GUIScrollable gui in guis)
-        {
-            gui.Scroll(ascending);
         }
     }
     public override void OnPointerDown(PointerEventData eventData)
@@ -62,29 +42,73 @@ public class TradePanelController : EventTrigger
             dragging = false;
         }
     }
-    public static void Fill(Colony col)
+    private static void Fill(Colony col)
     {
-        colony = col;
+        var tradeManager = col.TradeManager;
+        foreach (var route in tradeManager.OutGoingRoutes)
+            AddOutgoingRoute(route);
+        foreach (var route in tradeManager.IncomingRoutes)
+            AddIncomingRoute(route);
     }
-    public static void AddRoute()
+    private static void AddOutgoingRoute(TradeRoute route)
     {
-        var field = Instantiate(Constants.INPUT_FIELD, Constants.TRADE_MASKING_PANEL.transform);
-        (field.transform as RectTransform).anchoredPosition = new Vector2(125, -50 * idx);
-        var iField = field.GetComponent<InputField>();
-        var field2 = Instantiate(Constants.INPUT_FIELD, Constants.TRADE_MASKING_PANEL.transform);
-        (field2.transform as RectTransform).anchoredPosition = new Vector2(350, -50 * idx);
-        var iField2 = field2.GetComponent<InputField>();
-        var fieldN = Instantiate(Constants.INPUT_FIELD_NUM, Constants.TRADE_MASKING_PANEL.transform);
-        (fieldN.transform as RectTransform).anchoredPosition = new Vector2(475, -50 * idx);
-        var iFieldN = fieldN.GetComponent<InputField>();
-        var field3 = Instantiate(Constants.INPUT_FIELD, Constants.TRADE_MASKING_PANEL.transform);
-        (field3.transform as RectTransform).anchoredPosition = new Vector2(600, -50 * idx);
-        var iField3 = field3.GetComponent<InputField>();
-        var fieldN2 = Instantiate(Constants.INPUT_FIELD_NUM, Constants.TRADE_MASKING_PANEL.transform);
-        (fieldN2.transform as RectTransform).anchoredPosition = new Vector2(725, -50 * idx);
-        var iFieldN2 = fieldN2.GetComponent<InputField>();
+        AddRoute();
+        currentInputFields[0].text = route.Receiver.Name;
+        currentInputFields[1].text = Constants.GOOD_MAP[route.SentGood];
+        currentInputFields[2].text = route.SentAmount.ToString();
+        currentInputFields[3].text = Constants.GOOD_MAP[route.ReceivedGood];
+        currentInputFields[4].text = route.ReceivedAmount.ToString();
+        DisableFields();
+        idx++;
+    }
+    private static void AddIncomingRoute(TradeRoute route)
+    {
+        AddRoute();
+        currentInputFields[0].text = route.Originator.Name;
+        currentInputFields[3].text = Constants.GOOD_MAP[route.SentGood];
+        currentInputFields[4].text = route.SentAmount.ToString();
+        currentInputFields[1].text = Constants.GOOD_MAP[route.ReceivedGood];
+        currentInputFields[2].text = route.ReceivedAmount.ToString();
+        DisableFields();
+        idx++;
+    }
+    private static void AddRoute()
+    {
+        InstantiateField(Constants.INPUT_FIELD, 125, 0);
+        InstantiateField(Constants.INPUT_FIELD, 350, 1);
+        InstantiateField(Constants.INPUT_FIELD_NUM, 475, 2);
+        InstantiateField(Constants.INPUT_FIELD, 600, 3);
+        InstantiateField(Constants.INPUT_FIELD_NUM, 725, 4);
+    }
+    private static void InstantiateField(GameObject obj, int xVal, int inptFieldIdx)
+    {
+        var field = Instantiate(obj, Constants.TRADE_MASKING_PANEL.transform);
+        (field.transform as RectTransform).anchoredPosition = new Vector2(xVal, -50 * idx);
+        guis.Add(field);
+        currentInputFields[inptFieldIdx] = field.GetComponent<InputField>();
+    }
+    public static void AddNewRoute()
+    {
+        AddRoute();
         var field4 = Instantiate(Constants.ADD_BUTTON, Constants.TRADE_MASKING_PANEL.transform);
+        guis.Add(field4);
         (field4.transform as RectTransform).anchoredPosition = new Vector2(800, -50 * idx++);
-        field4.GetComponent<ConfirmRouteButtonController>().Init(iField, iField2, iField3, iFieldN, iFieldN2);
+        field4.GetComponent<ConfirmRouteButtonController>().Init(currentInputFields[0], currentInputFields[1], 
+            currentInputFields[3], currentInputFields[2], currentInputFields[4]);
+    }
+    private static void DisableFields()
+    {
+        foreach (var field in currentInputFields)
+            field.interactable = false;
+    }
+
+    internal static void Reset(Colony colony)
+    {
+        foreach(var gui in guis)
+            Destroy(gui);
+        guis.Clear();
+        idx = 0;
+        if(colony != null)
+            Fill(colony);
     }
 }

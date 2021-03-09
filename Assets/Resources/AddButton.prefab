@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 907903993657541053}
   - component: {fileID: 907903993657541055}
   - component: {fileID: 907903993657541054}
-  - component: {fileID: -8964717039388695560}
+  - component: {fileID: 8448289134912951569}
   m_Layer: 0
   m_Name: AddButton
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: +
---- !u!114 &-8964717039388695560
+--- !u!114 &8448289134912951569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,6 +89,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 907903993657541052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ffbd89c5b28c143b538dbf5a6818d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 66af04a47615b93479b994ae2d89238a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -11,7 +11,8 @@ public class ColonyCloseButtonController : EventTrigger
         if (Input.GetMouseButtonDown(0))
         {
             gameObject.transform.parent.gameObject.SetActive(false);
-            if(!Constants.COLONY_PANEL.activeSelf && !Constants.GOODS_PANEL.activeSelf)
+            if(!Constants.COLONY_PANEL.activeSelf && !Constants.GOODS_PANEL.activeSelf && 
+                !Constants.TRADE_PANEL.activeSelf && !Constants.STRUCTURE_PANEL.activeSelf)
                 CameraController.Locked = false;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Trade.Model;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Assets.Scripts.Model
     {
         private static readonly int MAX_HOUSING_RADIUS = 5;
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
+        private IDictionary<EGood, GoodInfo> prevGoods;
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
         private readonly IDictionary<EStructure, IList<Structure>> structures = new Dictionary<EStructure, IList<Structure>>();
         public float Influence { get; private set; } = 100;
@@ -26,6 +28,7 @@ namespace Assets.Scripts.Model
         {
             get => new Dictionary<EStructure, IList<Structure>>(structures);
         }
+        public TradeManager TradeManager { get; } = new TradeManager();
 
         public ILevelInfo Level { get => level; }
         private readonly LevelInfo level = new LevelInfo();
@@ -46,8 +49,10 @@ namespace Assets.Scripts.Model
         {
             hqs.Add(idx);
         }
-        private void IncrementGood(EGood good, float amount)
+        public void IncrementGood(EGood good, float amount)
         {
+            if (!CanIncrementGood(good, amount))
+                throw new Exception();
             if (goods.ContainsKey(good))
                 goods[good] = new GoodInfo(goods[good].Value + amount);
             else
@@ -132,15 +137,14 @@ namespace Assets.Scripts.Model
         {
             if(Population > 0)
                 Influence += Mathf.Pow(Population/100f, .5f);
-            var prevGoods = Goods;
+            prevGoods = Goods;
+            TradeManager.ProcessTrades();
             foreach (var structurePair in structures)
                 WorkStructures(structurePair);
             foreach (var goodPair in level.GoodsPerPopNeeds)
                 IncrementNeededGood(goodPair.Key, (-goodPair.Value) * Population);
             foreach (var goodPair in level.GoodsPerPopWants)
                 IncrementWantedGood(goodPair.Key, (-goodPair.Value) * Population);
-            foreach (var good in goods)
-                AssignDirection(prevGoods, good);
             foreach (var service in level.ServicesPerPopNeeds)
                 ProcessServiceDemand(service);
             foreach (var service in level.ServicesPerPopWants)
@@ -150,6 +154,11 @@ namespace Assets.Scripts.Model
                 IncrementPop(level);
             if (Influence >= Mathf.Pow(2, level.CurrentLevel) * 200 && manager.Habitability >= 90)
                 level.LevelUp();
+        }
+        public void FinishGoodsCalculations()
+        {
+            foreach (var good in goods)
+                AssignDirection(prevGoods, good);
         }
         private void AssignDirection(IDictionary<EGood, GoodInfo> prevGoods, KeyValuePair<EGood, GoodInfo> good)
         {
@@ -175,8 +184,8 @@ namespace Assets.Scripts.Model
         private void WorkStructure(EStructure structure, float multiplier)
         {
             bool validGoods = true;
-            foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
-                validGoods &= goodInfo.Value > 0 || goods.ContainsKey(goodInfo.Key) && goods[goodInfo.Key].Value * multiplier >= -goodInfo.Value;
+            foreach (var numGoodsPerStruc in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
+                validGoods &= numGoodsPerStruc.Value > 0 || goods.ContainsKey(numGoodsPerStruc.Key) && goods[numGoodsPerStruc.Key].Value * multiplier >= -numGoodsPerStruc.Value;
             if (!validGoods)
                 return;
             foreach (var goodInfo in ((StructureInfo)Constants.FEATURE_MAP[structure]).Flow)
@@ -203,6 +212,14 @@ namespace Assets.Scripts.Model
                 minDistance = MinDistance(strucCoords, hubIdx, rowSize, minDistance);
             return minDistance;
         }
+        public bool CanIncrementGood(EGood good, float value)
+        {
+            if (value >= 0)
+                return true;
+            if (!goods.ContainsKey(good))
+                return false;
+            return goods[good].Value + value >= 0;
+        }
         private float MinDistance(Vector2Int coords, int idx, int rowSize, float currentMin)
         {
             var coords2 = Utils.IdxToSquareCoords(idx, rowSize);
@@ -212,6 +229,7 @@ namespace Assets.Scripts.Model
         public void FinishDeserialization()
         {
             level.FinishDeserialization();
+            TradeManager.FinishDeserialization();
         }
         public bool CanBeSettled()
         {

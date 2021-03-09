@@ -63,6 +63,7 @@ public class ColonyDialogController : EventTrigger
     public static void Reset(Colony colony)
     {
         structScrollVal = 0;
+        Constants.COLONY_NAME_FIELD.text = colony.Name;
         Fill(colony);
     }
     public static void Update(Colony c)
@@ -79,7 +80,6 @@ public class ColonyDialogController : EventTrigger
             gui.Destroy();
         structGuis.Clear();
         Vector2 currentPosition = new Vector2(0, 0);
-        Constants.COLONY_NAME_FIELD.text = colony.Name;
         foreach (var structure in colony.Structures)
         {
             structGuis.Add(new StructureCountGUI((StructureInfo)Constants.FEATURE_MAP[structure.Key], structure.Value.Count, currentPosition));

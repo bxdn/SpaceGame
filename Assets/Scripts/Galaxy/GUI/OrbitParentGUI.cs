@@ -15,47 +15,48 @@ public class OrbitParentGUI : GUIDestroyable
         big = new GameObject("Star");
         middleChild = orbitee;
         AddBig();
-        String name = orbitee.Name;
-        Text text = AddUI(name);
-        OrbitParentGUIController controller = big.AddComponent<OrbitParentGUIController>();
+        AddController(big.AddComponent<OrbitParentGUIController>(), AddUI(orbitee.Name), orbitee);
+        Selection.Select(orbitee);
+    }
+    private void AddController(OrbitParentGUIController controller, Text text, IMiddleChild orbitee)
+    {
         controller.bigTransform = big.transform;
         controller.text = text;
         controller.System = orbitee;
         controller.Select();
-        Selection.Select(orbitee);
     }
-
     private void AddBig()
     {
-        Transform bigTransform = big.transform;
+        AddBigTransform(big.transform);
+        AddBigRenderer(big.AddComponent<SpriteRenderer>());
+    }
+    private void AddBigTransform(Transform bigTransform)
+    {
         bigTransform.localPosition = new Vector3(0, 0, 0);
         bigTransform.localScale = new Vector3(15, 15, 1);
         bigTransform.parent = Constants.GRID.transform;
-        SpriteRenderer bigRenderer = big.AddComponent<SpriteRenderer>();
+    }
+    private void AddBigRenderer(SpriteRenderer bigRenderer)
+    {
         bigRenderer.sprite = Constants.circle;
-        bigRenderer.color = GetColor();
+        bigRenderer.color = 
+            middleChild is IColonizable colonizable
+            && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain
+            ? Constants.colonizedColor 
+            : Color.white;
         bigRenderer.sortingOrder = 2;
         big.AddComponent<CircleCollider2D>();
-
-        
-    }
-
-    private Color GetColor()
-    {
-        if(middleChild is IColonizable colonizable && colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain)
-        {
-            return Constants.colonizedColor;
-        }
-        else
-        {
-            return Color.white;
-        }
     }
 
     private Text AddUI(String name)
     {
         text = new GameObject("Text", typeof(RectTransform));
-        Text textComponent = text.AddComponent<Text>();
+        var textComponent = AddText(text.AddComponent<Text>(), name);
+        AddTransform((RectTransform)text.transform);
+        return textComponent;
+    }
+    private Text AddText(Text textComponent, String name)
+    {
         textComponent.text = name;
         textComponent.fontSize = 72;
         textComponent.font = Constants.ARIAL;
@@ -63,15 +64,16 @@ public class OrbitParentGUI : GUIDestroyable
         textComponent.lineSpacing = 0;
         textComponent.alignment = TextAnchor.MiddleCenter;
         textComponent.raycastTarget = false;
-        RectTransform transform = (RectTransform)text.transform;
+        return textComponent;
+    }
+    private void AddTransform(RectTransform transform)
+    {
         transform.localScale = new Vector3(.04f, .04f, 1);
         Vector2 newSize = new Vector2(LayoutUtility.GetPreferredWidth((RectTransform)transform),
            LayoutUtility.GetPreferredHeight((RectTransform)transform));
         transform.sizeDelta = newSize;
         transform.SetParent(Constants.CANVAS.transform);
-        return textComponent;
     }
-
     public override void Destroy()
     {
         UnityEngine.Object.Destroy(big);

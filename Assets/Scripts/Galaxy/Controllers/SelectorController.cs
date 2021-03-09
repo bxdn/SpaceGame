@@ -15,92 +15,134 @@ public class SelectorController : MonoBehaviour
     private static bool selecting = false;
     private static bool deselecting = false;
     private static Vector2 currentLocation = Vector2.zero;
+
     private void Update()
     {
-        Transform select1Transform = Constants.SELECTION1.transform;
-        Transform select2Transform = Constants.SELECTION2.transform;
-        SpriteRenderer renderer1 = Constants.SELECTION1.GetComponent<SpriteRenderer>();
-        SpriteRenderer renderer2 = Constants.SELECTION2.GetComponent<SpriteRenderer>();
-        float scrollDelta = Input.GetAxis("Mouse ScrollWheel");
+        TryScroll();
+        TrySelectOrDeselect(Constants.SELECTION1.GetComponent<SpriteRenderer>(), 
+            Constants.SELECTION2.GetComponent<SpriteRenderer>());
+    }
+    private void TryScroll()
+    {
+        var scrollDelta = Input.GetAxis("Mouse ScrollWheel");
         if (scrollDelta != 0)
-        {
-            Utils.Scale(select1Transform, scrollDelta);
-            Select1BaseScale = Utils.Scale(Select1BaseScale, scrollDelta);
-            Utils.Scale(select2Transform, scrollDelta);
-            Select2BaseScale = Utils.Scale(Select2BaseScale, scrollDelta);
-            SCALE_DELTA = Utils.Scale(SCALE_DELTA, scrollDelta);
-            SCALE_TICK = Utils.Scale(SCALE_TICK, scrollDelta);
-        }
-        Vector3 select1Scale = select1Transform.localScale;
-        Vector3 select2Scale = select2Transform.localScale;
-        if (selecting)
-        {
-            selecting = false;
-            if (select1Transform.localScale.x < Select1BaseScale)
-            {
-                select1Transform.localScale = select1Scale + SCALE_TICK;
-                selecting = true;
-            }
-            if (select2Transform.localScale.x < Select2BaseScale)
-            {
-                select2Transform.localScale = select2Scale + SCALE_TICK;
-                selecting = true;
-            }
-            if (renderer1.color.a < 1)
-            {
-                renderer1.color = new Color(1, 1, 1, renderer1.color.a + ALPHA_TICK);
-                selecting = true;
-            }
-            if (renderer2.color.a < 1)
-            {
-                renderer2.color = new Color(0, 0, 0, renderer1.color.a + ALPHA_TICK);
-                selecting = true;
-            }
-        }
-        else if (deselecting)
-        {
-            deselecting = false;
-            if (select1Transform.localScale.x > SelectorController.Select1BaseScale - SCALE_DELTA)
-            {
-                select1Transform.localScale = select1Scale - SCALE_TICK;
-                deselecting = true;
-            }
-            if (select2Transform.localScale.x > SelectorController.Select2BaseScale - SCALE_DELTA)
-            {
-                select2Transform.localScale = select2Scale - SCALE_TICK;
-                deselecting = true;
-            }
-            if (renderer1.color.a > 0)
-            {
-                renderer1.color = new Color(1, 1, 1, renderer1.color.a - ALPHA_TICK);
-                deselecting = true;
-            }
-            if (renderer2.color.a > 0)
-            {
-                renderer2.color = new Color(0, 0, 0, renderer1.color.a - ALPHA_TICK);
-                deselecting = true;
-            }
-        }
+            Scroll(scrollDelta);
+    }
+    private void TrySelectOrDeselect(SpriteRenderer renderer1, SpriteRenderer renderer2)
+    {
+        if (selecting) 
+            ContinueSelecting(renderer1, renderer2);
+        else if (deselecting) 
+            ContinueDeselecting(renderer1, renderer2);
+    }
+    private void ContinueSelecting(SpriteRenderer renderer1, SpriteRenderer renderer2)
+    {
+        selecting = false;
+        Scale();
+        BoostAlpha(renderer1, renderer2);
+    }
+    private void Scale()
+    {
+        ScaleUpIfExpanding(Constants.SELECTION1.transform, Select1BaseScale);
+        ScaleUpIfExpanding(Constants.SELECTION2.transform, Select2BaseScale);
+    }
+    private void ContinueDeselecting(SpriteRenderer renderer1, SpriteRenderer renderer2)
+    {
+        deselecting = false;
+        DeScale();
+        ReduceAlpha(renderer1, renderer2);
+    }
+    private void ReduceAlpha(SpriteRenderer renderer1, SpriteRenderer renderer2)
+    {
+        ReduceAlphaIfDisappearing(renderer1, new Color(1, 1, 1, renderer1.color.a - ALPHA_TICK));
+        ReduceAlphaIfDisappearing(renderer2, new Color(0, 0, 0, renderer2.color.a - ALPHA_TICK));
+    }
+    private void ReduceAlphaIfDisappearing(SpriteRenderer renderer, Color color)
+    {
+        if (renderer.color.a > 0)
+            DecreaseAlpha(renderer, color);
+    }
+    private void DecreaseAlpha(SpriteRenderer renderer, Color color)
+    {
+        renderer.color = color;
+        deselecting = true;
+    }
+    private void DeScale()
+    {
+        ScaleDownIfRetracting(Constants.SELECTION1.transform, Select1BaseScale - SCALE_DELTA);
+        ScaleDownIfRetracting(Constants.SELECTION2.transform, Select2BaseScale - SCALE_DELTA);
+    }
+    private void ScaleDownIfRetracting(Transform transform, float minScale)
+    {
+        if (transform.localScale.x > minScale)
+            ScaleDown(transform);
+    }
+    private void ScaleDown(Transform transform)
+    {
+        transform.localScale -= SCALE_TICK;
+        deselecting = true;
+    }
+    private void BoostAlpha(SpriteRenderer renderer1, SpriteRenderer renderer2)
+    {
+        IncreaseAlphaIfAppearing(renderer1, new Color(1, 1, 1, renderer1.color.a + ALPHA_TICK));
+        IncreaseAlphaIfAppearing(renderer2, new Color(0, 0, 0, renderer2.color.a + ALPHA_TICK));
+    }
+    private void IncreaseAlphaIfAppearing(SpriteRenderer renderer, Color color)
+    {
+        if (renderer.color.a < 1)
+            IncreaseAlpha(renderer, color);
+    }
+    private void ScaleUpIfExpanding(Transform transform, float maxScale)
+    {
+        if (transform.localScale.x < maxScale)
+            ScaleUp(transform);
+    }
+    private void ScaleUp(Transform transform)
+    {
+        transform.localScale += SCALE_TICK;
+        selecting = true;
     }
 
+    private void IncreaseAlpha(SpriteRenderer renderer, Color color)
+    {
+        renderer.color = color;
+        selecting = true;
+    }
+    private void Scroll(float scrollDelta)
+    {
+        Scroll(Constants.SELECTION1.transform, Constants.SELECTION2.transform, scrollDelta);
+        SCALE_DELTA = Utils.Scale(SCALE_DELTA, scrollDelta);
+        SCALE_TICK = Utils.Scale(SCALE_TICK, scrollDelta);
+    }
+    private void Scroll(Transform select1Transform, Transform select2Transform, float scrollDelta)
+    {
+        Utils.Scale(select1Transform, scrollDelta);
+        Select1BaseScale = Utils.Scale(Select1BaseScale, scrollDelta);
+        Utils.Scale(select2Transform, scrollDelta);
+        Select2BaseScale = Utils.Scale(Select2BaseScale, scrollDelta);
+    }
     public static void Select(Vector2 location)
     {
-        Transform select1Transform = Constants.SELECTION1.transform;
-        Transform select2Transform = Constants.SELECTION2.transform;
+        Select(location, Constants.SELECTION1.transform, Constants.SELECTION2.transform);
+        deselecting = false;
+        selecting = true;
+    }
+    private static void Select(Vector2 location, Transform select1Transform, Transform select2Transform)
+    {
         select1Transform.localPosition = location;
         select2Transform.localPosition = location;
         if (!location.Equals(currentLocation))
-        {
-            float select1StartScale = SelectorController.Select1BaseScale - SCALE_DELTA;
-            select1Transform.localScale = new Vector3(select1StartScale, select1StartScale, 1);
-            Constants.SELECTION1.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-            float select2StartScale = SelectorController.Select2BaseScale - SCALE_DELTA;
-            select2Transform.localScale = new Vector3(select2StartScale, select2StartScale, 1);
-            currentLocation = location;
-
-        }
-        deselecting = false;
-        selecting = true;
+            SelectNew(select1Transform, select2Transform, location);
+    }
+    private static void SelectNew(Transform select1Transform, Transform select2Transform, Vector2 location)
+    {
+        ResetScale(select1Transform, Select1BaseScale - SCALE_DELTA);
+        ResetScale(select2Transform, Select2BaseScale - SCALE_DELTA);
+        currentLocation = location;
+    }
+    private static void ResetScale(Transform transform, float startScale)
+    {
+        transform.localScale = new Vector3(startScale, startScale, 1);
     }
 
     public static void Deselect()
@@ -111,14 +153,25 @@ public class SelectorController : MonoBehaviour
 
     public static void Reset()
     {
-        Select1BaseScale = Select1BaseScaleDEFAULT;
-        Select2BaseScale = Select2BaseScaleDEFAULT;
-        Vector3 location = new Vector3(-10000, -10000, 0);
-        Constants.SELECTION1.transform.localPosition = location;
-        Constants.SELECTION2.transform.localPosition = location;
+        ResetBaseScales();
+        RepositionGUIS(new Vector3(-10000, -10000, 0));
         Constants.SELECTION1.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        ResetMembers();
+    }
+    private static void ResetMembers()
+    {
         currentLocation = Vector2.zero;
         SCALE_TICK = new Vector3(.04f, .04f, 0);
         SCALE_DELTA = 0.5f;
+    }
+    private static void ResetBaseScales()
+    {
+        Select1BaseScale = Select1BaseScaleDEFAULT;
+        Select2BaseScale = Select2BaseScaleDEFAULT;
+    }
+    private static void RepositionGUIS(Vector3 location)
+    {
+        Constants.SELECTION1.transform.localPosition = location;
+        Constants.SELECTION2.transform.localPosition = location;
     }
 }

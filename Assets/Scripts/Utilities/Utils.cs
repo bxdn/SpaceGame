@@ -76,6 +76,7 @@ public static class Utils
             Constants.ENERGYF.GetComponent<Text>().text = "N/A";
             ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
             GoodsDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
+            TradePanelController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
         }
         else
         {

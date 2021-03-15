@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
-    class Area
+    public class Area
     {
         public Enum Feature { get; }
         public Area(Enum feature)

@@ -62,6 +62,8 @@ public class ColonyDialogController : EventTrigger
     }
     public static void Reset(Colony colony)
     {
+        if (colony == null)
+            return;
         structScrollVal = 0;
         Constants.COLONY_NAME_FIELD.text = colony.Name;
         Fill(colony);

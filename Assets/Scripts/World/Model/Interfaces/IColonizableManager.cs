@@ -8,7 +8,6 @@ namespace Assets.Scripts
     {
         Domain Owner { get; }
         Colony CurrentColony { get; }
-        IDictionary<EResource, int> Resources { get; }
         int Habitability { get; }
         Enum GetFeature(int i);
         void UpdateFeature(int i, Enum feature);

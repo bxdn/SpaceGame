@@ -9,9 +9,9 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public enum EResource
     {
+        Land,
         Water,
         Iron,
-        Land,
         Silicon,
         Copper
     }

@@ -14,14 +14,14 @@ namespace Assets.Scripts.Model
         {
             if (Habitability < 90)
                 return false;
-            if (Resources[EResource.Water] < 10)
+/*            if (Resources[EResource.Water] < 10)
                 return false;
             if (Resources[EResource.Iron] < 10)
                 return false;
             if (Resources[EResource.Copper] < 10)
                 return false;
             if (Resources[EResource.Silicon] < 10)
-                return false;
+                return false;*/
             return true;
         }
     }

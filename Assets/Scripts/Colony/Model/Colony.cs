@@ -51,8 +51,6 @@ namespace Assets.Scripts.Model
         }
         public void IncrementGood(EGood good, float amount)
         {
-            if (!CanIncrementGood(good, amount))
-                throw new Exception();
             if (goods.ContainsKey(good))
                 goods[good] = new GoodInfo(goods[good].Value + amount);
             else

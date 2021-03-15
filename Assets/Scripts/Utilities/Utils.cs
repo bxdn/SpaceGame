@@ -65,13 +65,9 @@ public static class Utils
         if (orbiter is IColonizable colonizable)
         {
             IColonizableManager manager = colonizable.ColonizableManager;
-            var resources = manager.Resources;
             Constants.COLF.GetComponent<Text>().text = manager.Owner == null ? "No" : "Yes";
             Constants.ARABLEF.GetComponent<Text>().text = "N/A";
-            Constants.OTHERF.GetComponent<Text>().text = resources[EResource.Land].ToString();
             Constants.HAZARDF.GetComponent<Text>().text = manager.Habitability.ToString();
-            Constants.WATERF.GetComponent<Text>().text = resources[EResource.Water].ToString();
-            Constants.METALSF.GetComponent<Text>().text = resources[EResource.Iron].ToString();
             Constants.GASSESF.GetComponent<Text>().text = "N/A";
             Constants.ENERGYF.GetComponent<Text>().text = "N/A";
             ColonyDialogController.Reset(colonizable.ColonizableManager.Owner == WorldGeneration.Galaxy.Player.Domain ? colonizable.ColonizableManager.CurrentColony : null);
@@ -133,6 +129,11 @@ public static class Utils
     public static float GetDistance(Vector2 pos1, Vector2 pos2)
     {
         return (Mathf.Pow(Mathf.Pow(pos1.x - pos2.x, 2) + Mathf.Pow(pos1.y - pos2.y, 2), .5f));
+    }
+
+    public static float GetDistance(int idx1, int idx2, int rowSize)
+    {
+        return GetDistance(IdxToSquareCoords(idx1, rowSize), IdxToSquareCoords(idx2, rowSize));
     }
 
     public static void LayoutUI()

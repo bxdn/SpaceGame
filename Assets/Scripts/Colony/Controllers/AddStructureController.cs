@@ -71,10 +71,20 @@ namespace Assets.Scripts.Controllers
         }
         private static void AddHQ(int idx)
         {
+            var firstCol = WorldGeneration.Galaxy.Player.Colonies.Count == 0;
             manager.Colonize(idx);
+            if (firstCol)
+                GiveFirstColonyResources();
             WorldMapRenderController.CreateColonySquare(idx);
             UpdateGUIS(idx);
             RevertView();
+        }
+        private static void GiveFirstColonyResources()
+        {
+            var col = manager.CurrentColony;
+            col.IncrementGood(EGood.Chips, 100);
+            col.IncrementGood(EGood.Energy, 100);
+            col.IncrementGood(EGood.Steel, 100);
         }
         private static void UpdateGUIS(int idx)
         {

@@ -41,9 +41,6 @@ namespace Assets.Scripts.Model
             ColonyUpdater.AddColony(this);
             this.manager = manager;
             location = idx;
-            goods[EGood.Energy] = new GoodInfo(100);
-            goods[EGood.Chips] = new GoodInfo(100);
-            goods[EGood.Steel] = new GoodInfo(100);
         }
         public void IncrementGood(EGood good, float amount)
         {

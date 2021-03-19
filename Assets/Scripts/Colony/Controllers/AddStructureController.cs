@@ -41,9 +41,8 @@ namespace Assets.Scripts.Controllers
         }
         private static void TriggerDoubleClicked()
         {
-            var colonyCanBuildStructure = structure == EStructure.HQ || 
-                StructureGUIController.ValidateColony(manager.CurrentColony, structure);
-            if (colonyCanBuildStructure)
+            if (structure == EStructure.HQ ||
+                manager.CurrentColony.CanBuildStructure(structure))
                 SetBuildableStructure();
         }
         private static void SetBuildableStructure()
@@ -61,28 +60,27 @@ namespace Assets.Scripts.Controllers
         private static void SetStructure(int idx)
         {
             if (structure != EStructure.HQ)
-                AddStandardStructure(manager.CurrentColony, idx);
+                AddStandardStructure(idx);
             else
                 AddHQ(idx);
         }
-        private static void AddStandardStructure(Colony col, int idx)
+        private static void AddStandardStructure(int idx)
         {
-            col.AddStructure(structure, idx);
-            UpdateGUIS(col, idx);
+            manager.CurrentColony.AddStructure(structure, idx);
+            UpdateGUIS(idx);
         }
         private static void AddHQ(int idx)
         {
             manager.Colonize(idx);
-            var col = manager.CurrentColony;
-            col.AddHQ(idx);
             WorldMapRenderController.CreateColonySquare(idx);
-            UpdateGUIS(col, idx);
+            UpdateGUIS(idx);
             RevertView();
         }
-        private static void UpdateGUIS(Colony col, int idx)
+        private static void UpdateGUIS(int idx)
         {
             manager.UpdateFeature(idx, structure);
             WorldMapRenderController.ModifySquare(idx);
+            var col = manager.CurrentColony;
             ColonyDialogController.Reset(col);
             GoodsDialogController.Reset(col);
         }

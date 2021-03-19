@@ -26,7 +26,7 @@ namespace Assets.Scripts.Model
         public void Colonize(int idx)
         {
             Owner = WorldGeneration.Galaxy.Player.Domain;
-            var colony = new Colony(this);
+            var colony = new Colony(this, idx);
             CurrentColony = colony;
             colonies.Add(new ColonyInfo(colony, idx));
         }

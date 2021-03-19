@@ -141,12 +141,10 @@ public static class Constants
         featureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
         featureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
         featureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
-        featureBuilder.Add(EStructure.MylarPlant, StructureRegistry.MylarPlant);
-        featureBuilder.Add(EStructure.CarbonGatherer, StructureRegistry.CarbonCollector);
         featureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
         featureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
         featureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
-        featureBuilder.Add(EStructure.SiliconGatherer, StructureRegistry.SiliconCollector);
+        featureBuilder.Add(EStructure.SiliconMine, StructureRegistry.SiliconCollector);
         featureBuilder.Add(EStructure.School, StructureRegistry.School);
         featureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
         featureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);

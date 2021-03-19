@@ -23,22 +23,24 @@ namespace Assets.Scripts.Model
         [field: NonSerialized] public IDictionary<EService, float> ServicesPerPopWants { get; private set; }
         private Dictionary<EService, float> servicesPerPopWants = new Dictionary<EService, float>();
         private static ImmutableDictionary<Enum, float> tier1Wants = CreateTier1Wants();
+        public int ServiceDistance { get; private set; } = 3;
         public int CurrentLevel { get; private set; }
         private readonly WantsNeedsAdjuster adjuster;
         public LevelInfo()
         {
             adjuster = new WantsNeedsAdjuster(this);
             CurrentLevel = 0;
-            goodsPerPopNeeds.Add(EGood.Food, 1);
-            goodsPerPopNeeds.Add(EGood.Water, 1);
-            goodsPerPopNeeds.Add(EGood.Energy, 1);
-            goodsPerPopWants.Add(EGood.Alcohol, 1);
+            goodsPerPopNeeds.Add(EGood.Food, .1f);
+            goodsPerPopNeeds.Add(EGood.Water, .1f);
+            goodsPerPopNeeds.Add(EGood.Energy, .1f);
+            goodsPerPopWants.Add(EGood.Alcohol, .1f);
             servicesPerPopNeeds.Add(EService.Housing, 1);
             CreateImmutables();
         }
         public void LevelUp()
         {
             CurrentLevel++;
+            ServiceDistance++;
             adjuster.ProcessGoods();
             adjuster.ProcessServices();
             AddWant();
@@ -77,12 +79,12 @@ namespace Assets.Scripts.Model
         private static ImmutableDictionary<Enum, float> CreateTier1Wants()
         {
             var wantsBuilder = ImmutableDictionary.CreateBuilder<Enum, float>();
-            wantsBuilder.Add(EGood.Windows, .25f);
-            wantsBuilder.Add(EGood.Water, .5f);
-            wantsBuilder.Add(EGood.Food, .5f);
-            wantsBuilder.Add(EGood.Alcohol, .5f);
-            wantsBuilder.Add(EService.Education, 1);
-            wantsBuilder.Add(EService.Healthcare, 1);
+            wantsBuilder.Add(EGood.Windows, .025f);
+            wantsBuilder.Add(EGood.Water, .05f);
+            wantsBuilder.Add(EGood.Food, .05f);
+            wantsBuilder.Add(EGood.Alcohol, .05f);
+            wantsBuilder.Add(EService.Education, .1f);
+            wantsBuilder.Add(EService.Healthcare, .1f);
             return wantsBuilder.ToImmutable();
         }
         public void FinishDeserialization() 

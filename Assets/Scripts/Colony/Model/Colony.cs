@@ -9,7 +9,6 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class Colony
     {
-        private static readonly int MAX_HOUSING_RADIUS = 5;
         private readonly IDictionary<EGood, GoodInfo> goods = new Dictionary<EGood, GoodInfo>();
         private IDictionary<EGood, GoodInfo> prevGoods;
         private readonly IDictionary<EService, float> services = new Dictionary<EService, float>();
@@ -33,21 +32,18 @@ namespace Assets.Scripts.Model
         public ILevelInfo Level { get => level; }
         private readonly LevelInfo level = new LevelInfo();
     
-        private readonly IList<int> hqs = new List<int>();
+        private readonly int location;
         private readonly IColonizableManager manager;
 
         public string Name { get; set; } = "";
-        public Colony(IColonizableManager manager)
+        public Colony(IColonizableManager manager, int idx)
         {
             ColonyUpdater.AddColony(this);
             this.manager = manager;
+            location = idx;
             goods[EGood.Energy] = new GoodInfo(100);
             goods[EGood.Chips] = new GoodInfo(100);
             goods[EGood.Steel] = new GoodInfo(100);
-        }
-        public void AddHQ(int idx)
-        {
-            hqs.Add(idx);
         }
         public void IncrementGood(EGood good, float amount)
         {
@@ -66,21 +62,34 @@ namespace Assets.Scripts.Model
                 IncrementInfluence(newValue);
             }
         }
-
+        public bool CanBuildStructure(EStructure structure)
+        {
+            if (structure == EStructure.HQ)
+                return true;
+            if (structure == EStructure.Housing && !CanBeSettled())
+                return false;
+            var info = (StructureInfo)Constants.FEATURE_MAP[structure];
+            if (info.WorkerLevel > Level.CurrentLevel)
+                return false;
+            var toRet = true;
+            var enumerator = info.GoodCost.GetEnumerator();
+            enumerator.Reset();
+            KeyValuePair<EGood, int> current;
+            while (toRet && enumerator.MoveNext())
+                toRet &= goods.ContainsKey((current = enumerator.Current).Key) && goods[current.Key].Value >= current.Value;
+            return toRet;
+        }
         public bool IsServicePlaceable(int serviceIdx)
         {
             var rowSize = Utils.GetRowSize(manager.Size);
-            var isHousingPlaceable = false;
-            for (int i = 0; i < hqs.Count && isHousingPlaceable == false; i++)
-                isHousingPlaceable = IsServiceNearHQ(serviceIdx, hqs[i], rowSize);
-            return isHousingPlaceable;
+            return IsServiceNearHQ(serviceIdx, location, rowSize);
         }
-        private bool IsServiceNearHQ(int housingIdx, int logisticsIdx, int rowSize)
+        private bool IsServiceNearHQ(int serviceIdx, int logisticsIdx, int rowSize)
         {
-            var potentialHousingCoords = Utils.IdxToSquareCoords(housingIdx, rowSize);
+            var potentialHousingCoords = Utils.IdxToSquareCoords(serviceIdx, rowSize);
             var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
             var distance = Utils.GetDistance(potentialHousingCoords, logisticStructureCoords);
-            return  distance < MAX_HOUSING_RADIUS;
+            return  distance < level.ServiceDistance;
         }
 
         private void IncrementWantedGood(EGood good, float amount)
@@ -134,7 +143,7 @@ namespace Assets.Scripts.Model
         public void TickForward()
         {
             if(Population > 0)
-                Influence += Mathf.Pow(Population/100f, .5f);
+                Influence += Mathf.Pow(Population/1000f, .5f);
             prevGoods = Goods;
             TradeManager.ProcessTrades();
             foreach (var structurePair in structures)
@@ -174,9 +183,9 @@ namespace Assets.Scripts.Model
         }
         private void IncrementPop(LevelInfo level)
         {
-            var maxIncrease = Math.Max(1, .01 * Population);
-            var potentialIncrease = services[EService.Housing] - Population * level.ServicesPerPopNeeds[EService.Housing];
-            int amountToIncrease = (int)Math.Min(maxIncrease, potentialIncrease);
+            var growthCap = Math.Max(1, .05 * Population);
+            var housingCap = services[EService.Housing] - Population * level.ServicesPerPopNeeds[EService.Housing];
+            int amountToIncrease = (int)Math.Min(growthCap, housingCap);
             Population += amountToIncrease;
         }
         private void WorkStructure(EStructure structure, float multiplier)
@@ -192,7 +201,7 @@ namespace Assets.Scripts.Model
         public void AddStructure(EStructure structure, int idx)
         {
             var strucCoords = new SVector2Int(Utils.IdxToSquareCoords(idx, Utils.GetRowSize(manager.Size)));
-            var goodsMultiplier = 1 / Mathf.Pow(DistanceToNearestHub(idx), .5f);
+            var goodsMultiplier = 1 / Mathf.Pow(Utils.GetDistance(idx, location, Utils.GetRowSize(manager.Size)), .5f);
             var struc = new Structure(strucCoords, goodsMultiplier);
             CreateStructure(structure, struc);
             var info = (StructureInfo) Constants.FEATURE_MAP[structure];
@@ -201,15 +210,6 @@ namespace Assets.Scripts.Model
             foreach (var pair in info.ServiceFlow)
                 IncrementService(pair.Key, pair.Value);
         }
-        private float DistanceToNearestHub(int idx)
-        {
-            var rowSize = Utils.GetRowSize(manager.Size);
-            var strucCoords = Utils.IdxToSquareCoords(idx, rowSize);
-            var minDistance = float.MaxValue;
-            foreach (int hubIdx in hqs)
-                minDistance = MinDistance(strucCoords, hubIdx, rowSize, minDistance);
-            return minDistance;
-        }
         public bool CanIncrementGood(EGood good, float value)
         {
             if (value >= 0)
@@ -217,12 +217,6 @@ namespace Assets.Scripts.Model
             if (!goods.ContainsKey(good))
                 return false;
             return goods[good].Value + value >= 0;
-        }
-        private float MinDistance(Vector2Int coords, int idx, int rowSize, float currentMin)
-        {
-            var coords2 = Utils.IdxToSquareCoords(idx, rowSize);
-            var distance = Utils.GetDistance(coords, coords2);
-            return Mathf.Min(distance, currentMin);
         }
         public void FinishDeserialization()
         {

@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
-using Assets.Scripts.Model;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

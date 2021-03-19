@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Controllers;
+﻿using Assets.Scripts;
+using Assets.Scripts.Controllers;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -25,23 +25,6 @@ public class StructureGUIController : EventTrigger
     }
     private bool Validate()
     {
-        return Selection.CurrentSelection is IColonizable c &&
-            c.ColonizableManager != null &&
-            ValidateColony(c.ColonizableManager.CurrentColony, Structure);
-    }
-    public static bool ValidateColony(Colony colony, EStructure structure)
-    {
-        var info = (StructureInfo) Constants.FEATURE_MAP[structure];
-        if (info.WorkerLevel > colony.Level.CurrentLevel)
-            return false;
-        if (structure == EStructure.Housing && !colony.CanBeSettled())
-            return false;
-        var toRet = true;
-        var enumerator = info.GoodCost.GetEnumerator();
-        enumerator.Reset();
-        KeyValuePair<EGood, int> current;
-        while (toRet && enumerator.MoveNext())
-                toRet &= colony.Goods.ContainsKey((current = enumerator.Current).Key) && colony.Goods[current.Key].Value >= current.Value;
-        return toRet;
+        return (Selection.CurrentSelection as IColonizable).ColonizableManager.CurrentColony.CanBuildStructure(Structure);
     }
 }

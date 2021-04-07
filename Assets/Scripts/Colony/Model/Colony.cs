@@ -32,7 +32,7 @@ namespace Assets.Scripts.Model
         public ILevelInfo Level { get => level; }
         private readonly LevelInfo level = new LevelInfo();
     
-        private readonly int location;
+        public int Location { get; }
         private readonly IColonizableManager manager;
 
         public string Name { get; set; } = "";
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Model
         {
             ColonyUpdater.AddColony(this);
             this.manager = manager;
-            location = idx;
+            Location = idx;
         }
         public void IncrementGood(EGood good, float amount)
         {
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Model
         public bool IsServicePlaceable(int serviceIdx)
         {
             var rowSize = Utils.GetRowSize(manager.Size);
-            return IsServiceNearHQ(serviceIdx, location, rowSize);
+            return IsServiceNearHQ(serviceIdx, Location, rowSize);
         }
         private bool IsServiceNearHQ(int serviceIdx, int logisticsIdx, int rowSize)
         {
@@ -198,7 +198,7 @@ namespace Assets.Scripts.Model
         public void AddStructure(EStructure structure, int idx)
         {
             var strucCoords = new SVector2Int(Utils.IdxToSquareCoords(idx, Utils.GetRowSize(manager.Size)));
-            var goodsMultiplier = 1 / Mathf.Pow(Utils.GetDistance(idx, location, Utils.GetRowSize(manager.Size)), .5f);
+            var goodsMultiplier = 1 / Mathf.Pow(Utils.GetDistance(idx, Location, Utils.GetRowSize(manager.Size)), .5f);
             var struc = new Structure(strucCoords, goodsMultiplier);
             CreateStructure(structure, struc);
             var info = (StructureInfo) Constants.FEATURE_MAP[structure];

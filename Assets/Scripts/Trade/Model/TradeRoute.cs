@@ -12,7 +12,8 @@ namespace Assets.Scripts.Trade.Model
         public float ReceivedAmount { get; }
         public Colony Originator { get; }
         public Colony Receiver { get; }
-        public TradeRoute(EGood sentGood, float sentAmount, EGood receivedGood, float receivedAmount, Colony originator, Colony receiver)
+        public float Cost { get; }
+        public TradeRoute(EGood sentGood, float sentAmount, EGood receivedGood, float receivedAmount, Colony originator, Colony receiver, float cost)
         {
             SentGood = sentGood;
             SentAmount = sentAmount;
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Trade.Model
             ReceivedAmount = receivedAmount;
             Originator = originator;
             Receiver = receiver;
+            Cost = cost;
         }
     }
 }

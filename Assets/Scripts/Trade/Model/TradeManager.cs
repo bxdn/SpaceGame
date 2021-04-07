@@ -7,10 +7,12 @@ namespace Assets.Scripts.Trade.Model
     [Serializable]
     public class TradeManager
     {
-        [field: NonSerialized] public IList<TradeRoute> OutGoingRoutes { get; private set; } = 
+        [field: NonSerialized]
+        public IList<TradeRoute> OutGoingRoutes { get; private set; } =
             ImmutableList.Create<TradeRoute>();
         private readonly IList<TradeRoute> outGoingRoutes = new List<TradeRoute>();
-        [field: NonSerialized] public IList<TradeRoute> IncomingRoutes { get; private set; } = 
+        [field: NonSerialized]
+        public IList<TradeRoute> IncomingRoutes { get; private set; } =
             ImmutableList.Create<TradeRoute>();
         private readonly IList<TradeRoute> incomingRoutes = new List<TradeRoute>();
         public TradeManager() { }
@@ -34,15 +36,21 @@ namespace Assets.Scripts.Trade.Model
             foreach (var route in OutGoingRoutes)
                 ProcessRoute(route);
         }
-        private void ProcessRoute(TradeRoute route)
+        private static void ProcessRoute(TradeRoute route)
         {
-            if (!route.Originator.CanIncrementGood(route.SentGood, -route.SentAmount)
-                || !route.Receiver.CanIncrementGood(route.ReceivedGood, -route.ReceivedAmount))
+            if (!CanProcessRoute(route))
                 return;
             route.Originator.IncrementGood(route.SentGood, -route.SentAmount);
             route.Originator.IncrementGood(route.ReceivedGood, route.ReceivedAmount);
             route.Receiver.IncrementGood(route.SentGood, route.SentAmount);
             route.Receiver.IncrementGood(route.ReceivedGood, -route.ReceivedAmount);
+            route.Originator.IncrementGood(Scripts.Model.EGood.Hydrogen, -route.Cost);
+        }
+        private static bool CanProcessRoute(TradeRoute route)
+        {
+            return route.Originator.CanIncrementGood(route.SentGood, -route.SentAmount)
+                && route.Receiver.CanIncrementGood(route.ReceivedGood, -route.ReceivedAmount)
+                && route.Originator.CanIncrementGood(Scripts.Model.EGood.Hydrogen, -route.Cost);
         }
     }
 }

@@ -16,55 +16,99 @@ namespace Assets.Scripts.Controllers
     {
         private InputField colonyNameField;
         private InputField sentGoodField;
-        private InputField sentAmountField;
         private InputField receivedGoodField;
+        private InputField sentAmountField;
         private InputField receivedAmountField;
+
+        private float sentAmount;
+        private float receivedAmount;
+        private EGood? sentGood;
+        private EGood? receivedGood;
         public void OnPointerClick(PointerEventData eventData)
         {
-            
+
+            if (!ValidateSentGood() || !ValidateReceivedGood())
+                return;
+
+            var otherColony = FindOtherColony();
+            if (otherColony == null)
+                return;
+
+            var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
+            var currentColony = manager.CurrentColony;
+            var cost = GetCost(manager, currentColony, otherColony);
+            if (!deductedMaterials(currentColony, cost))
+                return;
+
+            var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, cost);
+            currentColony.TradeManager.AddOutGoingRoute(route);
+            otherColony.TradeManager.AddIncomingRoute(route);
+
+            DisableFields();
+            GoodsDialogController.Update(currentColony);
+        }
+        private float GetCost(IColonizableManager manager, Colony currentColony, Colony otherColony)
+        {
+            var colonyDistance = Utils.GetDistance(currentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
+            return (colonyDistance / 10f) * (sentAmount + receivedAmount);
+        }
+        private bool deductedMaterials(Colony currentColony, float cost)
+        {
+            var goods = currentColony.Goods;
+            if (!(goods.ContainsKey(EGood.Steel) && goods[EGood.Steel].Value >= cost ||
+                goods.ContainsKey(EGood.Chips) && goods[EGood.Chips].Value >= cost))
+                return false;
+            currentColony.IncrementGood(EGood.Steel, -cost);
+            currentColony.IncrementGood(EGood.Chips, -cost);
+            return true;
+        }
+        private Colony FindOtherColony()
+        {
+            foreach (var col in WorldGeneration.Galaxy.Player.Colonies)
+                if (colonyNameField.text.Equals(col.Name))
+                    return col;
+            return null;
+        }
+        private bool ValidateSentGood()
+        {
             var sentName = sentGoodField.text;
-            EGood? sentGood = null;
+            sentGood = null;
             foreach (var pair in Constants.GOOD_MAP)
                 if (sentName.Equals(pair.Value))
                     sentGood = pair.Key;
-            if (sentGood == null || string.IsNullOrEmpty(receivedGoodField.text))
-                return;
-            var sentAmount = float.Parse(receivedGoodField.text);
-
-            var receivedName = sentAmountField.text;
-            EGood? receivedGood = null;
+            if (sentGood == null || string.IsNullOrEmpty(sentAmountField.text))
+                return false;
+            sentAmount = float.Parse(sentAmountField.text);
+            return true;
+        }
+        private bool ValidateReceivedGood()
+        {
+            var receivedName = receivedGoodField.text;
+            receivedGood = null;
             foreach (var pair in Constants.GOOD_MAP)
                 if (receivedName.Equals(pair.Value))
                     receivedGood = pair.Key;
             if (receivedGood == null || string.IsNullOrEmpty(receivedAmountField.text))
-                return;
-            var receivedAmount = float.Parse(receivedAmountField.text);
-
-            Colony otherColony = null;
-            foreach (var col in WorldGeneration.Galaxy.Player.Colonies)
-                if (colonyNameField.text.Equals(col.Name))
-                    otherColony = col;
-            if (otherColony == null)
-                return;
-            var currentColony = (Selection.CurrentSelection as IColonizable).ColonizableManager.CurrentColony;
-            var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony);
-            currentColony.TradeManager.AddOutGoingRoute(route);
-            otherColony.TradeManager.AddIncomingRoute(route);
-
-            colonyNameField.interactable = false;
-            sentGoodField.interactable = false;
-            sentAmountField.interactable = false;
-            receivedAmountField.interactable = false;
-            receivedGoodField.interactable = false;
-            gameObject.SetActive(false);
+                return false;
+            receivedAmount = float.Parse(receivedAmountField.text);
+            return true;
         }
         public void Init(InputField x, InputField y, InputField z, InputField yN, InputField zN)
         {
             colonyNameField = x;
             sentGoodField = y;
-            sentAmountField = z;
-            receivedGoodField = yN;
+            receivedGoodField = z;
+            sentAmountField = yN;
             receivedAmountField = zN;
+        }
+        private void DisableFields()
+        {
+            colonyNameField.interactable = false;
+            sentGoodField.interactable = false;
+            receivedGoodField.interactable = false;
+            receivedAmountField.interactable = false;
+            sentAmountField.interactable = false;
+            gameObject.SetActive(false);
         }
     }
 }

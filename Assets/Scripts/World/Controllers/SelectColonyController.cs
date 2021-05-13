@@ -12,10 +12,8 @@ public class SelectColonyController : MonoBehaviour, IPointerClickHandler
     {
         var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
         manager.SetCurrentColony(Idx);
+        WorldMapRenderController.ShowBuildableSquares();
         ColonyDialogController.Reset(manager.CurrentColony);
-        Constants.COLONY_PANEL.SetActive(true);
         GoodsDialogController.Reset(manager.CurrentColony);
-        Constants.GOODS_PANEL.SetActive(true);
-        CameraController.Locked = true;
     }
 }

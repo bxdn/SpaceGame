@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -45,6 +46,7 @@ namespace Assets.Scripts.Model
             adjuster.ProcessServices();
             AddWant();
             CreateImmutables();
+            WorldMapRenderController.ShowBuildableSquares();
         }
         private void AddWant()
         {

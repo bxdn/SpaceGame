@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.Trade.Model;
 using System;
 using System.Collections.Generic;

@@ -40,7 +40,7 @@ namespace Assets.Scripts.Controllers
             if (!deductedMaterials(currentColony, cost))
                 return;
 
-            var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, cost);
+            var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
             currentColony.TradeManager.AddOutGoingRoute(route);
             otherColony.TradeManager.AddIncomingRoute(route);
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Controllers
         private float GetCost(IColonizableManager manager, Colony currentColony, Colony otherColony)
         {
             var colonyDistance = Utils.GetDistance(currentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
-            return (colonyDistance / 10f) * (sentAmount + receivedAmount);
+            return (colonyDistance / 10f) * Math.Max(sentAmount, receivedAmount);
         }
         private bool deductedMaterials(Colony currentColony, float cost)
         {
@@ -64,9 +64,9 @@ namespace Assets.Scripts.Controllers
         }
         private Colony FindOtherColony()
         {
-            foreach (var col in WorldGeneration.Galaxy.Player.Colonies)
-                if (colonyNameField.text.Equals(col.Name))
-                    return col;
+            foreach (var col in (Selection.CurrentSelection as IColonizable).ColonizableManager.Colonies)
+                if (colonyNameField.text.Equals(col.Colony.Name))
+                    return col.Colony;
             return null;
         }
         private bool ValidateSentGood()

@@ -9,10 +9,11 @@ namespace Assets.Scripts.Controllers
     {
         public static WorldMapRenderController latestInstance;
         private bool destroying = false;
+        private bool doneRendering = false;
         private int curIdx = 0;
         private int totalSquares;
         private int rowSize;
-        private IColonizableManager c;
+        private IColonizableManager manager;
         private static readonly int SQUARES_PER_FRAME = 50;
 
         private WorldMapGUI gui;
@@ -22,7 +23,7 @@ namespace Assets.Scripts.Controllers
             this.totalSquares = totalSquares;
             rowSize = Utils.GetRowSize(totalSquares);
             this.gui = gui;
-            this.c = c;
+            this.manager = c;
             latestInstance = this;
         }
 
@@ -49,14 +50,34 @@ namespace Assets.Scripts.Controllers
         }
         private void RenderSquareBatch()
         {
+            if(curIdx >= totalSquares && !doneRendering)
+            {
+                ShowBuildableSquares();
+                doneRendering = true;
+            }
             for (int i = 0; i < SQUARES_PER_FRAME && curIdx < totalSquares; i++)
             {
                 gui.AddSquare(curIdx, Utils.SquareIdxToWorldCoords(curIdx, rowSize), ChooseString(curIdx));
-                var feature = c.GetFeature(curIdx);
+                var feature = manager.GetFeature(curIdx);
                 if (feature != null && feature.Equals(EStructure.HQ))
                     CreateColonySquare(curIdx);
                 curIdx++;
             }
+        }
+
+        public static void ShowBuildableSquares()
+        {
+            var manager = latestInstance.manager;
+            for (int i = 0; i < manager.Size; i++)
+                ChangeColor(i, new Color(1, 1, 1, 0));
+            for (int i = 0; i < manager.Size; i++)
+                if (manager.CurrentColony is Colony c && c.IsServicePlaceable(i))
+                    ChangeColor(i, Color.green);
+        }
+
+        private static void ChangeColor(int idx, Color color)
+        {
+            latestInstance.gui.ChangeColor(idx, color);
         }
 
         public static void ModifySquare(int idx)
@@ -69,6 +90,12 @@ namespace Assets.Scripts.Controllers
             latestInstance.gui.CreateColonyController(idx);
         }
 
+        public static void UpdateWhiteSquareAlpha(int idx, float a)
+        {
+            if (!(latestInstance.manager.CurrentColony is Colony c) || !c.IsServicePlaceable(idx))
+                latestInstance.gui.SetWhiteSquareAlpha(idx, a);
+        }
+
         private void DestroySquareBatch()
         {
             for (int i = 0; i < SQUARES_PER_FRAME && curIdx < totalSquares; i++)
@@ -76,7 +103,7 @@ namespace Assets.Scripts.Controllers
         }
         private string ChooseString(int idx)
         {
-            var field = c.GetFeature(idx);
+            var field = manager.GetFeature(idx);
             if (field == null)
                 return "X";
             return Constants.FEATURE_MAP[field].Code;

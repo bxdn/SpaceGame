@@ -64,7 +64,7 @@ namespace Assets.Scripts.Controllers
             var distance = Mathf.Sqrt(Mathf.Pow(coords.x - mousePos.x, 2) 
                 + Mathf.Pow(coords.y - mousePos.y, 2));
             var alpha = Mathf.Max(0, Mathf.Min(1, -.1f * distance + (DISTANCE_ALPHA - 1) / 2.0f));
-            gui.SetWhiteSquareAlpha(squareIdx, alpha);
+            WorldMapRenderController.UpdateWhiteSquareAlpha(squareIdx, alpha);
         }
     }
 }

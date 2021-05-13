@@ -56,6 +56,11 @@ namespace Assets.Scripts.GUI
             squares[idx].Feature.GetComponent<Text>().text = field;
         }
 
+        public void ChangeColor(int idx, Color color) 
+        {
+            squares[idx].WhiteSquare.GetComponent<SpriteRenderer>().color = color;
+        }
+
         public void CreateColonyController(int idx)
         {
             var go = squares[idx].Feature;

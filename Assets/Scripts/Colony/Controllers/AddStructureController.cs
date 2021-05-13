@@ -76,6 +76,7 @@ namespace Assets.Scripts.Controllers
             if (firstCol)
                 GiveFirstColonyResources();
             WorldMapRenderController.CreateColonySquare(idx);
+            WorldMapRenderController.ShowBuildableSquares();
             UpdateGUIS(idx);
             RevertView();
         }

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Model
         protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
         public int Size { get; }
         public Colony CurrentColony { get; private set; }
-        public IList<ColonyInfo> Colonies { get; private set; } = ImmutableList.CreateBuilder<ColonyInfo>().ToImmutable();
+        public IEnumerable<ColonyInfo> Colonies { get; private set; } = new List<ColonyInfo>();
         private readonly Area[] features;
         public ColonizableManager(Orbiter orbiter)
         { 
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Model
             Owner = WorldGeneration.Galaxy.Player.Domain;
             var colony = new Colony(this, idx);
             CurrentColony = colony;
-            Colonies = (Colonies as ImmutableList<ColonyInfo>).Add(new ColonyInfo(colony, idx));
+            (Colonies as List<ColonyInfo>).Add(new ColonyInfo(colony, idx));
         }
         public Enum GetFeature(int i)
         {

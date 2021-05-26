@@ -8,7 +8,7 @@ namespace Assets.Scripts
     {
         Domain Owner { get; }
         Colony CurrentColony { get; }
-        IList<ColonyInfo> Colonies { get; }
+        IEnumerable<ColonyInfo> Colonies { get; }
         int Habitability { get; }
         Enum GetFeature(int i);
         void UpdateFeature(int i, Enum feature);

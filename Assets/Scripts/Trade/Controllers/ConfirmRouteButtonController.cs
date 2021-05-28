@@ -29,13 +29,13 @@ namespace Assets.Scripts.Controllers
 
             if (!ValidateSentGood() || !ValidateReceivedGood())
                 return;
-
             var otherColony = FindOtherColony();
             if (otherColony == null)
                 return;
-
             var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
             var currentColony = manager.CurrentColony;
+            if (currentColony == otherColony)
+                return;
             var cost = GetCost(manager, currentColony, otherColony);
             if (!deductedMaterials(currentColony, cost))
                 return;
@@ -43,7 +43,6 @@ namespace Assets.Scripts.Controllers
             var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
             currentColony.TradeManager.AddOutGoingRoute(route);
             otherColony.TradeManager.AddIncomingRoute(route);
-
             TradePanelController.Reset(currentColony);
             GoodsDialogController.Update(currentColony);
         }

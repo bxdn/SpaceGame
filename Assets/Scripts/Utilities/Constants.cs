@@ -29,6 +29,7 @@ public static class Constants
     public static readonly GameObject INPUT_FIELD = Resources.Load<GameObject>("Input Field");
     public static readonly GameObject INPUT_FIELD_NUM = Resources.Load<GameObject>("Input Field Num");
     public static readonly GameObject ADD_BUTTON = Resources.Load<GameObject>("AddButton");
+    public static readonly GameObject TRASH = Resources.Load<GameObject>("Trash");
 
     public static readonly GameObject TOP_INFO = GameObject.Find("Top Info");
     public static readonly GameObject NAMEF = GameObject.Find("Name Field");

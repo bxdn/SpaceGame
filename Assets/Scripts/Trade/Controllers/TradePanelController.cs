@@ -3,6 +3,7 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
+using Assets.Scripts.Trade.Controllers;
 using Assets.Scripts.Trade.Model;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ public class TradePanelController : EventTrigger
         currentInputFields[3].text = Constants.GOOD_MAP[route.ReceivedGood];
         currentInputFields[4].text = route.ReceivedAmount.ToString();
         DisableFields();
-        idx++;
+        AddDeleteButton(route);
     }
     private static void AddIncomingRoute(TradeRoute route)
     {
@@ -70,7 +71,14 @@ public class TradePanelController : EventTrigger
         currentInputFields[1].text = Constants.GOOD_MAP[route.ReceivedGood];
         currentInputFields[2].text = route.ReceivedAmount.ToString();
         DisableFields();
-        idx++;
+        AddDeleteButton(route);
+    }
+    private static void AddDeleteButton(TradeRoute route)
+    {
+        var trashButton = Instantiate(Constants.TRASH, Constants.TRADE_MASKING_PANEL.transform);
+        (trashButton.transform as RectTransform).anchoredPosition = new Vector2(800, -50 * idx++);
+        trashButton.GetComponent<DeleteRouteButtonController>().Init(route);
+        guis.Add(trashButton);
     }
     private static void AddRoute()
     {
@@ -102,7 +110,7 @@ public class TradePanelController : EventTrigger
             field.interactable = false;
     }
 
-    internal static void Reset(Colony colony)
+    public static void Reset(Colony colony)
     {
         foreach(var gui in guis)
             Destroy(gui);

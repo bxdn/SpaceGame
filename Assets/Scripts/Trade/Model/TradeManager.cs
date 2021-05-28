@@ -7,34 +7,28 @@ namespace Assets.Scripts.Trade.Model
     [Serializable]
     public class TradeManager
     {
-        [field: NonSerialized]
-        public IList<TradeRoute> OutGoingRoutes { get; private set; } =
-            ImmutableList.Create<TradeRoute>();
-        private readonly IList<TradeRoute> outGoingRoutes = new List<TradeRoute>();
-        [field: NonSerialized]
-        public IList<TradeRoute> IncomingRoutes { get; private set; } =
-            ImmutableList.Create<TradeRoute>();
-        private readonly IList<TradeRoute> incomingRoutes = new List<TradeRoute>();
+        public IEnumerable<TradeRoute> OutGoingRoutes { get; private set; } =
+            new HashSet<TradeRoute>();
+        public IEnumerable<TradeRoute> IncomingRoutes { get; private set; } =
+            new HashSet<TradeRoute>();
         public TradeManager() { }
         public void AddOutGoingRoute(TradeRoute route)
         {
-            outGoingRoutes.Add(route);
-            OutGoingRoutes = outGoingRoutes.ToImmutableList();
+            (OutGoingRoutes as HashSet<TradeRoute>).Add(route);
         }
         public void AddIncomingRoute(TradeRoute route)
         {
-            incomingRoutes.Add(route);
-            IncomingRoutes = incomingRoutes.ToImmutableList();
-        }
-        public void FinishDeserialization()
-        {
-            OutGoingRoutes = outGoingRoutes.ToImmutableList();
-            IncomingRoutes = incomingRoutes.ToImmutableList();
+            (IncomingRoutes as HashSet<TradeRoute>).Add(route);
         }
         public void ProcessTrades()
         {
             foreach (var route in OutGoingRoutes)
                 ProcessRoute(route);
+        }
+        public void RemoveRoute(TradeRoute route)
+        {
+            (OutGoingRoutes as HashSet<TradeRoute>).Remove(route);
+            (IncomingRoutes as HashSet<TradeRoute>).Remove(route);
         }
         private static void ProcessRoute(TradeRoute route)
         {

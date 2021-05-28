@@ -44,7 +44,7 @@ namespace Assets.Scripts.Controllers
             currentColony.TradeManager.AddOutGoingRoute(route);
             otherColony.TradeManager.AddIncomingRoute(route);
 
-            DisableFields();
+            TradePanelController.Reset(currentColony);
             GoodsDialogController.Update(currentColony);
         }
         private float GetCost(IColonizableManager manager, Colony currentColony, Colony otherColony)
@@ -100,15 +100,6 @@ namespace Assets.Scripts.Controllers
             receivedGoodField = z;
             sentAmountField = yN;
             receivedAmountField = zN;
-        }
-        private void DisableFields()
-        {
-            colonyNameField.interactable = false;
-            sentGoodField.interactable = false;
-            receivedGoodField.interactable = false;
-            receivedAmountField.interactable = false;
-            sentAmountField.interactable = false;
-            gameObject.SetActive(false);
         }
     }
 }

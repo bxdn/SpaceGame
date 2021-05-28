@@ -219,7 +219,6 @@ namespace Assets.Scripts.Model
         public void FinishDeserialization()
         {
             level.FinishDeserialization();
-            TradeManager.FinishDeserialization();
         }
         public bool CanBeSettled()
         {

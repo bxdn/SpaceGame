@@ -31,6 +31,11 @@ public static class Constants
     public static readonly GameObject ADD_BUTTON = Resources.Load<GameObject>("AddButton");
     public static readonly GameObject TRASH = Resources.Load<GameObject>("Trash");
 
+    public static readonly GameObject STEEL_COST_L = GameObject.Find("Steel Cost Label");
+    public static readonly GameObject STEEL_COST_F = GameObject.Find("Steel Cost Field");
+    public static readonly GameObject HYDROGEN_COST_L = GameObject.Find("Hydrogen Cost Label");
+    public static readonly GameObject HYDROGEN_COST_F = GameObject.Find("Hydrogen Cost Field");
+
     public static readonly GameObject TOP_INFO = GameObject.Find("Top Info");
     public static readonly GameObject NAMEF = GameObject.Find("Name Field");
     public static readonly GameObject TYPEF = GameObject.Find("Type Field");
@@ -110,6 +115,11 @@ public static class Constants
         METALSF.SetActive(false);
         GASSESF.SetActive(false);
         ENERGYF.SetActive(false);
+
+        STEEL_COST_L.SetActive(false);
+        STEEL_COST_F.SetActive(false);
+        HYDROGEN_COST_L.SetActive(false);
+        HYDROGEN_COST_F.SetActive(false);
 
         NAMEL.SetActive(false);
         TYPEL.SetActive(false);

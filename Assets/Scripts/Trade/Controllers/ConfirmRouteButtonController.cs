@@ -24,31 +24,35 @@ namespace Assets.Scripts.Controllers
         private float receivedAmount;
         private EGood? sentGood;
         private EGood? receivedGood;
+        private Colony otherColony = null;
+
         public void OnPointerClick(PointerEventData eventData)
         {
-
-            if (!ValidateSentGood() || !ValidateReceivedGood())
-                return;
-            var otherColony = FindOtherColony();
-            if (otherColony == null)
+            var cost = GetCost();
+            if (cost == -1)
                 return;
             var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
             var currentColony = manager.CurrentColony;
             if (currentColony == otherColony)
                 return;
-            var cost = GetCost(manager, currentColony, otherColony);
             if (!deductedMaterials(currentColony, cost))
                 return;
-
             var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
             currentColony.TradeManager.AddOutGoingRoute(route);
             otherColony.TradeManager.AddIncomingRoute(route);
             TradePanelController.Reset(currentColony);
             GoodsDialogController.Update(currentColony);
         }
-        private float GetCost(IColonizableManager manager, Colony currentColony, Colony otherColony)
+        private bool ValidateGoodsAndColony()
         {
-            var colonyDistance = Utils.GetDistance(currentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
+            return ValidateSentGood() && ValidateReceivedGood() && (otherColony = FindOtherColony()) != null;
+        } 
+        public float GetCost()
+        {
+            if (!ValidateGoodsAndColony())
+                return -1;
+            var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
+            var colonyDistance = Utils.GetDistance(manager.CurrentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
             return (colonyDistance / 10f) * Math.Max(sentAmount, receivedAmount);
         }
         private bool deductedMaterials(Colony currentColony, float cost)

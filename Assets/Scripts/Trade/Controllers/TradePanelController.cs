@@ -15,30 +15,32 @@ public class TradePanelController : EventTrigger
 {
     private static readonly IList<GameObject> guis = new List<GameObject>();
     private bool dragging;
+    private static bool newRouteUnderConstruction = false;
     private Vector3 curPos;
     private static int idx = 0;
     private static InputField[] currentInputFields = new InputField[5];
+    private static ConfirmRouteButtonController confirmController;
     // Update is called once per frame
     void Update()
     {
         if (dragging)
         {
-            Vector3 pos = Input.mousePosition - curPos;
-            curPos = Input.mousePosition;
+            Vector3 pos = UnityEngine.Input.mousePosition - curPos;
+            curPos = UnityEngine.Input.mousePosition;
             transform.Translate(pos);
         }
     }
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (UnityEngine.Input.GetMouseButtonDown(0))
         {
             dragging = true;
-            curPos = Input.mousePosition;
+            curPos = UnityEngine.Input.mousePosition;
         }
     }
     public override void OnPointerUp(PointerEventData eventData)
     {
-        if (Input.GetMouseButtonUp(0))
+        if (UnityEngine.Input.GetMouseButtonUp(0))
         {
             dragging = false;
         }
@@ -97,12 +99,27 @@ public class TradePanelController : EventTrigger
     }
     public static void AddNewRoute()
     {
+        if (newRouteUnderConstruction)
+            return;
+        newRouteUnderConstruction = true;
         AddRoute();
-        var field4 = Instantiate(Constants.ADD_BUTTON, Constants.TRADE_MASKING_PANEL.transform);
-        guis.Add(field4);
-        (field4.transform as RectTransform).anchoredPosition = new Vector2(800, -50 * idx++);
-        field4.GetComponent<ConfirmRouteButtonController>().Init(currentInputFields[0], currentInputFields[1], 
+        var addButton = Instantiate(Constants.ADD_BUTTON, Constants.TRADE_MASKING_PANEL.transform);
+        guis.Add(addButton);
+        (addButton.transform as RectTransform).anchoredPosition = new Vector2(800, -50 * idx++);
+        var confirmController = addButton.GetComponent<ConfirmRouteButtonController>();
+        confirmController.Init(currentInputFields[0], currentInputFields[1], 
             currentInputFields[3], currentInputFields[2], currentInputFields[4]);
+        TradePanelController.confirmController = confirmController;
+
+        (Constants.STEEL_COST_F.transform as RectTransform).anchoredPosition = new Vector2(150, -50 * (idx+1));
+        (Constants.STEEL_COST_L.transform as RectTransform).anchoredPosition = new Vector2(10, -50 * (idx+1));
+        (Constants.HYDROGEN_COST_F.transform as RectTransform).anchoredPosition = new Vector2(150, -50 * (idx + 2));
+        (Constants.HYDROGEN_COST_L.transform as RectTransform).anchoredPosition = new Vector2(10, -50 * (idx + 2));
+
+        Constants.STEEL_COST_F.SetActive(true);
+        Constants.STEEL_COST_L.SetActive(true);
+        Constants.HYDROGEN_COST_F.SetActive(true);
+        Constants.HYDROGEN_COST_L.SetActive(true);
     }
     private static void DisableFields()
     {
@@ -110,9 +127,23 @@ public class TradePanelController : EventTrigger
             field.interactable = false;
     }
 
+    public static void NotifyChanged()
+    {
+        var cost = confirmController.GetCost();
+        Constants.STEEL_COST_F.GetComponent<Text>().text = cost == -1 ? "N/A" : cost.ToString();
+        Constants.HYDROGEN_COST_F.GetComponent<Text>().text = cost == -1 ? "N/A" : Mathf.Sqrt(cost).ToString();
+    }
+
     public static void Reset(Colony colony)
     {
-        foreach(var gui in guis)
+        newRouteUnderConstruction = false;
+
+        Constants.STEEL_COST_F.SetActive(false);
+        Constants.STEEL_COST_L.SetActive(false);
+        Constants.HYDROGEN_COST_F.SetActive(false);
+        Constants.HYDROGEN_COST_L.SetActive(false);
+
+        foreach (var gui in guis)
             Destroy(gui);
         guis.Clear();
         idx = 0;

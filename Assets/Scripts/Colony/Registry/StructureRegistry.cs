@@ -157,6 +157,7 @@ namespace Assets.Scripts.Model
             var flowBuilder = ImmutableDictionary.CreateBuilder<EGood, float>();
             flowBuilder.Add(EGood.Iron, -2);
             flowBuilder.Add(EGood.Energy, -2);
+            flowBuilder.Add(EGood.Oxygen, -2);
             flowBuilder.Add(EGood.Steel, 1);
             var flow = flowBuilder.ToImmutable();
             var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, float>();

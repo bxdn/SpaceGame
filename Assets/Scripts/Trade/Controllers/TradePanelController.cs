@@ -110,9 +110,12 @@ public class TradePanelController : EventTrigger
         confirmController.Init(currentInputFields[0], currentInputFields[1], 
             currentInputFields[3], currentInputFields[2], currentInputFields[4]);
         TradePanelController.confirmController = confirmController;
-
-        (Constants.STEEL_COST_F.transform as RectTransform).anchoredPosition = new Vector2(150, -50 * (idx+1));
-        (Constants.STEEL_COST_L.transform as RectTransform).anchoredPosition = new Vector2(10, -50 * (idx+1));
+        AddCostInfo();
+    }
+    private static void AddCostInfo()
+    {
+        (Constants.STEEL_COST_F.transform as RectTransform).anchoredPosition = new Vector2(150, -50 * (idx + 1));
+        (Constants.STEEL_COST_L.transform as RectTransform).anchoredPosition = new Vector2(10, -50 * (idx + 1));
         (Constants.HYDROGEN_COST_F.transform as RectTransform).anchoredPosition = new Vector2(150, -50 * (idx + 2));
         (Constants.HYDROGEN_COST_L.transform as RectTransform).anchoredPosition = new Vector2(10, -50 * (idx + 2));
 

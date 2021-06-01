@@ -77,6 +77,11 @@ namespace Assets.Scripts.Model
                 toRet &= goods.ContainsKey((current = enumerator.Current).Key) && goods[current.Key].Value >= current.Value;
             return toRet;
         }
+        public bool IsIndustryPlaceable(int serviceIdx)
+        {
+            var rowSize = Utils.GetRowSize(manager.Size);
+            return IsIndustryNearHQ(serviceIdx, Location, rowSize);
+        }
         public bool IsServicePlaceable(int serviceIdx)
         {
             var rowSize = Utils.GetRowSize(manager.Size);
@@ -89,7 +94,13 @@ namespace Assets.Scripts.Model
             var distance = Utils.GetDistance(potentialHousingCoords, logisticStructureCoords);
             return  distance < level.ServiceDistance;
         }
-
+        private bool IsIndustryNearHQ(int serviceIdx, int logisticsIdx, int rowSize)
+        {
+            var potentialIndustryCoords = Utils.IdxToSquareCoords(serviceIdx, rowSize);
+            var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
+            var distance = Utils.GetDistance(potentialIndustryCoords, logisticStructureCoords);
+            return distance < level.ServiceDistance * 2;
+        }
         private void IncrementWantedGood(EGood good, float amount)
         {
             IncrementGood(good, amount);

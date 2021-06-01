@@ -71,6 +71,9 @@ namespace Assets.Scripts.Controllers
             for (int i = 0; i < manager.Size; i++)
                 ChangeColor(i, new Color(1, 1, 1, 0));
             for (int i = 0; i < manager.Size; i++)
+                if (manager.CurrentColony is Colony c && c.IsIndustryPlaceable(i))
+                    ChangeColor(i, Color.blue);
+            for (int i = 0; i < manager.Size; i++)
                 if (manager.CurrentColony is Colony c && c.IsServicePlaceable(i))
                     ChangeColor(i, Color.green);
         }
@@ -92,7 +95,7 @@ namespace Assets.Scripts.Controllers
 
         public static void UpdateWhiteSquareAlpha(int idx, float a)
         {
-            if (!(latestInstance.manager.CurrentColony is Colony c) || !c.IsServicePlaceable(idx))
+            if (!(latestInstance.manager.CurrentColony is Colony c) || !c.IsIndustryPlaceable(idx))
                 latestInstance.gui.SetWhiteSquareAlpha(idx, a);
         }
 

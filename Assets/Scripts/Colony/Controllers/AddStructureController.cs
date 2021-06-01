@@ -51,9 +51,10 @@ namespace Assets.Scripts.Controllers
             var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
             var actualSquareFeature = manager.GetFeature(squareIdx);
             var servicePlaceable = manager.CurrentColony != null && manager.CurrentColony.IsServicePlaceable(squareIdx);
+            var industryPlaceable = manager.CurrentColony != null && manager.CurrentColony.IsIndustryPlaceable(squareIdx);
             var isService = !(Constants.FEATURE_MAP[structure] as StructureInfo).ServiceFlow.IsEmpty;
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
-                (!isService || servicePlaceable);
+                (structure == EStructure.HQ ||isService && servicePlaceable || industryPlaceable);
             if (structureIsPlacable)
                 SetStructure(squareIdx);
         }

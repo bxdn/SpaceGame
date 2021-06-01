@@ -72,10 +72,10 @@ namespace Assets.Scripts.Controllers
                 ChangeColor(i, new Color(1, 1, 1, 0));
             for (int i = 0; i < manager.Size; i++)
                 if (manager.CurrentColony is Colony c && c.IsIndustryPlaceable(i))
-                    ChangeColor(i, Color.blue);
+                    ChangeColor(i, new Color(.5f, .7f, 1));
             for (int i = 0; i < manager.Size; i++)
                 if (manager.CurrentColony is Colony c && c.IsServicePlaceable(i))
-                    ChangeColor(i, Color.green);
+                    ChangeColor(i, new Color(.5f, 1, .5f));
         }
 
         private static void ChangeColor(int idx, Color color)

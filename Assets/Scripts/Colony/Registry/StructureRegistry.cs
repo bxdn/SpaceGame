@@ -70,9 +70,8 @@ namespace Assets.Scripts.Model
         private static StructureInfo BuildEnergyPlant()
         {
             var costBuilder = ImmutableDictionary.CreateBuilder<EGood, int>();
-            costBuilder.Add(EGood.Chips, 5);
+            costBuilder.Add(EGood.Chips, 10);
             costBuilder.Add(EGood.Steel, 2);
-            costBuilder.Add(EGood.Silicon, 5);
             var cost = costBuilder.ToImmutable();
             var resourceCostBuilder = ImmutableDictionary.CreateBuilder<EResource, int>();
             var resourceCost = resourceCostBuilder.ToImmutable();

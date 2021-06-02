@@ -24,6 +24,7 @@ namespace Assets.Scripts.Model
         WindowMaker,
         GlassBlower,
         CopperMine,
-        HQ
+        HQ,
+        LocalTradeDepot
     }
 }

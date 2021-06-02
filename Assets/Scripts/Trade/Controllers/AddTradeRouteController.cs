@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,7 +9,10 @@ namespace Assets.Scripts.Controllers
     {
         public void OnPointerClick(PointerEventData eventData)
         {
-            TradePanelController.AddNewRoute();
+            if((Selection.CurrentSelection as IColonizable).ColonizableManager.CurrentColony is Colony c
+                && c.Structures.ContainsKey(EStructure.LocalTradeDepot)
+                && c.Structures[EStructure.LocalTradeDepot].Count > 0)
+                TradePanelController.AddNewRoute();
         }
     }
 }

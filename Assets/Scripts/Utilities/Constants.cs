@@ -166,6 +166,7 @@ public static class Constants
         featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
         featureBuilder.Add(EResource.Copper, ResourceRegistry.Copper);
         featureBuilder.Add(EStructure.HQ, StructureRegistry.HQ);
+        featureBuilder.Add(EStructure.LocalTradeDepot, StructureRegistry.LocalTradeDepot);
         FEATURE_MAP = featureBuilder.ToImmutable();
 
         var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();

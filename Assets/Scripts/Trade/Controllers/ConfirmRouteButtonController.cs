@@ -35,7 +35,7 @@ namespace Assets.Scripts.Controllers
             var currentColony = manager.CurrentColony;
             if (currentColony == otherColony)
                 return;
-            if (!deductedMaterials(currentColony, cost))
+            if (!DeductedMaterials(currentColony, cost))
                 return;
             var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
             currentColony.TradeManager.AddOutGoingRoute(route);
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Controllers
             var colonyDistance = Utils.GetDistance(manager.CurrentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
             return (colonyDistance / 10f) * Math.Max(sentAmount, receivedAmount);
         }
-        private bool deductedMaterials(Colony currentColony, float cost)
+        private bool DeductedMaterials(Colony currentColony, float cost)
         {
             var goods = currentColony.Goods;
             if (!(goods.ContainsKey(EGood.Steel) && goods[EGood.Steel].Value >= cost ||

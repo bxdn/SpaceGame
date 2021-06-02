@@ -54,7 +54,7 @@ namespace Assets.Scripts.Controllers
             var industryPlaceable = manager.CurrentColony != null && manager.CurrentColony.IsIndustryPlaceable(squareIdx);
             var isService = !(Constants.FEATURE_MAP[structure] as StructureInfo).ServiceFlow.IsEmpty;
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
-                (structure == EStructure.HQ ||isService && servicePlaceable || industryPlaceable);
+                (structure == EStructure.HQ || !isService && industryPlaceable || servicePlaceable);
             if (structureIsPlacable)
                 SetStructure(squareIdx);
         }

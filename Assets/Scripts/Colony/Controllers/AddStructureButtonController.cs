@@ -11,7 +11,6 @@ public class AddStructureButtonController : EventTrigger
         if (Input.GetMouseButtonDown(0))
         {
             Constants.STRUCTURE_PANEL.SetActive(true);
-            Constants.COLONY_PANEL.SetActive(false);
             if (Selection.CurrentSelection is IColonizable c &&
             c.ColonizableManager is IColonizableManager m)
                 StructurePanelController.Fill(m.CurrentColony);

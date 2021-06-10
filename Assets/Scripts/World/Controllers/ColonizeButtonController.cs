@@ -11,6 +11,8 @@ public class ColonizeButtonController : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (CameraController.Locked)
+            return;
         Constants.COLONIZE_PROMPT.SetActive(true);
         var hq = RegistryUtil.Structures.GetStructure("HQ");
         AddStructureController.Activate(hq, (Selection.CurrentSelection as IColonizable).ColonizableManager);

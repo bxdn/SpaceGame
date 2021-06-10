@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.GUI
 {
@@ -16,23 +17,17 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private IList<Transform> transforms = new List<Transform>();
-        public GoodServiceGUI(EGood good, GoodInfo value, Vector2 pos)
+        public GoodServiceGUI(GoodOrService good, GoodInfo value, Vector2 pos)
         {
             this.pos = pos;
-            CreateNameField(Constants.GOOD_MAP[good]);
+            CreateNameField(good.Name);
             CreateNumberField(value.Value);
             CreateDirectionField(value.Increasing);
         }
-        public GoodServiceGUI(EService service, float value, Vector2 pos)
+        public GoodServiceGUI(GoodOrService service, float value, Vector2 pos)
         {
             this.pos = pos;
-            CreateNameField(Constants.SERVICE_MAP[service]);
-            CreateNumberField(value);
-        }
-        public GoodServiceGUI(EResource resource, int value, Vector2 pos)
-        {
-            this.pos = pos;
-            CreateNameField(Constants.RESOURCE_MAP[resource]);
+            CreateNameField(service.Name);
             CreateNumberField(value);
         }
         private void CreateDirectionField(int increasing)

@@ -1,0 +1,5 @@
+Land,
+Water,W
+Silicon,S
+Iron,I
+Copper,C

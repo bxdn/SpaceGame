@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class StructureGUIController : EventTrigger
 {
-    public EStructure Structure { get; set; }
+    public StructureInfo Structure { get; set; }
     private float clickTime = -1;
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -19,7 +19,7 @@ public class StructureGUIController : EventTrigger
             StructurePanelController.SetStructure(Structure);
         else
         {
-            StructurePanelController.FillRightSide((StructureInfo)Constants.FEATURE_MAP[Structure]);
+            StructurePanelController.FillRightSide(Structure);
             clickTime = newClickTime;
         }
     }

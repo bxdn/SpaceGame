@@ -1,0 +1,17 @@
+HQ||||Land|0|^
+Copper Mine|Steel=1,Chips=3|Copper=1,Energy=-1||Copper|0|CM
+Electrolysis Plant|Chips=2|Water=-2,Energy=-1,Hydrogen=1,Oxygen=2||Land|0|EL
+Energy Plant|Chips=10,Steel=2|Energy=100||Land|0|E
+Iron Mine|Steel=1,Chips=3|Iron=1,Energy=-1||Iron|0|IM
+Water Collection Plant|Chips=3,Steel=1|Water=50,Energy=-1||Water|0|WC
+Farm|Chips=3,Steel=3|Water=-5,Food=100||Land|0|F
+Housing|Steel=5||Housing=1000|Land|0|H
+Steel Smelter|Steel=1,Chips=1|Iron=-2,Energy=-2,Oxygen=-2,Steel=1||Land|0|ST
+Doctor'S Offices|Chips=2,Steel=1|Energy=-1|Healthcare=500|Land|1|D
+Alcohol Maker|Chips=1,Steel=1|Energy=-10,Food=-100,Alcohol=200||Land|0|A
+Silicon Mine|Steel=1,Chips=3|Energy=-1,Silicon=5||Silicon|0|SM
+Chip Maker|Steel=1,Chips=5|Energy=-5,Silicon=-1,Copper=-1,Chips=1||Land|0|CH
+School|Chips=2,Steel=1|Energy=-1|Education=250|Land|1|SC
+Glass Blower|Chips=1,Steel=1|Silicon=-2,Glass=10||Land|0|G
+Window Maker|Chips=2,Steel=2|Glass=-2,Windows=5||Land|1|WI
+Local Trade Depot|Chips=10,Steel=10|Energy=-5||Land|1|T

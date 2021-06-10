@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Assets.Scripts.World.Model;
-using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 
 namespace Tests
 {
@@ -19,8 +19,8 @@ namespace Tests
         public void TestLayoutResources()
         {
             var fields = manager.LayoutResources();
-            Assert.AreEqual(fields[45].Feature, EResource.Iron);
-            Assert.AreEqual(fields[33].Feature, EResource.Water);
+            Assert.AreEqual(fields[45].Feature, RegistryUtil.Resources.Get("Iron"));
+            Assert.AreEqual(fields[33].Feature, RegistryUtil.Resources.Get("Water"));
         }
     }
 }

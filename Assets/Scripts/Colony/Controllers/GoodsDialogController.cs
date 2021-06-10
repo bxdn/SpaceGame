@@ -86,25 +86,15 @@ public class GoodsDialogController : EventTrigger
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
         currentPosition = new Vector2(300, 0);
-        foreach (var good in colony.Level.GoodsPerPopNeeds)
+        foreach (var good in colony.Level.GoodsServicesPerPopNeeds)
         {
             goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
-            currentPosition = new Vector2(300, currentPosition.y - 25);
-        }
-        foreach (var service in colony.Level.ServicesPerPopNeeds)
-        {
-            goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
             currentPosition = new Vector2(300, currentPosition.y - 25);
         }
         currentPosition = new Vector2(450, 0);
-        foreach (var good in colony.Level.GoodsPerPopWants)
+        foreach (var good in colony.Level.GoodsServicesPerPopWants)
         {
             goodGuis.Add(new DemandGUI(good.Key, good.Value * population, currentPosition));
-            currentPosition = new Vector2(450, currentPosition.y - 25);
-        }
-        foreach (var service in colony.Level.ServicesPerPopWants)
-        {
-            goodGuis.Add(new DemandGUI(service.Key, service.Value * population, currentPosition));
             currentPosition = new Vector2(450, currentPosition.y - 25);
         }
         Constants.POP_VAL.text = population.ToString();

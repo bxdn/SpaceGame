@@ -84,7 +84,7 @@ public class ColonyDialogController : EventTrigger
         Vector2 currentPosition = new Vector2(0, 0);
         foreach (var structure in colony.Structures)
         {
-            structGuis.Add(new StructureCountGUI((StructureInfo)Constants.FEATURE_MAP[structure.Key], structure.Value.Count, currentPosition));
+            structGuis.Add(new StructureCountGUI(structure.Key, structure.Value.Count, currentPosition));
             currentPosition = new Vector2(0, currentPosition.y - 25);
         }
     }

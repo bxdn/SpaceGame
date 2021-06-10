@@ -3,36 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
     public class ResourceRegistry
     {
-        public static ResourceInfo Land { get; private set; } = GetLand();
-        public static ResourceInfo Water { get; private set; } = GetWater();
-        public static ResourceInfo Silicon { get; private set; } = GetSilicon();
-        public static ResourceInfo Copper { get; private set; } = GetCopper();
-        public static ResourceInfo Iron { get; private set; } = GetIron();
+        private readonly IDictionary<String, ResourceInfo> resources = new Dictionary<String, ResourceInfo>(); 
 
-        private static ResourceInfo GetLand()
+        public ResourceRegistry()
         {
-            return new ResourceInfo("Land", "");
+            foreach (var resource in Resources.Load<TextAsset>("Resources").text.Split(new string[] { "\r\n" }, StringSplitOptions.None))
+                AddResource(resource);
         }
-        private static ResourceInfo GetWater()
+        private void AddResource(string resource)
         {
-            return new ResourceInfo("Water", "W");
+            var data = resource.Split(',');
+            resources.Add(data[0], new ResourceInfo(data[0], data[1]));
         }
-        private static ResourceInfo GetSilicon()
+        public ResourceInfo Get(string name)
         {
-            return new ResourceInfo("Silicon", "S");
+            if (resources.ContainsKey(name))
+                return resources[name];
+            return null;
         }
-        private static ResourceInfo GetIron()
+        public IEnumerable<ResourceInfo> GetAllResources()
         {
-            return new ResourceInfo("Iron", "I");
-        }
-        private static ResourceInfo GetCopper()
-        {
-            return new ResourceInfo("Copper", "C");
+            return resources.Values;
         }
     }
 }

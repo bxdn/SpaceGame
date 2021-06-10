@@ -1,0 +1,7 @@
+Housing
+Education
+Healthcare
+Entertainment
+Luxury
+Safety
+FoodService

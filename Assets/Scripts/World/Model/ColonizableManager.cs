@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.World.Model;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.World.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -11,7 +12,7 @@ namespace Assets.Scripts.Model
     {
         public Domain Owner { get; private set; }
         public int Habitability { get; }
-        protected readonly IDictionary<EResource, int> resources = new Dictionary<EResource, int>();
+        protected readonly IDictionary<ResourceInfo, int> resources = new Dictionary<ResourceInfo, int>();
         public int Size { get; }
         public Colony CurrentColony { get; private set; }
         public IEnumerable<ColonyInfo> Colonies { get; private set; } = new List<ColonyInfo>();
@@ -31,7 +32,7 @@ namespace Assets.Scripts.Model
             CurrentColony = colony;
             (Colonies as List<ColonyInfo>).Add(new ColonyInfo(colony, idx));
         }
-        public Enum GetFeature(int i)
+        public ICodable GetFeature(int i)
         {
             var feature = features[i];
             if (feature == null)
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Model
             return feature.Feature;
         }
 
-        public void UpdateFeature(int i, Enum feature)
+        public void UpdateFeature(int i, ICodable feature)
         {
             features[i] = new Area(feature);
         }

@@ -1,19 +1,20 @@
 ﻿using Assets.Scripts.Model;
 using System;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.Trade.Model
 {
     [Serializable]
     public class TradeRoute
     {
-        public EGood SentGood { get; }
+        public GoodOrService SentGood { get; }
         public float SentAmount { get; }
-        public EGood ReceivedGood { get; }
+        public GoodOrService ReceivedGood { get; }
         public float ReceivedAmount { get; }
         public Colony Originator { get; }
         public Colony Receiver { get; }
         public float Cost { get; }
-        public TradeRoute(EGood sentGood, float sentAmount, EGood receivedGood, float receivedAmount, Colony originator, Colony receiver, float cost)
+        public TradeRoute(GoodOrService sentGood, float sentAmount, GoodOrService receivedGood, float receivedAmount, Colony originator, Colony receiver, float cost)
         {
             SentGood = sentGood;
             SentAmount = sentAmount;

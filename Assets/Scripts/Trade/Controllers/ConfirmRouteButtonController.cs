@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using Assets.Scripts.Trade.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.Controllers
 {
@@ -22,8 +24,8 @@ namespace Assets.Scripts.Controllers
 
         private float sentAmount;
         private float receivedAmount;
-        private EGood? sentGood;
-        private EGood? receivedGood;
+        private GoodOrService sentGood;
+        private GoodOrService receivedGood;
         private Colony otherColony = null;
 
         public void OnPointerClick(PointerEventData eventData)
@@ -37,7 +39,7 @@ namespace Assets.Scripts.Controllers
                 return;
             if (!DeductedMaterials(currentColony, cost))
                 return;
-            var route = new TradeRoute((EGood)sentGood, sentAmount, (EGood)receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
+            var route = new TradeRoute(sentGood, sentAmount, receivedGood, receivedAmount, currentColony, otherColony, Mathf.Sqrt(cost));
             currentColony.TradeManager.AddOutGoingRoute(route);
             otherColony.TradeManager.AddIncomingRoute(route);
             TradePanelController.Reset(currentColony);
@@ -58,11 +60,13 @@ namespace Assets.Scripts.Controllers
         private bool DeductedMaterials(Colony currentColony, float cost)
         {
             var goods = currentColony.Goods;
-            if (!(goods.ContainsKey(EGood.Steel) && goods[EGood.Steel].Value >= cost ||
-                goods.ContainsKey(EGood.Chips) && goods[EGood.Chips].Value >= cost))
+            var steel = RegistryUtil.GoodsServices.Get("Steel");
+            var chips = RegistryUtil.GoodsServices.Get("Chips");
+            if (!(goods.ContainsKey(steel) && goods[steel].Value >= cost ||
+                goods.ContainsKey(chips) && goods[chips].Value >= cost))
                 return false;
-            currentColony.IncrementGood(EGood.Steel, -cost);
-            currentColony.IncrementGood(EGood.Chips, -cost);
+            currentColony.IncrementGood(steel, -cost);
+            currentColony.IncrementGood(chips, -cost);
             return true;
         }
         private Colony FindOtherColony()
@@ -76,9 +80,9 @@ namespace Assets.Scripts.Controllers
         {
             var sentName = sentGoodField.text;
             sentGood = null;
-            foreach (var pair in Constants.GOOD_MAP)
-                if (sentName.Equals(pair.Value))
-                    sentGood = pair.Key;
+            foreach (var good in RegistryUtil.GoodsServices.GetAllGoods())
+                if (sentName.Equals(good.Name))
+                    sentGood = good;
             if (sentGood == null || string.IsNullOrEmpty(sentAmountField.text))
                 return false;
             sentAmount = float.Parse(sentAmountField.text);
@@ -88,9 +92,9 @@ namespace Assets.Scripts.Controllers
         {
             var receivedName = receivedGoodField.text;
             receivedGood = null;
-            foreach (var pair in Constants.GOOD_MAP)
-                if (receivedName.Equals(pair.Value))
-                    receivedGood = pair.Key;
+            foreach (var good in RegistryUtil.GoodsServices.GetAllGoods())
+                if (receivedName.Equals(good.Name))
+                    receivedGood = good;
             if (receivedGood == null || string.IsNullOrEmpty(receivedAmountField.text))
                 return false;
             receivedAmount = float.Parse(receivedAmountField.text);

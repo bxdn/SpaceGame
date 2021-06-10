@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.GUI
 {
@@ -16,16 +17,10 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private IList<Transform> transforms = new List<Transform>();
-        public DemandGUI(EGood good, float value, Vector2 pos)
+        public DemandGUI(GoodOrService goodOrService, float value, Vector2 pos)
         {
             this.pos = pos;
-            CreateNameField(Constants.GOOD_MAP[good]);
-            CreateNumberField(value);
-        }
-        public DemandGUI(EService service, float value, Vector2 pos)
-        {
-            this.pos = pos;
-            CreateNameField(Constants.SERVICE_MAP[service]);
+            CreateNameField(goodOrService.Name);
             CreateNumberField(value);
         }
         private void CreateNumberField(float value)

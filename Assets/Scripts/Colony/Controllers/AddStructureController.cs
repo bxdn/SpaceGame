@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Controllers
     {
         private static bool activated;
         private static IColonizableManager manager;
-        private static EStructure structure;
+        private static StructureInfo structure;
         private static int rowSize;
         private static float lastClicked = -1;
 
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Controllers
             else if (Input.GetMouseButtonDown(1))
                 RevertView();
         }
-        public static void Activate(EStructure structure, IColonizableManager manager)
+        public static void Activate(StructureInfo structure, IColonizableManager manager)
         {
             lastClicked = -1;
             activated = true;
@@ -41,26 +42,28 @@ namespace Assets.Scripts.Controllers
         }
         private static void TriggerDoubleClicked()
         {
-            if (structure == EStructure.HQ ||
+            if (structure == RegistryUtil.Structures.GetStructure("HQ") ||
                 manager.CurrentColony.CanBuildStructure(structure))
                 SetBuildableStructure();
         }
         private static void SetBuildableStructure()
         {
             var squareIdx = Utils.GetCurrentSquareIdx(rowSize);
-            var requiredSquareFeature = ((StructureInfo) Constants.FEATURE_MAP[structure]).PrereqFeature;
+            var requiredSquareFeature = RegistryUtil.Resources.Get(structure.PrereqFeature);
             var actualSquareFeature = manager.GetFeature(squareIdx);
             var servicePlaceable = manager.CurrentColony != null && manager.CurrentColony.IsServicePlaceable(squareIdx);
             var industryPlaceable = manager.CurrentColony != null && manager.CurrentColony.IsIndustryPlaceable(squareIdx);
-            var isService = !(Constants.FEATURE_MAP[structure] as StructureInfo).ServiceFlow.IsEmpty;
+            var isService = !(structure).ServiceFlow.IsEmpty;
+            var hq = RegistryUtil.Structures.GetStructure("HQ");
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
-                (structure == EStructure.HQ || !isService && industryPlaceable || servicePlaceable);
+                (structure == hq || !isService && industryPlaceable || servicePlaceable);
             if (structureIsPlacable)
                 SetStructure(squareIdx);
         }
         private static void SetStructure(int idx)
         {
-            if (structure != EStructure.HQ)
+            var hq = RegistryUtil.Structures.GetStructure("HQ");
+            if (structure != hq)
                 AddStandardStructure(idx);
             else
                 AddHQ(idx);
@@ -84,9 +87,9 @@ namespace Assets.Scripts.Controllers
         private static void GiveFirstColonyResources()
         {
             var col = manager.CurrentColony;
-            col.IncrementGood(EGood.Chips, 100);
-            col.IncrementGood(EGood.Energy, 100);
-            col.IncrementGood(EGood.Steel, 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get("Chips"), 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get("Energy"), 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get("Steel"), 100);
         }
         private static void UpdateGUIS(int idx)
         {

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.GUI;
 using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using System;
 using UnityEngine;
 
@@ -59,7 +60,8 @@ namespace Assets.Scripts.Controllers
             {
                 gui.AddSquare(curIdx, Utils.SquareIdxToWorldCoords(curIdx, rowSize), ChooseString(curIdx));
                 var feature = manager.GetFeature(curIdx);
-                if (feature != null && feature.Equals(EStructure.HQ))
+                var hq = RegistryUtil.Structures.GetStructure("HQ");
+                if (feature != null && feature.Equals(hq))
                     CreateColonySquare(curIdx);
                 curIdx++;
             }
@@ -109,7 +111,7 @@ namespace Assets.Scripts.Controllers
             var field = manager.GetFeature(idx);
             if (field == null)
                 return "X";
-            return Constants.FEATURE_MAP[field].Code;
+            return field.Code;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.GUI
 {
@@ -27,12 +29,9 @@ namespace Assets.Scripts.GUI
         private void CreatePriceText()
         {
             int count = 1;
-            CreateElement("Workers: Lvl " + info.WorkerLevel + "+", new Vector2(260, 25 - 30 * count));
-            foreach(KeyValuePair<Model.EGood, int> entry in info.GoodCost)
-            {
-                count++;
-                CreateElement(Constants.GOOD_MAP[entry.Key] + ": " + entry.Value, new Vector2(260, 25 - 30 * count));
-            }
+            CreateElement("Workers: Lvl " + info.WorkerLevel + "+", new Vector2(260, 25 - 30 * count++));
+            foreach(KeyValuePair<string, float> entry in info.GoodCost)
+                CreateElement(entry.Key + ": " + entry.Value, new Vector2(260, 25 - 30 * count++));
         }
         private void CreateElement(string name, Vector2 pos)
         {
@@ -57,23 +56,17 @@ namespace Assets.Scripts.GUI
         }
         private void CreateGoodFlowText()
         {
-            int count = 0;
-            foreach (KeyValuePair<Model.EGood, float> entry in info.Flow)
-            {
-                count++;
-                CreateElement(Constants.GOOD_MAP[entry.Key] + ": " + entry.Value, 
-                    new Vector2(475, 25 - 30 * count));
-            }
+            int count = 1;
+            foreach (KeyValuePair<string, float> entry in info.Flow)
+                CreateElement(entry.Key + ": " + entry.Value, 
+                    new Vector2(475, 25 - 30 * count++));
         }
         private void CreateServiceFlowText()
         {
-            int count = 0;
-            foreach (KeyValuePair<Model.EService, float> entry in info.ServiceFlow)
-            {
-                count++;
-                CreateElement(Constants.SERVICE_MAP[entry.Key] + ": " + entry.Value,
-                    new Vector2(680, 25 - 30 * count));
-            }
+            int count = 1;
+            foreach (KeyValuePair<string, float> entry in info.ServiceFlow)
+                CreateElement(entry.Key + ": " + entry.Value,
+                    new Vector2(680, 25 - 30 * count++));
         }
         public override void Scroll(bool ascending)
         {

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Model;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
 
@@ -10,8 +11,8 @@ namespace Assets.Scripts
         Colony CurrentColony { get; }
         IEnumerable<ColonyInfo> Colonies { get; }
         int Habitability { get; }
-        Enum GetFeature(int i);
-        void UpdateFeature(int i, Enum feature);
+        ICodable GetFeature(int i);
+        void UpdateFeature(int i, ICodable feature);
         int Size { get; }
         void Colonize(int idx);
         void SetCurrentColony(int idx);

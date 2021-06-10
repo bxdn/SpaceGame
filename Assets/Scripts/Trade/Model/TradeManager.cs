@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Registry;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
@@ -38,13 +39,13 @@ namespace Assets.Scripts.Trade.Model
             route.Originator.IncrementGood(route.ReceivedGood, route.ReceivedAmount);
             route.Receiver.IncrementGood(route.SentGood, route.SentAmount);
             route.Receiver.IncrementGood(route.ReceivedGood, -route.ReceivedAmount);
-            route.Originator.IncrementGood(Scripts.Model.EGood.Hydrogen, -route.Cost);
+            route.Originator.IncrementGood(RegistryUtil.GoodsServices.Get("Hydrogen"), -route.Cost);
         }
         private static bool CanProcessRoute(TradeRoute route)
         {
             return route.Originator.CanIncrementGood(route.SentGood, -route.SentAmount)
                 && route.Receiver.CanIncrementGood(route.ReceivedGood, -route.ReceivedAmount)
-                && route.Originator.CanIncrementGood(Scripts.Model.EGood.Hydrogen, -route.Cost);
+                && route.Originator.CanIncrementGood(RegistryUtil.GoodsServices.Get("Hydrogen"), -route.Cost);
         }
     }
 }

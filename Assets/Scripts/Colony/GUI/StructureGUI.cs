@@ -16,13 +16,13 @@ namespace Assets.Scripts.GUI
         private static readonly Font ARIAL = Resources.GetBuiltinResource<Font>("Arial.ttf");
         private readonly IList<GameObject> objects = new List<GameObject>();
         private readonly IList<Transform> transforms = new List<Transform>();
-        public StructureGUI(EStructure structure)
+        public StructureGUI(StructureInfo structure)
         {
             count++;
             CreateStructureText(structure);
         }
 
-        private void CreateStructureText(EStructure structure)
+        private void CreateStructureText(StructureInfo structure)
         {
             GameObject text = new GameObject("Text", typeof(RectTransform));
             var controller = text.AddComponent<StructureGUIController>();
@@ -30,7 +30,7 @@ namespace Assets.Scripts.GUI
             transforms.Add(text.transform);
             objects.Add(text);
             Text textComponent = text.AddComponent<Text>();
-            textComponent.text = Constants.FEATURE_MAP[structure].Name;
+            textComponent.text = structure.Name;
             textComponent.fontSize = 38;
             textComponent.font = ARIAL;
             textComponent.color = new Color(0, 0, 0, 1);

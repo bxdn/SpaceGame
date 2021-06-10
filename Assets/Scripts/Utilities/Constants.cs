@@ -81,11 +81,6 @@ public static class Constants
     public static readonly Text INF_VAL = GameObject.Find("InfluenceVal").GetComponent<Text>();
     public static readonly Text LVL_VAL = GameObject.Find("LevelVal").GetComponent<Text>();
 
-    public static readonly IDictionary<EResource, String> RESOURCE_MAP;
-    public static readonly IDictionary<EGood, String> GOOD_MAP;
-    public static readonly IDictionary<EService, String> SERVICE_MAP;
-    public static readonly IDictionary<Enum, IFeatureInfo> FEATURE_MAP;
-
     public static readonly IList<GameObject> FIELDS = ImmutableList.Create(new GameObject[] 
     { 
         NAMEF ,
@@ -143,65 +138,5 @@ public static class Constants
         MENUS_BUTTON.SetActive(false);
         COLONIZE_PROMPT.SetActive(false);
         Utils.LayoutUI();
-
-        var featureBuilder = ImmutableDictionary.CreateBuilder<Enum, IFeatureInfo>();
-        featureBuilder.Add(EStructure.Housing, StructureRegistry.Housing);
-        featureBuilder.Add(EStructure.EnergyPlant, StructureRegistry.EnergyPlant);
-        featureBuilder.Add(EStructure.Farm, StructureRegistry.Farm);
-        featureBuilder.Add(EStructure.ElectrolysisPlant, StructureRegistry.ElectrolysisPlant);
-        featureBuilder.Add(EStructure.IronMine, StructureRegistry.IronMine);
-        featureBuilder.Add(EStructure.SteelSmelter, StructureRegistry.SteelSmelter);
-        featureBuilder.Add(EStructure.WaterPlant, StructureRegistry.WaterCollectionPlant);
-        featureBuilder.Add(EStructure.AlcoholMaker, StructureRegistry.AlcoholMaker);
-        featureBuilder.Add(EStructure.DoctorsOffices, StructureRegistry.DoctorsOffices);
-        featureBuilder.Add(EStructure.ChipMaker, StructureRegistry.ChipMaker);
-        featureBuilder.Add(EStructure.SiliconMine, StructureRegistry.SiliconCollector);
-        featureBuilder.Add(EStructure.School, StructureRegistry.School);
-        featureBuilder.Add(EStructure.WindowMaker, StructureRegistry.WindowMaker);
-        featureBuilder.Add(EStructure.GlassBlower, StructureRegistry.GlassBlower);
-        featureBuilder.Add(EStructure.CopperMine, StructureRegistry.CopperMine);
-        featureBuilder.Add(EResource.Water, ResourceRegistry.Water);
-        featureBuilder.Add(EResource.Iron, ResourceRegistry.Iron);
-        featureBuilder.Add(EResource.Land, ResourceRegistry.Land);
-        featureBuilder.Add(EResource.Silicon, ResourceRegistry.Silicon);
-        featureBuilder.Add(EResource.Copper, ResourceRegistry.Copper);
-        featureBuilder.Add(EStructure.HQ, StructureRegistry.HQ);
-        featureBuilder.Add(EStructure.LocalTradeDepot, StructureRegistry.LocalTradeDepot);
-        FEATURE_MAP = featureBuilder.ToImmutable();
-
-        var goodBuilder = ImmutableDictionary.CreateBuilder<EGood, String>();
-        goodBuilder.Add(EGood.Alcohol, "Alcohol");
-        goodBuilder.Add(EGood.Clothes, "Clothes");
-        goodBuilder.Add(EGood.Electronics, "Electronics");
-        goodBuilder.Add(EGood.Energy, "Energy");
-        goodBuilder.Add(EGood.EntertainmentItems, "EntertainmentItems");
-        goodBuilder.Add(EGood.Fabric, "Fabric");
-        goodBuilder.Add(EGood.Food, "Food");
-        goodBuilder.Add(EGood.Hydrogen, "Hydrogen");
-        goodBuilder.Add(EGood.Machinery, "Machinery");
-        goodBuilder.Add(EGood.Iron, "Iron");
-        goodBuilder.Add(EGood.Robotics, "Robotics");
-        goodBuilder.Add(EGood.Steel, "Steel");
-        goodBuilder.Add(EGood.Tools, "Tools");
-        goodBuilder.Add(EGood.Water, "Water");
-        goodBuilder.Add(EGood.Oxygen, "Oxygen");
-        goodBuilder.Add(EGood.Mylar, "Mylar");
-        goodBuilder.Add(EGood.Carbon, "Carbon");
-        goodBuilder.Add(EGood.Chips, "Chips");
-        goodBuilder.Add(EGood.Silicon, "Silicon");
-        goodBuilder.Add(EGood.Glass, "Glass");
-        goodBuilder.Add(EGood.Windows, "Windows");
-        goodBuilder.Add(EGood.Copper, "Copper");
-        GOOD_MAP = goodBuilder.ToImmutable();
-
-        var serviceBuilder = ImmutableDictionary.CreateBuilder<EService, String>();
-        serviceBuilder.Add(EService.Education, "Education");
-        serviceBuilder.Add(EService.Entertainment, "Entertainment");
-        serviceBuilder.Add(EService.FoodService, "FoodService");
-        serviceBuilder.Add(EService.Healthcare, "Healthcare");
-        serviceBuilder.Add(EService.Housing, "Housing");
-        serviceBuilder.Add(EService.Luxury, "Luxury");
-        serviceBuilder.Add(EService.Safety, "Safety");
-        SERVICE_MAP = serviceBuilder.ToImmutable();
     }
 }

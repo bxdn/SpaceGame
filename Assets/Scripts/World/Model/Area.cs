@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace Assets.Scripts.Model
     [System.Serializable]
     public class Area
     {
-        public Enum Feature { get; }
-        public Area(Enum feature)
+        public ICodable Feature { get; }
+        public Area(ICodable feature)
         {
             Feature = feature;
         }

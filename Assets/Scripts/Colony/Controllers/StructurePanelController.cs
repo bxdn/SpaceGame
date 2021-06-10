@@ -3,6 +3,7 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.GUI;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -70,11 +71,9 @@ public class StructurePanelController : EventTrigger
         guis.Clear();
         if (infoGUI != null)
             infoGUI.Destroy();
-        foreach (var pair in Constants.FEATURE_MAP)
-        {
-            if(pair.Key is EStructure struc  && struc != EStructure.HQ)
-                guis.Add(new StructureGUI(struc));
-        }
+        foreach (var structure in RegistryUtil.Structures.GetAllStructures())
+            if (!structure.Name.Equals("HQ"))
+                guis.Add(new StructureGUI(structure));
     }
     public static void FillRightSide(StructureInfo info)
     {
@@ -82,7 +81,7 @@ public class StructurePanelController : EventTrigger
             infoGUI.Destroy();
         infoGUI = new StructureInfoGUI(info);
     }
-    public static void SetStructure(EStructure structure)
+    public static void SetStructure(StructureInfo structure)
     {
         Constants.STRUCTURE_PANEL.SetActive(false);
         Constants.COLONY_PANEL.SetActive(false);

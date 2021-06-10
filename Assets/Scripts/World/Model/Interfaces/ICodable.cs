@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface IFeatureInfo
+    public interface ICodable
     {
         string Name { get; }
         string Code { get; }

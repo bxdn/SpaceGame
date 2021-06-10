@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Assets.Scripts.Registry.GoodsServicesRegistry;
 
 namespace Assets.Scripts.Interfaces
 {
     public interface ILevelInfo
     {
-        IDictionary<EService, float> ServicesPerPopWants{get;}
-        IDictionary<EGood, float> GoodsPerPopWants { get; }
-        IDictionary<EService, float> ServicesPerPopNeeds { get; }
-        IDictionary<EGood, float> GoodsPerPopNeeds { get; }
+        IDictionary<GoodOrService, float> GoodsServicesPerPopWants { get; }
+        IDictionary<GoodOrService, float> GoodsServicesPerPopNeeds { get; }
         int CurrentLevel { get; }
     }
 }

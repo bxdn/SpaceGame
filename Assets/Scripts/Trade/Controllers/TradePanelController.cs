@@ -57,9 +57,9 @@ public class TradePanelController : EventTrigger
     {
         AddRoute();
         currentInputFields[0].text = route.Receiver.Name;
-        currentInputFields[1].text = Constants.GOOD_MAP[route.SentGood];
+        currentInputFields[1].text = route.SentGood.Name;
         currentInputFields[2].text = route.SentAmount.ToString();
-        currentInputFields[3].text = Constants.GOOD_MAP[route.ReceivedGood];
+        currentInputFields[3].text = route.ReceivedGood.Name;
         currentInputFields[4].text = route.ReceivedAmount.ToString();
         DisableFields();
         AddDeleteButton(route);
@@ -68,9 +68,9 @@ public class TradePanelController : EventTrigger
     {
         AddRoute();
         currentInputFields[0].text = route.Originator.Name;
-        currentInputFields[3].text = Constants.GOOD_MAP[route.SentGood];
+        currentInputFields[3].text = route.SentGood.Name;
         currentInputFields[4].text = route.SentAmount.ToString();
-        currentInputFields[1].text = Constants.GOOD_MAP[route.ReceivedGood];
+        currentInputFields[1].text = route.ReceivedGood.Name;
         currentInputFields[2].text = route.ReceivedAmount.ToString();
         DisableFields();
         AddDeleteButton(route);

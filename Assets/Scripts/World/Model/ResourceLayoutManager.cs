@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Model;
+using Assets.Scripts.Registry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Assets.Scripts.World.Model
         private static readonly int PATCH_MAX_DISTANCE = 4;
         private readonly Random rand;
         private readonly int rowSize;
-        private static readonly EResource[] allResources = (Enum.GetValues(typeof(EResource)) as EResource[]).Skip(1).ToArray();
+        private static readonly ResourceInfo[] allResources = RegistryUtil.Resources.GetAllResources().ToArray();
         private readonly int habitability;
 
         public ResourceLayoutManager(int size, int seed, int habitability)
@@ -39,8 +40,9 @@ namespace Assets.Scripts.World.Model
         private void InitializeField(int idx)
         {
             var ableToBeDeveloped = rand.Next(100) < habitability;
+            var land = RegistryUtil.Resources.Get("Land");
             if (ableToBeDeveloped)
-                fields[idx] = new Area(EResource.Land);
+                fields[idx] = new Area(land);
         }
         private void CreatePatches()
         {
@@ -56,7 +58,12 @@ namespace Assets.Scripts.World.Model
         }
         private void CreatePatch(int idx)
         {
-            var resource = allResources[rand.Next(allResources.Length)];
+            var resource = allResources[rand.Next(allResources.Count())];
+            if (resource.Name.Equals("Land"))
+            {
+                CreatePatch(idx);
+                return;
+            }
             patches.Add(new Patch(idx, rand.Next(PATCH_MIN_DISTANCE, PATCH_MAX_DISTANCE), resource));
             fields[idx] = new Area(resource);
         }
@@ -85,8 +92,8 @@ namespace Assets.Scripts.World.Model
         {
             public int Idx { get; }
             public int MaxDistance { get; }
-            public EResource Resource { get; }
-            public Patch(int idx, int maxDist, EResource resource)
+            public ResourceInfo Resource { get; }
+            public Patch(int idx, int maxDist, ResourceInfo resource)
             {
                 Idx = idx;
                 MaxDistance = maxDist;

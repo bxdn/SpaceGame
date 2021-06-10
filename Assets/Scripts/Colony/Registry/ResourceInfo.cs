@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Model
 {
     [System.Serializable]
-    public class ResourceInfo : IFeatureInfo
+    public class ResourceInfo : ICodable
     {
         public string Name { get; }
         public string Code { get; }

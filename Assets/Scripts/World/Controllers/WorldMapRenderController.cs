@@ -60,7 +60,7 @@ namespace Assets.Scripts.Controllers
             {
                 gui.AddSquare(curIdx, Utils.SquareIdxToWorldCoords(curIdx, rowSize), ChooseString(curIdx));
                 var feature = manager.GetFeature(curIdx);
-                var hq = RegistryUtil.Structures.GetStructure("HQ");
+                var hq = RegistryUtil.Structures.GetStructure(RegistryUtil.HQ);
                 if (feature != null && feature.Equals(hq))
                     CreateColonySquare(curIdx);
                 curIdx++;

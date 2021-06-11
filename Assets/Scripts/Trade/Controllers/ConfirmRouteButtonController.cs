@@ -55,13 +55,13 @@ namespace Assets.Scripts.Controllers
                 return -1;
             var manager = (Selection.CurrentSelection as IColonizable).ColonizableManager;
             var colonyDistance = Utils.GetDistance(manager.CurrentColony.Location, otherColony.Location, Utils.GetRowSize(manager.Size));
-            return (colonyDistance / 10f) * Math.Max(sentAmount, receivedAmount);
+            return (colonyDistance / 10f) * Mathf.Sqrt(Math.Max(sentAmount, receivedAmount));
         }
         private bool DeductedMaterials(Colony currentColony, float cost)
         {
             var goods = currentColony.Goods;
-            var steel = RegistryUtil.GoodsServices.Get("Steel");
-            var chips = RegistryUtil.GoodsServices.Get("Chips");
+            var steel = RegistryUtil.GoodsServices.Get(RegistryUtil.STEEL);
+            var chips = RegistryUtil.GoodsServices.Get(RegistryUtil.CHIPS);
             if (!(goods.ContainsKey(steel) && goods[steel].Value >= cost ||
                 goods.ContainsKey(chips) && goods[chips].Value >= cost))
                 return false;

@@ -42,7 +42,7 @@ namespace Assets.Scripts.Controllers
         }
         private static void TriggerDoubleClicked()
         {
-            if (structure == RegistryUtil.Structures.GetStructure("HQ") ||
+            if (structure == RegistryUtil.Structures.GetStructure(RegistryUtil.HQ) ||
                 manager.CurrentColony.CanBuildStructure(structure))
                 SetBuildableStructure();
         }
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Controllers
             var servicePlaceable = manager.CurrentColony != null && manager.CurrentColony.IsServicePlaceable(squareIdx);
             var industryPlaceable = manager.CurrentColony != null && manager.CurrentColony.IsIndustryPlaceable(squareIdx);
             var isService = !(structure).ServiceFlow.IsEmpty;
-            var hq = RegistryUtil.Structures.GetStructure("HQ");
+            var hq = RegistryUtil.Structures.GetStructure(RegistryUtil.HQ);
             var structureIsPlacable = requiredSquareFeature.Equals(actualSquareFeature) && 
                 (structure == hq || !isService && industryPlaceable || servicePlaceable);
             if (structureIsPlacable)
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Controllers
         }
         private static void SetStructure(int idx)
         {
-            var hq = RegistryUtil.Structures.GetStructure("HQ");
+            var hq = RegistryUtil.Structures.GetStructure(RegistryUtil.HQ);
             if (structure != hq)
                 AddStandardStructure(idx);
             else
@@ -87,9 +87,9 @@ namespace Assets.Scripts.Controllers
         private static void GiveFirstColonyResources()
         {
             var col = manager.CurrentColony;
-            col.IncrementGood(RegistryUtil.GoodsServices.Get("Chips"), 100);
-            col.IncrementGood(RegistryUtil.GoodsServices.Get("Energy"), 100);
-            col.IncrementGood(RegistryUtil.GoodsServices.Get("Steel"), 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get(RegistryUtil.CHIPS), 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get(RegistryUtil.ENERGY), 100);
+            col.IncrementGood(RegistryUtil.GoodsServices.Get(RegistryUtil.STEEL), 100);
         }
         private static void UpdateGUIS(int idx)
         {

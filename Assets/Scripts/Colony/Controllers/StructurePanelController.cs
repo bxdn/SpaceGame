@@ -72,7 +72,7 @@ public class StructurePanelController : EventTrigger
         if (infoGUI != null)
             infoGUI.Destroy();
         foreach (var structure in RegistryUtil.Structures.GetAllStructures())
-            if (!structure.Name.Equals("HQ"))
+            if (!structure.Name.Equals(RegistryUtil.HQ))
                 guis.Add(new StructureGUI(structure));
     }
     public static void FillRightSide(StructureInfo info)

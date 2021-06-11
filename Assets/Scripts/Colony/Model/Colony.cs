@@ -64,10 +64,10 @@ namespace Assets.Scripts.Model
         }
         public bool CanBuildStructure(StructureInfo structure)
         {
-            var hq = RegistryUtil.Structures.GetStructure("HQ");
+            var hq = RegistryUtil.Structures.GetStructure(RegistryUtil.HQ);
             if (structure == hq)
                 return true;
-            var housing = RegistryUtil.Structures.GetStructure("Housing");
+            var housing = RegistryUtil.Structures.GetStructure(RegistryUtil.HOUSING);
             if (structure == housing && !CanBeSettled())
                 return false;
             if (structure.WorkerLevel > Level.CurrentLevel)
@@ -94,17 +94,17 @@ namespace Assets.Scripts.Model
             var rowSize = Utils.GetRowSize(manager.Size);
             return IsServiceNearHQ(serviceIdx, Location, rowSize);
         }
-        private bool IsServiceNearHQ(int serviceIdx, int logisticsIdx, int rowSize)
+        private bool IsServiceNearHQ(int serviceIdx, int hqIdx, int rowSize)
         {
             var potentialHousingCoords = Utils.IdxToSquareCoords(serviceIdx, rowSize);
-            var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
+            var logisticStructureCoords = Utils.IdxToSquareCoords(hqIdx, rowSize);
             var distance = Utils.GetDistance(potentialHousingCoords, logisticStructureCoords);
             return  distance < level.ServiceDistance;
         }
-        private bool IsIndustryNearHQ(int serviceIdx, int logisticsIdx, int rowSize)
+        private bool IsIndustryNearHQ(int industryIdx, int hqIdx, int rowSize)
         {
-            var potentialIndustryCoords = Utils.IdxToSquareCoords(serviceIdx, rowSize);
-            var logisticStructureCoords = Utils.IdxToSquareCoords(logisticsIdx, rowSize);
+            var potentialIndustryCoords = Utils.IdxToSquareCoords(industryIdx, rowSize);
+            var logisticStructureCoords = Utils.IdxToSquareCoords(hqIdx, rowSize);
             var distance = Utils.GetDistance(potentialIndustryCoords, logisticStructureCoords);
             return distance < level.ServiceDistance * 2;
         }
@@ -168,7 +168,7 @@ namespace Assets.Scripts.Model
                 ProcessNeededGoodOrService(demandInfo);
             foreach (var wantInfo in level.GoodsServicesPerPopWants)
                 ProcessWantedGoodOrService(wantInfo);
-            var housing = RegistryUtil.GoodsServices.Get("Housing");
+            var housing = RegistryUtil.GoodsServices.Get(RegistryUtil.HOUSING);
             if (services.ContainsKey(housing)
                 && services[housing] > Population * level.GoodsServicesPerPopNeeds[housing])
                 IncrementPop(level);
@@ -211,7 +211,7 @@ namespace Assets.Scripts.Model
         private void IncrementPop(LevelInfo level)
         {
             var growthCap = Math.Max(1, .05 * Population);
-            var housing = RegistryUtil.GoodsServices.Get("Housing");
+            var housing = RegistryUtil.GoodsServices.Get(RegistryUtil.HOUSING);
             var housingCap = services[housing] - Population * level.GoodsServicesPerPopNeeds[housing];
             int amountToIncrease = (int)Math.Min(growthCap, housingCap);
             Population += amountToIncrease;

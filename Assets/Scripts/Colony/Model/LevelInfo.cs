@@ -29,11 +29,11 @@ namespace Assets.Scripts.Model
         {
             adjuster = new WantsNeedsAdjuster(this);
             CurrentLevel = 0;
-            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get("Food"), .1f);
-            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get("Water"), .1f);
-            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get("Energy"), .1f);
-            goodsServicesPerPopWants.Add(RegistryUtil.GoodsServices.Get("Alcohol"), .1f);
-            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get("Housing"), 1);
+            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.FOOD), .1f);
+            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.WATER), .1f);
+            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.ENERGY), .1f);
+            goodsServicesPerPopWants.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.ALCOHOL), .1f);
+            goodsServicesPerPopNeeds.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.HOUSING), 1);
             CreateImmutables();
         }
         public void LevelUp()
@@ -67,9 +67,9 @@ namespace Assets.Scripts.Model
         {
             var wantsBuilder = ImmutableDictionary.CreateBuilder<GoodOrService, float>();
             wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Windows"), .025f);
-            wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Water"), .05f);
-            wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Food"), .05f);
-            wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Alcohol"), .05f);
+            wantsBuilder.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.WATER), .05f);
+            wantsBuilder.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.FOOD), .05f);
+            wantsBuilder.Add(RegistryUtil.GoodsServices.Get(RegistryUtil.ALCOHOL), .05f);
             wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Education"), .1f);
             wantsBuilder.Add(RegistryUtil.GoodsServices.Get("Healthcare"), .1f);
             return wantsBuilder.ToImmutable();

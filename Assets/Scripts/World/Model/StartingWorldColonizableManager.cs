@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Registry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,20 @@ namespace Assets.Scripts.Model
         {
             if (Habitability < 90)
                 return false;
-/*            if (Resources[EResource.Water] < 10)
+            if (getResourceCount("Water") < 10)
                 return false;
-            if (Resources[EResource.Iron] < 10)
+            if (getResourceCount("Iron") < 1)
                 return false;
-            if (Resources[EResource.Copper] < 10)
+            if (getResourceCount("Silicon") < 1)
                 return false;
-            if (Resources[EResource.Silicon] < 10)
-                return false;*/
+            if (getResourceCount("Copper") < 1)
+                return false;
             return true;
+        }
+        private int getResourceCount(string resource)
+        {
+            var info = RegistryUtil.Resources.Get(resource);
+            return featureMap.ContainsKey(info) ? featureMap[info] : 0;
         }
     }
 }

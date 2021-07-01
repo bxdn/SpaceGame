@@ -18,9 +18,10 @@ namespace Tests
         [Test]
         public void TestLayoutResources()
         {
-            var fields = manager.LayoutResources();
-            Assert.AreEqual(fields[45].Feature, RegistryUtil.Resources.Get("Water"));
-            Assert.AreEqual(fields[33].Feature, RegistryUtil.Resources.Get("Silicon"));
+            manager.LayoutResources();
+            var fields = manager.Fields;
+            Assert.AreEqual(fields[45], RegistryUtil.Resources.Get("Water"));
+            Assert.AreEqual(fields[33], RegistryUtil.Resources.Get("Silicon"));
         }
     }
 }

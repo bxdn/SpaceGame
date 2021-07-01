@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Model;
+﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Model;
 using Assets.Scripts.Registry;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,8 @@ namespace Assets.Scripts.World.Model
     [Serializable]
     public class ResourceLayoutManager
     {
-        private readonly Area[] fields;
+        public ICodable[] Fields { get; }
+        public Dictionary<ICodable, int> FieldMap { get; } = new Dictionary<ICodable, int>();
         private readonly IList<Patch> patches = new List<Patch>();
         private static readonly int PATCH_MIN_DISTANCE = 1;
         private static readonly int PATCH_MAX_DISTANCE = 4;
@@ -20,21 +22,20 @@ namespace Assets.Scripts.World.Model
 
         public ResourceLayoutManager(int size, int seed, int habitability)
         {
-            fields = new Area[size];
+            Fields = new ICodable[size];
             rand = new Random(seed);
             this.habitability = habitability;
             rowSize = Utils.GetRowSize(size);
         }
-        public Area[] LayoutResources()
+        public void LayoutResources()
         {
             InitializeFields();
             CreatePatches();
             FillPatches();
-            return fields;
         }
         private void InitializeFields()
         {
-            for (int i = 0; i < fields.Length; i++)
+            for (int i = 0; i < Fields.Length; i++)
                 InitializeField(i);
         }
         private void InitializeField(int idx)
@@ -42,12 +43,12 @@ namespace Assets.Scripts.World.Model
             var ableToBeDeveloped = rand.Next(100) < habitability;
             var land = RegistryUtil.Resources.Get("Land");
             if (ableToBeDeveloped)
-                fields[idx] = new Area(land);
+                Fields[idx] = land;
         }
         private void CreatePatches()
         {
 
-            for (int i = 0; i < fields.Length; i++)
+            for (int i = 0; i < Fields.Length; i++)
                 CreatePotentialPatch(i);
         }
         private void CreatePotentialPatch(int idx)
@@ -65,16 +66,16 @@ namespace Assets.Scripts.World.Model
                 return;
             }
             patches.Add(new Patch(idx, rand.Next(PATCH_MIN_DISTANCE, PATCH_MAX_DISTANCE), resource));
-            fields[idx] = new Area(resource);
+            AddResource(resource, idx);
         }
         private void FillPatches()
         {
-            for (int i = 0; i < fields.Length; i++)
+            for (int i = 0; i < Fields.Length; i++)
                 FillPatch(i);
         }
         private void FillPatch(int idx)
         {
-            if (fields[idx] == null)
+            if (Fields[idx] == null)
                 return;
             foreach (var patch in patches)
                 TryFillSquare(patch, idx);
@@ -85,7 +86,15 @@ namespace Assets.Scripts.World.Model
             var withinPatch = dist < patch.MaxDistance;
             var toPlaceInPatch = rand.NextDouble() > (dist / patch.MaxDistance);
             if (withinPatch && toPlaceInPatch)
-                fields[idx] = new Area(patch.Resource);
+                AddResource(patch.Resource, idx);
+        }
+        private void AddResource(ResourceInfo newResource, int idx)
+        {
+            var currentResource = Fields[idx];
+            if (currentResource != null && !currentResource.Name.Equals("Land"))
+                FieldMap[currentResource]--;
+            Fields[idx] = newResource;
+            FieldMap[newResource] = FieldMap.ContainsKey(newResource) ? FieldMap[newResource] + 1 : 1;
         }
         [Serializable]
         private class Patch

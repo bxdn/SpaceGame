@@ -12,17 +12,19 @@ namespace Assets.Scripts.Model
     {
         public Domain Owner { get; private set; }
         public int Habitability { get; }
-        protected readonly IDictionary<ResourceInfo, int> resources = new Dictionary<ResourceInfo, int>();
         public int Size { get; }
         public Colony CurrentColony { get; private set; }
         public IEnumerable<ColonyInfo> Colonies { get; private set; } = new List<ColonyInfo>();
-        private readonly Area[] features;
+        private readonly ICodable[] features;
+        protected readonly IDictionary<ICodable, int> featureMap = new Dictionary<ICodable, int>();
         public ColonizableManager(Orbiter orbiter)
         { 
             Habitability = ColonizerR.r.Next(100);
             Owner = null;
             var resourceManager = new ResourceLayoutManager(orbiter.Size, ColonizerR.r.Next(), Habitability);
-            features = resourceManager.LayoutResources();
+            resourceManager.LayoutResources();
+            features = resourceManager.Fields;
+            featureMap = resourceManager.FieldMap;
             Size = orbiter.Size;
         }
         public void Colonize(int idx)
@@ -34,15 +36,12 @@ namespace Assets.Scripts.Model
         }
         public ICodable GetFeature(int i)
         {
-            var feature = features[i];
-            if (feature == null)
-                return null;
-            return feature.Feature;
+            return features[i];
         }
 
         public void UpdateFeature(int i, ICodable feature)
         {
-            features[i] = new Area(feature);
+            features[i] = feature;
         }
 
         public void SetCurrentColony(int idx)
